@@ -31,6 +31,7 @@ ChiTietDichVuData _$ChiTietDichVuDataFromJson(Map<String, dynamic> json) =>
       (json['quyenLoi'] as List<dynamic>?)
           ?.map((e) => ItemQuyenLoi.fromJson(e as Map<String, dynamic>))
           .toList(),
+      json['link'] as String?,
     );
 
 Map<String, dynamic> _$ChiTietDichVuDataToJson(ChiTietDichVuData instance) =>
@@ -41,6 +42,7 @@ Map<String, dynamic> _$ChiTietDichVuDataToJson(ChiTietDichVuData instance) =>
       'doTuoi': instance.doTuoi,
       'gia_tri': instance.gia_tri,
       'hop_dong_dich_vu': instance.hop_dong_dich_vu,
+      'link': instance.link,
       'cam_ket': instance.cam_ket,
       'quyenLoi': instance.quyenLoi,
     };

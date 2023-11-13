@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:trong_tre/common/routes/navigator.dart';
 import 'package:trong_tre/res/app_styles.dart';
+import 'package:trong_tre/screens/history/controllers/history_controller.dart';
 import 'package:trong_tre/widgets/DButton.dart';
 import 'package:trong_tre/widgets/app_base_page.dart';
 import 'package:trong_tre/widgets/app_text.dart';
@@ -23,6 +24,10 @@ class HoanTatDangKy extends StatefulWidget {
 
 class _HoanTatDangKyState extends State<HoanTatDangKy> {
   final GlobalKey<ScaffoldState> ScaffoldKey = GlobalKey();
+
+  int id=Get.arguments;
+
+  HistoryController _historyController=Get.find<HistoryController>();
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +85,7 @@ class _HoanTatDangKyState extends State<HoanTatDangKy> {
                       ),
                     ),
                     SizedBox(height: 50.sp,),
-                    DButton(text: 'Theo dõi tiến trình'.tr, onClick: onClickTheoDoi),
+                    DButton(text: 'Về trang chủ'.tr, onClick: onClickTheoDoi),
                     SizedBox(height: 12.sp,),
                     DButton(text: 'Ghi chú quan trọng'.tr,
                         background: AppColors.grayF7,
@@ -99,7 +104,11 @@ class _HoanTatDangKyState extends State<HoanTatDangKy> {
   }
 
   onClickTheoDoi() {
-    AppNavigator.navigateTheoDoiTienTrinh(2);
+    // _historyController.getThongTinGiaoVien(id: id.toString());
+    Get.back();
+    Get.back();
+    Get.back();
+    Get.back();
   }
 
   onClickghiChu() {

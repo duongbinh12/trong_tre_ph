@@ -23,13 +23,6 @@ class SelectShift extends StatefulWidget {
 }
 
 class _SelectShiftState extends State<SelectShift> {
-  List<String> ca = ['Cả ngày', 'Sáng', 'Chiều', 'Tối'];
-  List<List<String>> gio_ca = [
-    ["7h - 17h", "7h30 - 17h30", "8h-18h"],
-    ["7h30 - 11h30", "8h - 12h"],
-    ["13h - 17h", "13h30 - 17h30", "14h - 18h"],
-    ["17h30 - 20h30", "18h - 21h"]
-  ];
   int select_ca = 0;
   int select_gio = 0;
 
@@ -71,6 +64,8 @@ class _SelectShiftState extends State<SelectShift> {
                         select_ca = index;
                         select_gio = 0;
                       });
+                      _serviceController.indexCa=index;
+                      _serviceController.indexGio=0;
                       _serviceController.getKhungGio(
                           widget.dichVuId, controller.listCa.value![index].id!);
                     },
@@ -124,6 +119,8 @@ class _SelectShiftState extends State<SelectShift> {
                         setState(() {
                           select_gio = index;
                         });
+                        _serviceController.indexGio=index;
+                        _serviceController.idKhungGioCa=controller.listKhungGio.value![index].id!;
                       },
                     );
                   } else {

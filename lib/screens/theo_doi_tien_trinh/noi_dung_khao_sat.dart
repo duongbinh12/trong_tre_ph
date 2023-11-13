@@ -17,6 +17,8 @@ class NoiDungKhaoSat extends StatefulWidget {
 class _NoiDungKhaoSatState extends State<NoiDungKhaoSat> {
   final GlobalKey<ScaffoldState> ScaffoldKey = GlobalKey();
   int loading=0;
+  String url=Get.arguments;
+
   InAppWebViewController? webViewController;
   InAppWebViewGroupOptions options = InAppWebViewGroupOptions(
       crossPlatform: InAppWebViewOptions(
@@ -47,7 +49,7 @@ class _NoiDungKhaoSatState extends State<NoiDungKhaoSat> {
               showMenu: true,
             ),
             Expanded(child: InAppWebView(
-              initialUrlRequest: URLRequest(url: Uri.parse('https://docs.google.com/forms/d/e/1FAIpQLSdsE7k5tIaXZsMVUxENc72qGjUuiXcJKvjFdjvzv4MZLors2A/viewform')),
+              initialUrlRequest: URLRequest(url: Uri.parse(url)),
               onWebViewCreated: (controller) {
                 webViewController = controller;
               },

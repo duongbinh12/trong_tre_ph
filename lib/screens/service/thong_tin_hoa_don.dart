@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:trong_tre/res/colors.dart';
+import 'package:trong_tre/screens/service/controllers/service_controller.dart';
 import 'package:trong_tre/widgets/DButton.dart';
 import 'package:trong_tre/widgets/DHeader_shadow.dart';
 import 'package:trong_tre/widgets/DInput.dart';
@@ -28,6 +29,10 @@ class _ThongTinHoaDonState extends State<ThongTinHoaDon> {
   TextEditingController _hoTenConController = TextEditingController();
   TextEditingController _namSinhConController = TextEditingController();
 
+  ServiceController _serviceController = Get.find<ServiceController>();
+
+  int id = Get.arguments;
+
   @override
   Widget build(BuildContext context) {
     return AppBasePage(
@@ -48,9 +53,9 @@ class _ThongTinHoaDonState extends State<ThongTinHoaDon> {
             ),
             Expanded(
                 child: SingleChildScrollView(
-                  child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 20.sp),
-              child: Column(
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 20.sp),
+                child: Column(
                   children: [
                     SizedBox(
                       height: 10.sp,
@@ -138,9 +143,9 @@ class _ThongTinHoaDonState extends State<ThongTinHoaDon> {
                         borderColor: AppColors.grayE5,
                         onClick: onClickYeuCau)
                   ],
+                ),
               ),
-            ),
-                ))
+            ))
           ],
         ));
   }
@@ -150,19 +155,20 @@ class _ThongTinHoaDonState extends State<ThongTinHoaDon> {
         _diaChiController.text != "" &&
         _diaChiController.text != "" &&
         _emailController.text != "") {
-      Get.back();
-      NotificationDialog.createSimpleDialog(
-          context: context,
-          titleButton1: '',
-          content:
-              'Yêu cầu xuất hợp đồng và hoá đơn dịch vụ của bạn đang được xử lý, xin vui lòng kiểm tra email sau 24h không kể thứ 7, chủ nhật và các ngày nghỉ Lễ, Tết.',
-          numberButton: 0);
+      _serviceController.addHoaDon(
+          ho_ten: _tenController.text,
+          cmnd_cccd: _cmndController.text,
+          dia_chi: _diaChiController.text,
+          ma_so_thue: _maSoThueController.text,
+          email: _emailController.text,
+          ho_ten_con: _hoTenConController.text,
+          nam_sinh_cua_con: _namSinhConController.text,
+          don_dich_vu_id: id.toString());
     } else {
       NotificationDialog.createSimpleDialog(
           context: context,
           titleButton1: 'OK',
-          content:
-              'Hãy điền đủ thông tin trước khi yêu cầu!',
+          content: 'Hãy điền đủ thông tin trước khi yêu cầu!',
           numberButton: 1);
     }
   }

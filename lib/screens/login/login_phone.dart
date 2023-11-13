@@ -25,14 +25,15 @@ class LoginPhone extends StatefulWidget {
 
 class _LoginPhoneState extends State<LoginPhone> {
   TextEditingController _phoneController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
   TextEditingController _passController = TextEditingController();
 
   LoginController _loginController = Get.find<LoginController>();
-  bool isPhone=true;
+  bool isPhone = true;
 
   @override
   void initState() {
-    isPhone=Get.arguments;
+    isPhone = Get.arguments;
     super.initState();
   }
 
@@ -49,172 +50,182 @@ class _LoginPhoneState extends State<LoginPhone> {
           ),
           Expanded(
               child: SingleChildScrollView(
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 20.sp),
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 30.sp,
-                  ),
-                  AppText(
-                    'Đăng nhập bằng số điện thoại của bạn',
-                    style: AppStyle.DEFAULT_16
-                        .copyWith(fontWeight: FontWeight.w600),
-                  ),
-                  SizedBox(
-                    height: 37.sp,
-                  ),
-                  DInput(
-                      controller: _phoneController,
-                      typeInput:isPhone? TextInputType.number:TextInputType.text,
-                      left:isPhone? Container(
-                        decoration: BoxDecoration(
-                            border: Border(
-                                right: BorderSide(
-                                    width: 1,
-                                    color:
-                                        AppColors.textBlack.withOpacity(0.6)))),
-                        padding: EdgeInsets.only(right: 5.sp),
-                        child: AppText(
-                          '+84',
-                          style: AppStyle.DEFAULT_16.copyWith(
-                              color: AppColors.textBlack.withOpacity(0.6)),
-                        ),
-                      ):null,
-                      hintText: !isPhone?'Email*':''),
-                  SizedBox(
-                    height: 15.sp,
-                  ),
-                  DInput(
-                    controller: _passController,
-                    hintText: 'Mật khẩu*',
-                    isPass: true,
-                    // right: SvgPicture.asset(
-                    //   Assets.iconsEye,
-                    //   color: AppColors.textBlack.withOpacity(0.6),
-                    // )
-                  ),
-                  SizedBox(
-                    height: 15.sp,
-                  ),
-                  DButton(text: 'Đăng nhập', onClick: onClickLogin),
-                  SizedBox(
-                    height: 15.sp,
-                  ),
-                  InkWell(
-                    onTap: onClickForgotPass,
-                    child: AppText(
-                      'Quên mật khẩu?',
-                      style:
-                          AppStyle.DEFAULT_14.copyWith(color: AppColors.blue),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 50.sp,
-                  ),
-                  Stack(
-                    clipBehavior: Clip.none,
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 20.sp),
+                  child: Column(
                     children: [
-                      Container(
-                        width: Get.width,
-                        height: 1,
-                        color: AppColors.grayLine,
+                      SizedBox(
+                        height: 30.sp,
                       ),
-                      Positioned(
-                          top: -6.sp,
-                          left: 0,
-                          right: 0,
-                          child: Center(
-                            child: Container(
-                              padding: EdgeInsets.symmetric(horizontal: 10.sp),
-                              color: AppColors.white,
-                              child: AppText(
-                                'Hoặc đăng nhập với',
-                                style: AppStyle.DEFAULT_14.copyWith(height: 1),
-                              ),
+                      AppText(
+                        'Đăng nhập bằng số điện thoại của bạn',
+                        style: AppStyle.DEFAULT_16
+                            .copyWith(fontWeight: FontWeight.w600),
+                      ),
+                      SizedBox(
+                        height: 37.sp,
+                      ),
+                      DInput(
+                          controller: isPhone
+                              ? _phoneController
+                              : _emailController,
+                          typeInput:
+                          isPhone ? TextInputType.number : TextInputType.text,
+                          left: isPhone
+                              ? Container(
+                            decoration: BoxDecoration(
+                                border: Border(
+                                    right: BorderSide(
+                                        width: 1,
+                                        color: AppColors.textBlack
+                                            .withOpacity(0.6)))),
+                            padding: EdgeInsets.only(right: 5.sp),
+                            child: AppText(
+                              '+84',
+                              style: AppStyle.DEFAULT_16.copyWith(
+                                  color:
+                                  AppColors.textBlack.withOpacity(0.6)),
                             ),
-                          ))
-                    ],
-                  ),
-                  SizedBox(
-                    height: 35.sp,
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                          child: DButton(
-                              text: '',
-                              left: WidgetContainerImage(
-                                image: Assets.iconsFacebook,
-                                width: 25.sp,
-                                height: 25.sp,
-                                fit: BoxFit.contain,
-                              ),
-                              borderRadius: 8.sp,
-                              background: AppColors.white,
-                              textColor: AppColors.textBlack,
-                              borderColor: AppColors.grayE5,
-                              onClick: onClickFb)),
+                          )
+                              : null,
+                          hintText: !isPhone ? 'Email*' : ''),
                       SizedBox(
-                        width: 10.sp,
+                        height: 15.sp,
                       ),
-                      Expanded(
-                          child: DButton(
-                              text: '',
-                              left: WidgetContainerImage(
-                                image: Assets.iconsGoogle,
-                                width: 25.sp,
-                                height: 25.sp,
-                                fit: BoxFit.contain,
-                              ),
-                              borderRadius: 8.sp,
-                              background: AppColors.white,
-                              textColor: AppColors.textBlack,
-                              borderColor: AppColors.grayE5,
-                              onClick: onClickFb)),
+                      DInput(
+                        controller: _passController,
+                        hintText: 'Mật khẩu*',
+                        isPass: true,
+                        // right: SvgPicture.asset(
+                        //   Assets.iconsEye,
+                        //   color: AppColors.textBlack.withOpacity(0.6),
+                        // )
+                      ),
                       SizedBox(
-                        width: 10.sp,
+                        height: 15.sp,
                       ),
-                      Expanded(
-                          child: DButton(
-                              text: '',
-                              left: SvgPicture.asset(
-                                isPhone? Assets.iconsEmail:Assets.iconsLoginPhone,
-                                width: 25.sp,
-                                height: 25.sp,
-                                fit: BoxFit.contain,
-                              ),
-                              borderRadius: 8.sp,
-                              background: AppColors.white,
-                              textColor: AppColors.textBlack,
-                              borderColor: AppColors.grayE5,
-                              onClick: onClickEmail))
-                    ],
-                  ),
-                  SizedBox(
-                    height: 34.sp,
-                  ),
-                  InkWell(
-                    onTap: () {
-                      AppNavigator.navigateSignUp();
-                    },
-                    child: RichText(
-                      text: TextSpan(
-                        text: 'Bạn chưa có tài khoản? ',
-                        style: AppStyle.DEFAULT_14,
+                      DButton(text: 'Đăng nhập', onClick: onClickLogin),
+                      SizedBox(
+                        height: 15.sp,
+                      ),
+                      InkWell(
+                        onTap: onClickForgotPass,
+                        child: AppText(
+                          'Quên mật khẩu?',
+                          style:
+                          AppStyle.DEFAULT_14.copyWith(color: AppColors.blue),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 50.sp,
+                      ),
+                      Stack(
+                        clipBehavior: Clip.none,
                         children: [
-                          TextSpan(
-                              text: 'Đăng ký',
-                              style: AppStyle.DEFAULT_14
-                                  .copyWith(color: AppColors.blue)),
+                          Container(
+                            width: Get.width,
+                            height: 1,
+                            color: AppColors.grayLine,
+                          ),
+                          Positioned(
+                              top: -6.sp,
+                              left: 0,
+                              right: 0,
+                              child: Center(
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 10.sp),
+                                  color: AppColors.white,
+                                  child: AppText(
+                                    'Hoặc đăng nhập với',
+                                    style: AppStyle.DEFAULT_14.copyWith(
+                                        height: 1),
+                                  ),
+                                ),
+                              ))
                         ],
                       ),
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ))
+                      SizedBox(
+                        height: 35.sp,
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                              child: DButton(
+                                  text: '',
+                                  left: WidgetContainerImage(
+                                    image: Assets.iconsFacebook,
+                                    width: 25.sp,
+                                    height: 25.sp,
+                                    fit: BoxFit.contain,
+                                  ),
+                                  borderRadius: 8.sp,
+                                  background: AppColors.white,
+                                  textColor: AppColors.textBlack,
+                                  borderColor: AppColors.grayE5,
+                                  onClick: onClickFb)),
+                          SizedBox(
+                            width: 10.sp,
+                          ),
+                          Expanded(
+                              child: DButton(
+                                  text: '',
+                                  left: WidgetContainerImage(
+                                    image: Assets.iconsGoogle,
+                                    width: 25.sp,
+                                    height: 25.sp,
+                                    fit: BoxFit.contain,
+                                  ),
+                                  borderRadius: 8.sp,
+                                  background: AppColors.white,
+                                  textColor: AppColors.textBlack,
+                                  borderColor: AppColors.grayE5,
+                                  onClick: onClickFb)),
+                          SizedBox(
+                            width: 10.sp,
+                          ),
+                          Expanded(
+                              child: DButton(
+                                  text: '',
+                                  left: SvgPicture.asset(
+                                    isPhone
+                                        ? Assets.iconsEmail
+                                        : Assets.iconsLoginPhone,
+                                    width: 25.sp,
+                                    height: 25.sp,
+                                    fit: BoxFit.contain,
+                                  ),
+                                  borderRadius: 8.sp,
+                                  background: AppColors.white,
+                                  textColor: AppColors.textBlack,
+                                  borderColor: AppColors.grayE5,
+                                  onClick: onClickEmail))
+                        ],
+                      ),
+                      SizedBox(
+                        height: 34.sp,
+                      ),
+                      InkWell(
+                        onTap: () {
+                          AppNavigator.navigateSignUp();
+                        },
+                        child: RichText(
+                          text: TextSpan(
+                            text: 'Bạn chưa có tài khoản? ',
+                            style: AppStyle.DEFAULT_14,
+                            children: [
+                              TextSpan(
+                                  text: 'Đăng ký',
+                                  style: AppStyle.DEFAULT_14
+                                      .copyWith(color: AppColors.blue)),
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ))
         ],
       ),
     );
@@ -222,11 +233,12 @@ class _LoginPhoneState extends State<LoginPhone> {
 
   onClickLogin() {
     if (_phoneController.text != "" && _passController.text != "") {
-      if(isPhone){
-        _loginController.loginPhone(_phoneController.text, _passController.text);
-      }
-      else{
-        _loginController.loginEmail(_phoneController.text, _passController.text);
+      if (isPhone) {
+        _loginController.loginPhone(
+            _phoneController.text, _passController.text);
+      } else {
+        _loginController.loginEmail(
+            _phoneController.text, _passController.text);
       }
     } else {
       NotificationDialog.createSimpleDialog(
@@ -239,14 +251,27 @@ class _LoginPhoneState extends State<LoginPhone> {
   }
 
   void onClickForgotPass() {
-    AppNavigator.navigateForgotPass();
+    if (isPhone == true && _phoneController.text != "") {
+      _loginController.getOtpPhone(_phoneController.text);
+    }
+    else if (isPhone == false && _emailController.text != "") {
+      _loginController.getOtpEmail(_emailController.text);
+    }
+    else {
+      NotificationDialog.createSimpleDialog(
+          context: context,
+          titleButton1: "OK",
+          content: "Hãy nhập số điện thoại!",
+          type: 2,
+          numberButton: 1);
+    }
   }
 
   onClickFb() {}
 
   onClickEmail() {
     setState(() {
-      isPhone= !isPhone;
+      isPhone = !isPhone;
     });
   }
 }

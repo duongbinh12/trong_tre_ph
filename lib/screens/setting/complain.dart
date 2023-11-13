@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:trong_tre/screens/setting/controllers/setting_controller.dart';
 import 'package:trong_tre/screens/theo_doi_tien_trinh/widgets/widget_contact.dart';
 import 'package:trong_tre/widgets/DButton.dart';
 import 'package:trong_tre/widgets/DInput.dart';
@@ -23,6 +24,7 @@ class _ComplainState extends State<Complain> {
   TextEditingController _gopYController = TextEditingController();
 
   bool checkSend=false;
+  SettingController _settingController=Get.find<SettingController>();
 
   @override
   Widget build(BuildContext context) {
@@ -92,6 +94,8 @@ class _ComplainState extends State<Complain> {
   }
 
   onClickSend() {
-
+    if(checkSend==true){
+      _settingController.khieuNai(_gopYController.text);
+    }
   }
 }

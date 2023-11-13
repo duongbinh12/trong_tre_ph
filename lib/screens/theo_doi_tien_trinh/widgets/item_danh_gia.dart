@@ -5,21 +5,28 @@ import 'package:trong_tre/res/app_styles.dart';
 import 'package:trong_tre/res/colors.dart';
 import 'package:trong_tre/screens/service/widget/DCheckBox.dart';
 import 'package:trong_tre/screens/service/widget/DRadioButton.dart';
+import 'package:trong_tre/services/entity/chi_tiet_nx_response.dart';
 import 'package:trong_tre/widgets/DInput.dart';
 import 'package:trong_tre/widgets/app_text.dart';
 
-class ItemDanhGia extends StatefulWidget {
-  const ItemDanhGia({super.key, required this.data, required this.index});
+class ItemDanhGiaForm extends StatefulWidget {
+  const ItemDanhGiaForm({super.key, required this.data, required this.index});
 
-  final data;
+  final ItemDanhGia data;
   final int index;
 
   @override
-  State<ItemDanhGia> createState() => _ItemDanhGiaState();
+  State<ItemDanhGiaForm> createState() => _ItemDanhGiaFormState();
 }
 
-class _ItemDanhGiaState extends State<ItemDanhGia> {
+class _ItemDanhGiaFormState extends State<ItemDanhGiaForm> {
   TextEditingController _noteController = TextEditingController();
+
+  @override
+  void initState() {
+    _noteController.text=widget.data.noi_dung_nhan_xet??'';
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,17 +54,17 @@ class _ItemDanhGiaState extends State<ItemDanhGia> {
                     bottom: BorderSide(width: 1, color: AppColors.borderRed))),
             child: RichText(
               text: TextSpan(
-                text: '${widget.index + 1}. ${widget.data['name']}',
+                text: '${widget.data.tieu_de}',
                 style: AppStyle.DEFAULT_16_BOLD,
-                children: [
-                  widget.data['require']
-                      ? TextSpan(
-                          text: '*',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.primary))
-                      : TextSpan(),
-                ],
+                // children: [
+                //   widget.data['require']
+                //       ? TextSpan(
+                //           text: '*',
+                //           style: TextStyle(
+                //               fontWeight: FontWeight.bold,
+                //               color: AppColors.primary))
+                //       : TextSpan(),
+                // ],
               ),
             ),
           ),
@@ -66,25 +73,25 @@ class _ItemDanhGiaState extends State<ItemDanhGia> {
             padding: EdgeInsets.symmetric(horizontal: 13.sp, vertical: 13.sp),
             child: Column(
               children: [
-                widget.data['isCheckbox'] == true
-                    ? Container(
-                        margin: EdgeInsets.only(bottom: 20.sp),
-                        child: DCheckBox(data: widget.data['answer']))
-                    : widget.data['listAnswer'] != null
+                // widget.data['isCheckbox'] == true
+                //     ? Container(
+                //         margin: EdgeInsets.only(bottom: 20.sp),
+                //         child: DCheckBox(data: widget.data['answer']))
+                //     :
+                widget.data.cac_buoi!.isNotEmpty
                         ? Container(
                             margin: EdgeInsets.only(bottom: 20.sp),
                             child: Column(
                               children: List.generate(
-                                  widget.data['listAnswer'].length,
+                                  widget.data.cac_buoi!.length,
                                   (index) => Container(
-                                        margin: EdgeInsets.only(bottom:index==widget.data['listAnswer'].length-1?0: 10.sp),
+                                        margin: EdgeInsets.only(bottom:index==widget.data.cac_buoi!.length-1?0: 10.sp),
                                         child: Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
                                             AppText(
-                                              widget.data['listAnswer'][index]
-                                                  ['name'],
+                                              widget.data.cac_buoi![index].tieu_de??'',
                                               style: AppStyle.DEFAULT_14_BOLD
                                                   .copyWith(height: 1.2),
                                             ),
@@ -92,23 +99,26 @@ class _ItemDanhGiaState extends State<ItemDanhGia> {
                                               height: 5.sp,
                                             ),
                                             DRadioButton(
-                                                data: widget.data['listAnswer']
-                                                    [index]['list']),
+                                                data: widget.data.cac_buoi![index].muc_do!,
+                                                select: widget.data.cac_buoi![index].muc_do_da_cho??'',
+                                              isReadonly: true,
+                                            ),
                                           ],
                                         ),
                                       )),
                             ),
                           )
-                        : widget.data['answer'].length > 0
+                        :widget.data.muc_do!=null&& widget.data.muc_do!.isNotEmpty
                             ? Container(
                                 margin: EdgeInsets.only(bottom: 20.sp),
                                 child:
-                                    DRadioButton(data: widget.data['answer']))
+                                    DRadioButton(data: widget.data.muc_do!,select: widget.data.muc_do_da_cho??'', isReadonly: true,))
                             : SizedBox(),
-                widget.data['nhanXet'] == true
+                widget.data.nhan_xet == true
                     ? DInput(
                         controller: _noteController,
-                        hintText: 'Nhập nhận xét',
+                        hintText: '',
+                        enable: false,
                         borderRadius: 10.sp,
                         title: 'Nhận xét',
                       )

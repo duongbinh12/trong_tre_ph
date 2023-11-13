@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:trong_tre/screens/login/controllers/login_controller.dart';
+import 'package:trong_tre/screens/setting/controllers/setting_controller.dart';
 import '../../services/api/api.dart';
 
 import '../../services/repo/respos.dart';
@@ -13,5 +14,6 @@ class AppBinding extends CommonBinding {
     Get.put(CommonRepository(DioProvider.instance()));
     Get.put(AppController());
     Get.put(LoginController());
+    Get.put(SettingController());
   }
 }

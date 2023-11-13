@@ -26,13 +26,20 @@ class _TheoDoiTienTrinhState extends State<TheoDoiTienTrinh> {
   TheoDoiTienTrinhController _theoDoiTienTrinhController=Get.find<TheoDoiTienTrinhController>();
 
   int indexTab=1;
-  bool isHuy=Get.arguments[1];
+  bool? isHuy=Get.arguments[1];
+  int? id=Get.arguments[3];
 
   @override
   void initState() {
     if(Get.arguments[0]!=null) {
       _theoDoiTienTrinhController.indexTab.value=Get.arguments[0];
     }
+    if(isHuy==true&&id!=null){
+      Future.delayed(Duration(seconds: 0),(){
+        _theoDoiTienTrinhController.getDonHuy(id: id!);
+      });
+    }
+
     super.initState();
   }
 

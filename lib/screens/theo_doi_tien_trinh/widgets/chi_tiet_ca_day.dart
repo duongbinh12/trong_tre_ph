@@ -5,16 +5,25 @@ import 'package:get/get.dart';
 import 'package:trong_tre/common/routes/navigator.dart';
 import 'package:trong_tre/generated/assets.dart';
 import 'package:trong_tre/res/app_styles.dart';
+import 'package:trong_tre/screens/theo_doi_tien_trinh/controllers/theo_doi_tien_trinh_controller.dart';
 import 'package:trong_tre/screens/theo_doi_tien_trinh/widgets/container_text.dart';
 import 'package:trong_tre/widgets/DButton.dart';
 import 'package:trong_tre/widgets/DTitleIcon.dart';
 import 'package:trong_tre/widgets/app_text.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../res/colors.dart';
+import '../../../services/entity/thong_tin_giao_vien_response.dart';
+import '../../../services/entity/thong_tin_khoa_hoc_response.dart';
 import '../../../widgets/widget_handle.dart';
 
 class ChiTietCaDay extends StatefulWidget {
-  const ChiTietCaDay({super.key});
+  const ChiTietCaDay({super.key,required this.tienDo,required this.giaoVien,required this.sdt,required this.avatar,required this.idKh});
+  final TienDo tienDo;
+  final GiaoVien giaoVien;
+  final String sdt;
+  final String avatar;
+  final int idKh;
 
   @override
   State<ChiTietCaDay> createState() => _ChiTietCaDayState();
@@ -22,6 +31,13 @@ class ChiTietCaDay extends StatefulWidget {
 
 class _ChiTietCaDayState extends State<ChiTietCaDay> {
   int buoi = 1;
+  TheoDoiTienTrinhController _theoDoiTienTrinhController=Get.find<TheoDoiTienTrinhController>();
+
+  @override
+  void initState() {
+    buoi=widget.tienDo.buoi!;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,9 +82,13 @@ class _ChiTietCaDayState extends State<ChiTietCaDay> {
                         children: [
                           InkWell(
                             onTap: () {
-                              setState(() {
-                                buoi = buoi > 1 ? buoi - 1 : buoi;
-                              });
+                              if(buoi > 1){
+                                _theoDoiTienTrinhController.getThongTinKhoaHoc(id: widget.idKh, buoi: buoi-1);
+                                setState(() {
+                                  buoi = buoi - 1;
+                                });
+                              }
+
                             },
                             child: Padding(
                               padding: EdgeInsets.all(14.sp),
@@ -81,16 +101,20 @@ class _ChiTietCaDayState extends State<ChiTietCaDay> {
                           ),
                           Expanded(
                               child: AppText(
-                            'Buổi ${buoi}/${5}',
+                            'Buổi ${buoi}/${widget.tienDo.tong_buoi}',
                             textAlign: TextAlign.center,
                             style: AppStyle.DEFAULT_18_BOLD
                                 .copyWith(color: AppColors.white),
                           )),
                           InkWell(
                             onTap: () {
-                              setState(() {
-                                buoi = buoi < 5 ? buoi + 1 : buoi;
-                              });
+                              if(buoi < widget.tienDo.tong_buoi!){
+                                _theoDoiTienTrinhController.getThongTinKhoaHoc(id: widget.idKh, buoi: buoi+1);
+                                setState(() {
+                                  buoi = buoi + 1;
+                                });
+                              }
+
                             },
                             child: Padding(
                               padding: EdgeInsets.all(14.sp),
@@ -121,10 +145,10 @@ class _ChiTietCaDayState extends State<ChiTietCaDay> {
                               color: AppColors.textBlack,
                             ),
                             SizedBox(
-                              width: 8.sp,
+                              width: 5.sp,
                             ),
                             AppText(
-                              'Thứ 2 • 07/08/2023',
+                              widget.tienDo.ngay_day??'',
                               style: AppStyle.DEFAULT_14.copyWith(
                                   fontWeight: FontWeight.w500, height: 1.2),
                             )
@@ -140,10 +164,11 @@ class _ChiTietCaDayState extends State<ChiTietCaDay> {
                               color: AppColors.textBlack,
                             ),
                             SizedBox(
-                              width: 8.sp,
+                              width: 5.sp,
                             ),
                             AppText(
-                              'Sáng (7:00 - 11:00)',
+                              widget.tienDo.ca_day??'',
+                              maxLines: 1,
                               style: AppStyle.DEFAULT_14.copyWith(
                                   fontWeight: FontWeight.w500, height: 1.2),
                             )
@@ -184,12 +209,13 @@ class _ChiTietCaDayState extends State<ChiTietCaDay> {
                     SizedBox(
                       height: 16.sp,
                     ),
+                    if(widget.tienDo.trang_thai!.id==77)
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         WidgetNetworkCacheImage(
                           image:
-                              'https://allimages.sgp1.digitaloceanspaces.com/tipeduvn/2022/07/1657905893_880_Tuyen-Tap-Bo-Anh-Girl-Xinh-Dep-Nhat-Nam-2020.jpg',
+                              widget.avatar,
                           width: 48.sp,
                           height: 48.sp,
                           fit: BoxFit.cover,
@@ -211,7 +237,7 @@ class _ChiTietCaDayState extends State<ChiTietCaDay> {
                                 height: 5.sp,
                               ),
                               AppText(
-                                'Con tiếp thu tốt, cần làm 2 bài tập ở giáo trình trang số 12',
+                                widget.tienDo.nhan_xet_buoi_hoc??'',
                                 style:
                                     AppStyle.DEFAULT_14.copyWith(height: 1.2),
                               ),
@@ -263,38 +289,50 @@ class _ChiTietCaDayState extends State<ChiTietCaDay> {
                                 height: 7.sp,
                               ),
                               ContainerText(
-                                  text: buoi == 1
-                                      ? 'Đã hoàn thành'
-                                      : buoi == 2
-                                          ? "Đang dạy"
-                                          : buoi == 3
-                                              ? "Chưa dạy"
-                                              : "Đã hoàn thành",
-                                  color: buoi == 1
+                                  text: widget.tienDo.trang_thai!.name??'',
+                                  color: widget.tienDo.trang_thai!.id == 77
                                       ? AppColors.green
-                                      : buoi == 2
+                                      : widget.tienDo.trang_thai!.id == 76
                                           ? AppColors.blue
-                                          : buoi == 3
+                                          : widget.tienDo.trang_thai!.id == 75
                                               ? AppColors.textBlack
                                               : AppColors.green)
                             ],
                           ),
                           Row(
                             children: [
-                              SvgPicture.asset(
-                                Assets.iconsCall,
-                                width: 38.sp,
-                                height: 38.sp,
-                                color: AppColors.primary,
+                              InkWell(
+                                onTap: ()async{
+                                  final Uri launchUri = Uri(
+                                    scheme: 'tel',
+                                    path: widget.sdt,
+                                  );
+                                  await launchUrl(launchUri);
+                                },
+                                child: SvgPicture.asset(
+                                  Assets.iconsCall,
+                                  width: 38.sp,
+                                  height: 38.sp,
+                                  color: AppColors.primary,
+                                ),
                               ),
                               SizedBox(
                                 width: 8.sp,
                               ),
-                              SvgPicture.asset(
-                                Assets.iconsChat,
-                                width: 38.sp,
-                                height: 38.sp,
-                                color: AppColors.primary,
+                              InkWell(
+                                onTap: ()async{
+                                  final Uri launchUri = Uri(
+                                    scheme: 'sms',
+                                    path: widget.sdt,
+                                  );
+                                  await launchUrl(launchUri);
+                                },
+                                child: SvgPicture.asset(
+                                  Assets.iconsChat,
+                                  width: 38.sp,
+                                  height: 38.sp,
+                                  color: AppColors.primary,
+                                ),
                               ),
                             ],
                           )
@@ -307,7 +345,7 @@ class _ChiTietCaDayState extends State<ChiTietCaDay> {
             ],
           ),
         ),
-        buoi==5? Column(
+        buoi==widget.tienDo.tong_buoi? Column(
           children: [
             SizedBox(
               height: 40.sp,
@@ -330,14 +368,14 @@ class _ChiTietCaDayState extends State<ChiTietCaDay> {
   }
 
   onClickXemChiTiet() {
-    AppNavigator.navigateChiTietChuongTrinh();
+    AppNavigator.navigateChiTietChuongTrinh(widget.tienDo.id!);
   }
 
   onClickDanhGiaGV() {
-    AppNavigator.navigateDanhGiaGiaoVien();
+    AppNavigator.navigateDanhGiaGiaoVien(widget.giaoVien,widget.idKh);
   }
 
   onClickXemNhanXet() {
-    AppNavigator.navigateNhanXetBuoiHoc();
+    AppNavigator.navigateNhanXetBuoiHoc(widget.tienDo.id!);
   }
 }

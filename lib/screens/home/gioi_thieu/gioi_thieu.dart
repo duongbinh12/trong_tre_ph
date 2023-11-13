@@ -11,11 +11,14 @@ import 'package:trong_tre/res/colors.dart';
 import 'package:trong_tre/screens/home/controllers/home_controller.dart';
 import 'package:trong_tre/screens/home/gioi_thieu/header_home.dart';
 import 'package:trong_tre/screens/home/gioi_thieu/tin_tuc.dart';
+import 'package:trong_tre/screens/setting/controllers/setting_controller.dart';
 import 'package:trong_tre/services/api/api.dart';
 import 'package:trong_tre/services/entity/home_response.dart';
 import 'package:trong_tre/widgets/DTittle.dart';
 import 'package:trong_tre/widgets/app_text.dart';
 import 'package:trong_tre/widgets/widget_handle.dart';
+
+import '../../login/controllers/login_controller.dart';
 
 class GioiThieu extends StatefulWidget {
   const GioiThieu({super.key, required this.ScaffoldKey});
@@ -44,6 +47,8 @@ class _GioiThieuState extends State<GioiThieu> {
   ];
 
   HomeController _homeController = Get.find<HomeController>();
+  LoginController _loginController = Get.find<LoginController>();
+  SettingController _settingController = Get.find<SettingController>();
   ScrollController _bannerController=ScrollController();
   ScrollController _dichVuController=ScrollController();
 
@@ -51,6 +56,9 @@ class _GioiThieuState extends State<GioiThieu> {
   void initState() {
     Future.delayed(Duration(seconds: 0), () {
       _homeController.getHome();
+      if (_loginController.token != null) {
+        _settingController.getMyInfo();
+      }
     });
     super.initState();
   }

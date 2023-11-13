@@ -4,9 +4,13 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:trong_tre/common/routes/navigator.dart';
 import 'package:trong_tre/res/app_values.dart';
+import 'package:trong_tre/screens/theo_doi_tien_trinh/controllers/theo_doi_tien_trinh_controller.dart';
 import 'package:trong_tre/screens/theo_doi_tien_trinh/widgets/chi_tiet_ca_day.dart';
+import 'package:trong_tre/services/entity/thong_tin_giao_vien_response.dart';
+import 'package:trong_tre/services/entity/thong_tin_khoa_hoc_response.dart';
 import 'package:trong_tre/widgets/DTitleIcon.dart';
 import 'package:trong_tre/widgets/DTittle.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../generated/assets.dart';
 import '../../res/app_styles.dart';
@@ -23,29 +27,57 @@ class TrongKhoaHoc extends StatefulWidget {
 }
 
 class _TrongKhoaHocState extends State<TrongKhoaHoc> {
+  TheoDoiTienTrinhController _theoDoiTienTrinhController =
+      Get.find<TheoDoiTienTrinhController>();
+  int? id;
+
+  @override
+  void initState() {
+    if (Get.arguments[3] != null) {
+      id = Get.arguments[3];
+      Future.delayed(Duration(seconds: 0), () {
+        _theoDoiTienTrinhController.getThongTinKhoaHoc(id: id!, buoi: 1);
+      });
+    }
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Column(
-        children: [
-          _teacher(),
-          SizedBox(
-            height: 20.sp,
-          ),
-          _thongTinKhoaHoc(),
-          SizedBox(
-            height: 20.sp,
-          ),
-          ChiTietCaDay(),
-          SizedBox(
-            height: 30 + MediaQuery.of(context).viewPadding.bottom,
-          )
-        ],
-      ),
+      child: GetX<TheoDoiTienTrinhController>(builder: (controller) {
+        if (controller.thongTinKhoaHoc.value != null) {
+          ThongTinKhoaHocData data = controller.thongTinKhoaHoc.value!;
+          return Column(
+            children: [
+              _teacher(data.giaoVien!, data.ma_don_hang ?? ''),
+              SizedBox(
+                height: 20.sp,
+              ),
+              _thongTinKhoaHoc(data),
+              SizedBox(
+                height: 20.sp,
+              ),
+              ChiTietCaDay(
+                tienDo: data.tienDo!,
+                giaoVien: data.giaoVien!,
+                sdt: data.sdtQuanLy!,
+                avatar: data.giaoVien!.anh_nguoi_dung ?? '',
+                idKh: id!,
+              ),
+              SizedBox(
+                height: 30 + MediaQuery.of(context).viewPadding.bottom,
+              )
+            ],
+          );
+        } else {
+          return SizedBox();
+        }
+      }),
     );
   }
 
-  Widget _teacher() {
+  Widget _teacher(GiaoVien giaoVien, String maDon) {
     return Container(
       decoration: BoxDecoration(
           color: AppColors.white,
@@ -85,7 +117,7 @@ class _TrongKhoaHocState extends State<TrongKhoaHoc> {
                   style: AppStyle.DEFAULT_14,
                 ),
                 AppText(
-                  '0123456789',
+                  maDon,
                   style:
                       AppStyle.DEFAULT_14.copyWith(fontWeight: FontWeight.w600),
                 ),
@@ -97,8 +129,7 @@ class _TrongKhoaHocState extends State<TrongKhoaHoc> {
             child: Row(
               children: [
                 WidgetNetworkCacheImage(
-                  image:
-                      'https://allimages.sgp1.digitaloceanspaces.com/tipeduvn/2022/07/1657905893_880_Tuyen-Tap-Bo-Anh-Girl-Xinh-Dep-Nhat-Nam-2020.jpg',
+                  image: giaoVien.anh_nguoi_dung ?? '',
                   width: 121.sp,
                   height: 121.sp,
                   fit: BoxFit.cover,
@@ -136,7 +167,7 @@ class _TrongKhoaHocState extends State<TrongKhoaHoc> {
                                   width: 3.sp,
                                 ),
                                 AppText(
-                                  '5/5',
+                                  giaoVien.danh_gia ?? '',
                                   style:
                                       AppStyle.DEFAULT_12.copyWith(height: 1.3),
                                 ),
@@ -163,30 +194,52 @@ class _TrongKhoaHocState extends State<TrongKhoaHoc> {
                         ],
                       ),
                       AppText(
-                        'Nguyễn Hoàng Anh Thư',
+                        giaoVien.hoten ?? '',
                         style: AppStyle.DEFAULT_16_BOLD.copyWith(height: 1.1),
                       ),
                       AppText(
-                        'Giáo viên',
+                        giaoVien.trinh_do ?? '',
                         style: AppStyle.DEFAULT_14
                             .copyWith(height: 1.2, color: AppColors.gray7D),
                       ),
                       Row(
                         children: [
-                          SvgPicture.asset(
-                            Assets.iconsCall,
-                            width: 38.sp,
-                            height: 38.sp,
-                            color: AppColors.primary,
+                          InkWell(
+                            onTap: () async {
+                              if (giaoVien.dien_thoai != null) {
+                                final Uri launchUri = Uri(
+                                  scheme: 'tel',
+                                  path: giaoVien.dien_thoai ?? '',
+                                );
+                                await launchUrl(launchUri);
+                              }
+                            },
+                            child: SvgPicture.asset(
+                              Assets.iconsCall,
+                              width: 38.sp,
+                              height: 38.sp,
+                              color: AppColors.primary,
+                            ),
                           ),
                           SizedBox(
                             width: 8.sp,
                           ),
-                          SvgPicture.asset(
-                            Assets.iconsChat,
-                            width: 38.sp,
-                            height: 38.sp,
-                            color: AppColors.primary,
+                          InkWell(
+                            onTap: () async {
+                              if (giaoVien.dien_thoai != null) {
+                                final Uri launchUri = Uri(
+                                  scheme: 'sms',
+                                  path: giaoVien.dien_thoai ?? '',
+                                );
+                                await launchUrl(launchUri);
+                              }
+                            },
+                            child: SvgPicture.asset(
+                              Assets.iconsChat,
+                              width: 38.sp,
+                              height: 38.sp,
+                              color: AppColors.primary,
+                            ),
                           ),
                         ],
                       )
@@ -220,7 +273,9 @@ class _TrongKhoaHocState extends State<TrongKhoaHoc> {
                             color: AppColors.white,
                             height: 1.2),
                         padH: 6.sp,
-                        onClick: onClickXemChiTietGV))
+                        onClick: () {
+                          onClickXemChiTietGV(giaoVien.id!);
+                        }))
               ],
             ),
           )
@@ -229,7 +284,7 @@ class _TrongKhoaHocState extends State<TrongKhoaHoc> {
     );
   }
 
-  Widget _thongTinKhoaHoc() {
+  Widget _thongTinKhoaHoc(ThongTinKhoaHocData data) {
     return Container(
       decoration: BoxDecoration(
           color: AppColors.white,
@@ -256,25 +311,31 @@ class _TrongKhoaHocState extends State<TrongKhoaHoc> {
               icon: Assets.iconsIcFile,
               left: 'Dịch vụ'.tr,
               right: AppText(
-                'Bảo mẫu Pro',
+                data.dichVu ?? '',
                 style: AppStyle.DEFAULT_14.copyWith(
                     fontWeight: FontWeight.w500, color: AppColors.primary),
               )),
           _itemThongTin(
               icon: Assets.iconsIcTrangThai,
               left: 'Trạng thái'.tr,
-              right: RichText(
-                text: TextSpan(
-                  text: '3/',
-                  style: AppStyle.DEFAULT_14.copyWith(
-                      color: AppColors.primary, fontWeight: FontWeight.w500),
-                  children: <TextSpan>[
-                    TextSpan(
-                        text: '5',
-                        style: TextStyle(color: AppColors.textBlack)),
-                  ],
-                ),
-              )),
+              right: AppText(
+                data.soBuoiHoanThanh ?? '',
+                style: AppStyle.DEFAULT_14.copyWith(
+                    fontWeight: FontWeight.w500, color: AppColors.primary),
+              )
+              // right: RichText(
+              //   text: TextSpan(
+              //     text: '3/',
+              //     style: AppStyle.DEFAULT_14.copyWith(
+              //         color: AppColors.primary, fontWeight: FontWeight.w500),
+              //     children: <TextSpan>[
+              //       TextSpan(
+              //           text: '5',
+              //           style: TextStyle(color: AppColors.textBlack)),
+              //     ],
+              //   ),
+              // )
+              ),
           _itemThongTin(
               icon: Assets.iconsIcHocPhi,
               left: 'Học phí '.tr,
@@ -282,7 +343,8 @@ class _TrongKhoaHocState extends State<TrongKhoaHoc> {
                 children: [
                   RichText(
                     text: TextSpan(
-                      text: '${AppValue.format_money(2157500)} ',
+                      text:
+                          '${AppValue.format_money(double.parse(data.tong_tien!))} ',
                       style: AppStyle.DEFAULT_14
                           .copyWith(fontWeight: FontWeight.w500),
                       children: <TextSpan>[
@@ -310,7 +372,7 @@ class _TrongKhoaHocState extends State<TrongKhoaHoc> {
                             right: Radius.circular(3.sp))),
                     child: Center(
                       child: AppText(
-                        'Đã thanh toán',
+                        data.trang_thai_thanh_toan ?? '',
                         textAlign: TextAlign.center,
                         style: AppStyle.DEFAULT_14.copyWith(
                             fontWeight: FontWeight.w600,
@@ -325,7 +387,7 @@ class _TrongKhoaHocState extends State<TrongKhoaHoc> {
               icon: Assets.iconsIcCalendar,
               left: 'Lịch học'.tr,
               right: AppText(
-                'Thứ 2,4,6 hàng tuần',
+                data.lich_hoc ?? '',
                 style:
                     AppStyle.DEFAULT_14.copyWith(fontWeight: FontWeight.w500),
               )),
@@ -333,7 +395,7 @@ class _TrongKhoaHocState extends State<TrongKhoaHoc> {
               icon: Assets.iconsEditCalendar,
               left: 'Thời gian'.tr,
               right: AppText(
-                '07/08/2023 - 11/08/2023',
+                data.thoi_gian ?? '',
                 style:
                     AppStyle.DEFAULT_14.copyWith(fontWeight: FontWeight.w500),
               )),
@@ -343,7 +405,7 @@ class _TrongKhoaHocState extends State<TrongKhoaHoc> {
               right: Row(
                 children: [
                   AppText(
-                    'Ca sáng (7:00 - 11:00)',
+                    data.chonCa ?? '',
                     style: AppStyle.DEFAULT_14
                         .copyWith(fontWeight: FontWeight.w500),
                   ),
@@ -364,7 +426,7 @@ class _TrongKhoaHocState extends State<TrongKhoaHoc> {
                             right: Radius.circular(3.sp))),
                     child: Center(
                       child: AppText(
-                        '2 giờ',
+                        '${data.so_gio} giờ',
                         textAlign: TextAlign.center,
                         style: AppStyle.DEFAULT_14.copyWith(
                             fontWeight: FontWeight.w600,
@@ -379,7 +441,7 @@ class _TrongKhoaHocState extends State<TrongKhoaHoc> {
               icon: Assets.iconsIcLocation,
               left: 'Địa chỉ'.tr,
               right: AppText(
-                'Số 5, Ngách 128/6/6 Khâm Thiên, Đống Đa, Hà Nội',
+                data.dia_chi ?? '',
                 style:
                     AppStyle.DEFAULT_14.copyWith(fontWeight: FontWeight.w500),
               )),
@@ -398,7 +460,9 @@ class _TrongKhoaHocState extends State<TrongKhoaHoc> {
                       height: 1.2),
                   background: AppColors.white,
                   padH: 8.sp,
-                  onClick: onClickNoiDungKhaoSat)),
+                  onClick: () {
+                    onClickNoiDungKhaoSat(data.noi_dung_khao_sat ?? '');
+                  })),
         ],
       ),
     );
@@ -446,11 +510,11 @@ class _TrongKhoaHocState extends State<TrongKhoaHoc> {
     );
   }
 
-  onClickXemChiTietGV() {
-    AppNavigator.navigateThongTinGiaoVien();
+  onClickXemChiTietGV(int id) {
+    AppNavigator.navigateThongTinGiaoVien(id);
   }
 
-  onClickNoiDungKhaoSat() {
-    AppNavigator.navigateNoiDungKhaoSat();
+  onClickNoiDungKhaoSat(String url) {
+    AppNavigator.navigateNoiDungKhaoSat(url);
   }
 }

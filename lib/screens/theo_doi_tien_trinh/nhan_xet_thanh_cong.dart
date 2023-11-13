@@ -103,6 +103,7 @@ class _NhanXetThanhCongState extends State<NhanXetThanhCong> {
   }
 
   onClickTienTrinh() {
-    AppNavigator.navigateTheoDoiTienTrinh(3);
+    Get.back();
+    Get.back();
   }
 }

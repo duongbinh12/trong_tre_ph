@@ -8,6 +8,7 @@ import 'package:trong_tre/common/routes/navigator.dart';
 import 'package:trong_tre/generated/assets.dart';
 import 'package:trong_tre/res/app_styles.dart';
 import 'package:trong_tre/res/colors.dart';
+import 'package:trong_tre/screens/service/controllers/service_controller.dart';
 import 'package:trong_tre/widgets/DButton.dart';
 import 'package:trong_tre/widgets/DRowText.dart';
 import 'package:trong_tre/widgets/app_text.dart';
@@ -40,8 +41,26 @@ class _ThanhToanState extends State<ThanhToan> {
   ];
 
   int groupValue = 0;
-  int valueInHoaDon=1;
-  bool checkDongY=false;
+  int valueInHoaDon = 1;
+  bool checkDongY = false;
+  ServiceController _serviceController = Get.find<ServiceController>();
+  double goiHoc = 0;
+  double phuCap = 0;
+  double tongTien = 0;
+
+  @override
+  void initState() {
+    goiHoc = (double.parse(_serviceController
+            .listBuoiHoc.value![_serviceController.indexBuoi].thanh_tien!)) *
+        _serviceController.soLuongBe.value;
+    phuCap = (_serviceController.tienAnTrua.value +
+            _serviceController.tienThemGio.value) *
+        _serviceController.soLuongBe.value *
+        _serviceController
+            .listBuoiHoc.value![_serviceController.indexBuoi].so_buoi!;
+    tongTien = goiHoc + phuCap;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,37 +73,48 @@ class _ThanhToanState extends State<ThanhToan> {
                   icon: phuongThuc[index]['image'],
                   title: phuongThuc[index]['title'],
                   content: phuongThuc[index]['content'],
-                  onChange: (){
+                  onChange: () {
                     setState(() {
-                      groupValue=index;
+                      groupValue = index;
                     });
                   },
                   groupValue: groupValue,
                   index: index)),
-          SizedBox(height: 15.sp,),
+          SizedBox(
+            height: 15.sp,
+          ),
           DottedLine(
             dashColor: AppColors.textBlack.withOpacity(0.3),
           ),
-          SizedBox(height: 20.sp,),
-          DRowText(textL: 'Tổng tiền'.tr,money: 2157500,styleR: AppStyle.DEFAULT_20_BOLD.copyWith(color: AppColors.primary),),
-          SizedBox(height: 20.sp,),
+          SizedBox(
+            height: 20.sp,
+          ),
+          DRowText(
+            textL: 'Tổng tiền'.tr,
+            money: tongTien,
+          ),
+          SizedBox(
+            height: 20.sp,
+          ),
           DottedLine(
             dashColor: AppColors.textBlack.withOpacity(0.3),
           ),
-          SizedBox(height: 20.sp,),
+          SizedBox(
+            height: 20.sp,
+          ),
           InkWell(
-            onTap: (){
-              if(valueInHoaDon==1){
-                AppNavigator.navigateThongTinHoaDon();
+            onTap: () {
+              if (valueInHoaDon == 1) {
+                AppNavigator.navigateThongTinHoaDon(Get.arguments);
               }
               setState(() {
-                valueInHoaDon=valueInHoaDon==0?1:0;
+                valueInHoaDon = valueInHoaDon == 0 ? 1 : 0;
               });
-
             },
             child: Container(
               decoration: BoxDecoration(
-                  color: AppColors.white, borderRadius: BorderRadius.circular(10.sp)),
+                  color: AppColors.white,
+                  borderRadius: BorderRadius.circular(10.sp)),
               padding: EdgeInsets.symmetric(horizontal: 15.sp, vertical: 13.sp),
               child: Row(
                 children: [
@@ -94,11 +124,14 @@ class _ThanhToanState extends State<ThanhToan> {
                       children: [
                         AppText(
                           'Xuất Hợp đồng và Hóa đơn dịch vụ'.tr,
-                          style: AppStyle.DEFAULT_14.copyWith(fontWeight: FontWeight.w600),
+                          style: AppStyle.DEFAULT_14
+                              .copyWith(fontWeight: FontWeight.w600),
                         ),
                         AppText(
                           'Bạn muốn xuất Hợp đồng và Hóa đơn điện tử?'.tr,
-                          style: AppStyle.DEFAULT_12.copyWith(fontWeight: FontWeight.w500,color: AppColors.textBlack.withOpacity(0.6)),
+                          style: AppStyle.DEFAULT_12.copyWith(
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.textBlack.withOpacity(0.6)),
                         )
                       ],
                     ),
@@ -108,26 +141,30 @@ class _ThanhToanState extends State<ThanhToan> {
                     height: 25.sp,
                     decoration: BoxDecoration(),
                     child: Radio(
-                        value: valueInHoaDon,
-                        activeColor: AppColors.primary,
-                        onChanged: (int? value) {
-                          setState(() {
-                            valueInHoaDon=valueInHoaDon==0?1:0;
-                          });
-                          // if(widget.onChanged!=null) {
-                          //   widget.onChanged!(index);
-                          // }
-                        }, groupValue: 0,),
+                      value: valueInHoaDon,
+                      activeColor: AppColors.primary,
+                      onChanged: (int? value) {
+                        setState(() {
+                          valueInHoaDon = valueInHoaDon == 0 ? 1 : 0;
+                        });
+                        // if(widget.onChanged!=null) {
+                        //   widget.onChanged!(index);
+                        // }
+                      },
+                      groupValue: 0,
+                    ),
                   ),
                 ],
               ),
             ),
           ),
-          SizedBox(height: 40.sp,),
+          SizedBox(
+            height: 40.sp,
+          ),
           InkWell(
-            onTap: (){
+            onTap: () {
               setState(() {
-                checkDongY=!checkDongY;
+                checkDongY = !checkDongY;
               });
             },
             child: Row(
@@ -136,18 +173,21 @@ class _ThanhToanState extends State<ThanhToan> {
                 Container(
                   width: 30.sp,
                   height: 30.sp,
-                  child: Checkbox(value: checkDongY,
+                  child: Checkbox(
+                    value: checkDongY,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5)
-                    ),
+                        borderRadius: BorderRadius.circular(5)),
                     activeColor: AppColors.blue,
                     onChanged: (value) {
-                    setState(() {
-                      checkDongY=value!;
-                    });
-                  },),
+                      setState(() {
+                        checkDongY = value!;
+                      });
+                    },
+                  ),
                 ),
-                SizedBox(width: 10.sp,),
+                SizedBox(
+                  width: 10.sp,
+                ),
                 Expanded(
                   child: RichText(
                     text: TextSpan(
@@ -156,11 +196,13 @@ class _ThanhToanState extends State<ThanhToan> {
                       children: [
                         TextSpan(
                             text: 'Hợp đồng dịch vụ',
-                            style: TextStyle(fontWeight: FontWeight.w500,color: AppColors.blue),
-                        recognizer: TapGestureRecognizer()
-                      ..onTap = () {
-                        onClickHopDong();
-                      }),
+                            style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.blue),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                onClickHopDong();
+                              }),
                         TextSpan(text: ' của Trông trẻ Pro'),
                       ],
                     ),
@@ -169,15 +211,22 @@ class _ThanhToanState extends State<ThanhToan> {
               ],
             ),
           ),
-          SizedBox(height: 30.sp,),
-          DButton(text: 'Thanh toán',
+          SizedBox(
+            height: 30.sp,
+          ),
+          DButton(
+              text: 'Thanh toán',
               right: SvgPicture.asset(
                 Assets.iconsNext,
-                color: checkDongY==false?AppColors.textBlack:AppColors.white,
+                color:
+                    checkDongY == false ? AppColors.textBlack : AppColors.white,
               ),
-              background: checkDongY==false?AppColors.grayE5:AppColors.primary,
-              textColor: checkDongY==false?AppColors.textBlack:AppColors.white,
-              borderColor: checkDongY==false?AppColors.grayE5:AppColors.primary,
+              background:
+                  checkDongY == false ? AppColors.grayE5 : AppColors.primary,
+              textColor:
+                  checkDongY == false ? AppColors.textBlack : AppColors.white,
+              borderColor:
+                  checkDongY == false ? AppColors.grayE5 : AppColors.primary,
               onClick: onClickThanhToan)
         ],
       ),
@@ -185,119 +234,149 @@ class _ThanhToanState extends State<ThanhToan> {
   }
 
   onClickThanhToan() {
-    if(checkDongY){
-      AppNavigator.navigatechuyenKhoan();
+    if (checkDongY) {
+      _serviceController.taoDon(
+          dich_vu_id: Get.arguments,
+          hocPhi: goiHoc.toString(),
+          phuCap: phuCap.toString(),
+          tongTien: tongTien.toString(),
+          hinh_thuc_thanh_toan_id: (groupValue==0?23:groupValue==1?24:25).toString());
+      // AppNavigator.navigatechuyenKhoan(Get.arguments);
     }
   }
 
   void onClickHopDong() {
     showModalBottomSheet(
       context: context,
-      constraints: BoxConstraints(minWidth: Get.width,maxHeight: Get.height*0.7),
+      constraints:
+          BoxConstraints(minWidth: Get.width, maxHeight: Get.height * 0.7),
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) {
-        bool checkBox=checkDongY;
-        return StatefulBuilder(
-          builder: (context,setState1) {
-            return Container(
-              padding: EdgeInsets.symmetric(horizontal: 20.sp),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(30.sp)),
-                  color: AppColors.white
-              ),
-              child: Column(
-                children: [
-                  SizedBox(height: 13.sp,),
-                  Container(
-                    width: 38.sp,
-                    height: 4.sp,
-                    decoration: BoxDecoration(
-                        color: AppColors.grayE5,
-                        borderRadius: BorderRadius.circular(50)
-                    ),
-                  ),
-                  SizedBox(height: 20.sp,),
-                  AppText(
-                    'Hợp đồng dịch vụ'.tr,
-                    style: AppStyle.DEFAULT_20_BOLD,
-                  ),
-                  SizedBox(height: 18.sp,),
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: AppText("""Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        bool checkBox = checkDongY;
+        return StatefulBuilder(builder: (context, setState1) {
+          return Container(
+            padding: EdgeInsets.symmetric(horizontal: 20.sp),
+            decoration: BoxDecoration(
+                borderRadius:
+                    BorderRadius.vertical(top: Radius.circular(30.sp)),
+                color: AppColors.white),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 13.sp,
+                ),
+                Container(
+                  width: 38.sp,
+                  height: 4.sp,
+                  decoration: BoxDecoration(
+                      color: AppColors.grayE5,
+                      borderRadius: BorderRadius.circular(50)),
+                ),
+                SizedBox(
+                  height: 20.sp,
+                ),
+                AppText(
+                  'Hợp đồng dịch vụ'.tr,
+                  style: AppStyle.DEFAULT_20_BOLD,
+                ),
+                SizedBox(
+                  height: 18.sp,
+                ),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: AppText(
+                        """Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
                     
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
                     """),
-                    ),
                   ),
-                  SizedBox(height: 15.sp,),
-                  InkWell(
-                onTap: (){
-                  setState1(() {
-                    checkBox=!checkBox;
-                  });
-                  setState(() {
-                    checkDongY=checkBox;
-                  });
-                },
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      width: 30.sp,
-                      height: 30.sp,
-                      child: Checkbox(value: checkBox,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5)
-                        ),
-                        activeColor: AppColors.blue,
-                        onChanged: (value) {
-                          setState1(() {
-                            checkBox=value!;
-                          });
-                          setState(() {
-                            checkDongY=checkBox;
-                          });
-                        },),
-                    ),
-                    SizedBox(width: 10.sp,),
-                    Expanded(
-                      child: RichText(
-                        text: TextSpan(
-                          text: 'Tôi đã đọc và đồng ý với ',
-                          style: AppStyle.DEFAULT_14,
-                          children: [
-                            TextSpan(
-                                text: 'Hợp đồng dịch vụ',
-                               ),
-                            TextSpan(text: ' của Trông trẻ Pro'),
-                          ],
-                        ),
-                      ),
-                    )
-                  ],
                 ),
-              ),
-                  SizedBox(height: 15.sp,),
-                  DButton(text: 'Thanh toán',
-                      right: SvgPicture.asset(
-                        Assets.iconsNext,
-                        color: checkBox==false?AppColors.textBlack:AppColors.white,
+                SizedBox(
+                  height: 15.sp,
+                ),
+                InkWell(
+                  onTap: () {
+                    setState1(() {
+                      checkBox = !checkBox;
+                    });
+                    setState(() {
+                      checkDongY = checkBox;
+                    });
+                  },
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: 30.sp,
+                        height: 30.sp,
+                        child: Checkbox(
+                          value: checkBox,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5)),
+                          activeColor: AppColors.blue,
+                          onChanged: (value) {
+                            setState1(() {
+                              checkBox = value!;
+                            });
+                            setState(() {
+                              checkDongY = checkBox;
+                            });
+                          },
+                        ),
                       ),
-                      background: checkBox==false?AppColors.grayE5:AppColors.primary,
-                      textColor: checkBox==false?AppColors.textBlack:AppColors.white,
-                      borderColor: checkBox==false?AppColors.grayE5:AppColors.primary,
-                      onClick: onClickThanhToan),
-                  SizedBox(height: 30.sp+MediaQuery.of(context).viewPadding.bottom,)
-                ],
-              ),
-            );
-          }
-        );
-      },);
+                      SizedBox(
+                        width: 10.sp,
+                      ),
+                      Expanded(
+                        child: RichText(
+                          text: TextSpan(
+                            text: 'Tôi đã đọc và đồng ý với ',
+                            style: AppStyle.DEFAULT_14,
+                            children: [
+                              TextSpan(
+                                text: 'Hợp đồng dịch vụ',
+                              ),
+                              TextSpan(text: ' của Trông trẻ Pro'),
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 15.sp,
+                ),
+                DButton(
+                    text: 'Thanh toán',
+                    right: SvgPicture.asset(
+                      Assets.iconsNext,
+                      color: checkBox == false
+                          ? AppColors.textBlack
+                          : AppColors.white,
+                    ),
+                    background: checkBox == false
+                        ? AppColors.grayE5
+                        : AppColors.primary,
+                    textColor: checkBox == false
+                        ? AppColors.textBlack
+                        : AppColors.white,
+                    borderColor: checkBox == false
+                        ? AppColors.grayE5
+                        : AppColors.primary,
+                    onClick: onClickThanhToan),
+                SizedBox(
+                  height: 30.sp + MediaQuery.of(context).viewPadding.bottom,
+                )
+              ],
+            ),
+          );
+        });
+      },
+    );
   }
 }
 
@@ -308,9 +387,8 @@ class ItemPhuongThuc extends StatefulWidget {
       required this.title,
       required this.content,
       required this.index,
-        required this.onChange,
-        required this.groupValue
-      });
+      required this.onChange,
+      required this.groupValue});
 
   final String icon, title, content;
   final int index;
@@ -330,17 +408,24 @@ class _ItemPhuongThucState extends State<ItemPhuongThuc> {
       },
       child: Container(
         decoration: BoxDecoration(
-            color:widget.index==widget.groupValue?AppColors.bgRed: AppColors.white, borderRadius: BorderRadius.circular(10),
-            border: Border.all(width: 1,color: widget.index==widget.groupValue?AppColors.borderRed: AppColors.white),
-          boxShadow: widget.index==widget.groupValue?[
-            BoxShadow(
-              offset: Offset(0, 0),
-              blurRadius: 10,
-              spreadRadius: 0,
-              color: AppColors.blue2.withOpacity(0.15)
-            )
-          ]:[]
-        ),
+            color: widget.index == widget.groupValue
+                ? AppColors.bgRed
+                : AppColors.white,
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(
+                width: 1,
+                color: widget.index == widget.groupValue
+                    ? AppColors.borderRed
+                    : AppColors.white),
+            boxShadow: widget.index == widget.groupValue
+                ? [
+                    BoxShadow(
+                        offset: Offset(0, 0),
+                        blurRadius: 10,
+                        spreadRadius: 0,
+                        color: AppColors.blue2.withOpacity(0.15))
+                  ]
+                : []),
         margin: EdgeInsets.only(bottom: 10.sp),
         padding: EdgeInsets.symmetric(horizontal: 13.sp, vertical: 15.sp),
         child: Row(

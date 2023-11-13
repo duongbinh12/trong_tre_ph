@@ -8,6 +8,7 @@ import 'package:trong_tre/generated/assets.dart';
 import 'package:trong_tre/res/app_values.dart';
 import 'package:trong_tre/screens/service/controllers/service_controller.dart';
 import 'package:trong_tre/screens/service/widget/DRadioButton.dart';
+import 'package:trong_tre/services/entity/so_buoi_hoc_response.dart';
 import 'package:trong_tre/widgets/DButton.dart';
 import 'package:trong_tre/widgets/DHeader_shadow.dart';
 import 'package:trong_tre/widgets/DInput.dart';
@@ -26,7 +27,7 @@ class ChonHocPhi extends StatefulWidget {
 }
 
 class _ChonHocPhiState extends State<ChonHocPhi> {
-  int indexTeacher = 1;
+  int indexTeacher = 0;
   int indexBuoi=0;
   TextEditingController _noteController=TextEditingController();
   ServiceController _serviceController = Get.find<ServiceController>();
@@ -75,8 +76,18 @@ class _ChonHocPhiState extends State<ChonHocPhi> {
     },
 
   ];
+  int dichVuId=Get.arguments;
 
   JustTheController _justTheController=JustTheController();
+
+  @override
+  void initState() {
+    Future.delayed(Duration(seconds: 0),(){
+      _serviceController.getSoBuoiHoc(dichVuId: dichVuId, page: 1, sort: 0);
+      _serviceController.getChonHocPhi();
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -108,29 +119,45 @@ class _ChonHocPhiState extends State<ChonHocPhi> {
           SizedBox(
             height: 15.sp,
           ),
-          ListView.builder(
-            itemCount: arrBuoi.length,
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            padding: EdgeInsets.zero,
-            itemBuilder: (context, index) {
-              return ItemBuoi(index: index,
-                  data: arrBuoi[index],
-                  onClick: (){
-                setState(() {
-                  indexBuoi=index;
-                });
-              }, isSelected: indexBuoi==index);
-            },
+          GetX<ServiceController>(
+            builder: (controller) {
+              if(controller.listBuoiHoc.value!=null) {
+                return ListView.builder(
+                itemCount: controller.listBuoiHoc.value!.length,
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                padding: EdgeInsets.zero,
+                itemBuilder: (context, index) {
+                  return ItemBuoi(index: index,
+                      data: controller.listBuoiHoc.value![index],
+                      onClick: (){
+                    setState(() {
+                      indexBuoi=index;
+                    });
+                    _serviceController.chooseBuoi(index);
+                  }, isSelected: indexBuoi==index);
+                },
+              );
+              }
+              else return SizedBox();
+            }
           ),
           SizedBox(height: 10.sp,),
           DottedLine(),
           SizedBox(height: 24.sp,),
-          DRowText(textL: 'Học phí', money: 1657500,),
-          SizedBox(height: 16.sp,),
-          DRowText(textL: 'Phụ cấp', money: 500000,),
-          SizedBox(height: 16.sp,),
-          DRowText(textL: 'Tổng', money: 2157500,styleR: AppStyle.DEFAULT_20_BOLD.copyWith(color: AppColors.primary,height: 1.2),),
+          GetX<ServiceController>(
+            builder: (controller) {
+              return Column(
+                children: [
+                  DRowText(textL: 'Học phí', money: controller.hocPhi.value!*controller.soLuongBe.value,),
+                  SizedBox(height: 16.sp,),
+                  DRowText(textL: 'Phụ cấp', money:(controller.tienAnTrua.value+controller.tienThemGio.value)*controller.soLuongBe.value*controller.listBuoiHoc.value![controller.indexBuoi].so_buoi!,),
+                  SizedBox(height: 16.sp,),
+                  DRowText(textL: 'Tổng', money: (controller.hocPhi.value!*controller.soLuongBe.value)+(controller.tienAnTrua.value+controller.tienThemGio.value)*controller.soLuongBe.value*controller.listBuoiHoc.value![controller.indexBuoi].so_buoi!,styleR: AppStyle.DEFAULT_20_BOLD.copyWith(color: AppColors.primary,height: 1.2),),
+                ],
+              );
+            }
+          ),
           SizedBox(height: 22.sp,),
           DottedLine(),
           SizedBox(height: 20.sp,),
@@ -145,59 +172,48 @@ class _ChonHocPhiState extends State<ChonHocPhi> {
       decoration: BoxDecoration(
           color: AppColors.white, borderRadius: BorderRadius.circular(10.sp)),
       padding: EdgeInsets.symmetric(horizontal: 15.sp, vertical: 13.sp),
-      child: Column(
-        children: [
-          _title(icon: Assets.iconsStudent, title: 'Chọn giáo viên'.tr),
-          SizedBox(
-            height: 18.sp,
-          ),
-          Row(
+      child: GetX<ServiceController>(
+        builder: (controller) {
+          if(controller.listLoaiGiaoVien.value!=null) {
+            return Column(
             children: [
-              Expanded(
-                  child: DButton(
-                      text: 'Bảo mẫu Pro',
-                      textStyle: AppStyle.DEFAULT_14.copyWith(
-                          fontWeight: FontWeight.w500,
-                          color: indexTeacher == 1
-                              ? AppColors.white
-                              : AppColors.textBlack,
-                          height: 1.2),
-                      background: indexTeacher == 2
-                          ? AppColors.primary.withOpacity(0.1)
-                          : AppColors.primary,
-                      borderColor: indexTeacher == 2
-                          ? AppColors.primary.withOpacity(0.1)
-                          : AppColors.primary,
-                      onClick: () {
-                        onClickDichVu(1);
-                      })),
+              _title(icon: Assets.iconsStudent, title: 'Chọn giáo viên'.tr),
               SizedBox(
-                width: 10.sp,
+                height: 18.sp,
               ),
-              Expanded(
-                  child: DButton(
-                      text: 'Bảo mẫu',
-                      textStyle: AppStyle.DEFAULT_14.copyWith(
-                          fontWeight: FontWeight.w500,
-                          color: indexTeacher == 2
-                              ? AppColors.white
-                              : AppColors.textBlack,
-                          height: 1.2),
-                      background: indexTeacher == 1
-                          ? AppColors.primary.withOpacity(0.1)
-                          : AppColors.primary,
-                      borderColor: indexTeacher == 1
-                          ? AppColors.primary.withOpacity(0.1)
-                          : AppColors.primary,
-                      onClick: () {
-                        onClickDichVu(2);
-                      })),
+              Wrap(
+                direction: Axis.horizontal,
+                spacing: 10.sp,
+                children: List.generate(controller.listLoaiGiaoVien.value!.length, (index) => Container(
+                  width: (Get.width-20.sp-20.sp-15.sp-15.sp-10.sp)/2,
+                    child: DButton(
+                        text: controller.listLoaiGiaoVien.value![index].name??'',
+                        textStyle: AppStyle.DEFAULT_14.copyWith(
+                            fontWeight: FontWeight.w500,
+                            color: indexTeacher == index
+                                ? AppColors.white
+                                : AppColors.textBlack,
+                            height: 1.2),
+                        background: indexTeacher != index
+                            ? AppColors.primary.withOpacity(0.1)
+                            : AppColors.primary,
+                        borderColor: indexTeacher != index
+                            ? AppColors.primary.withOpacity(0.1)
+                            : AppColors.primary,
+                        onClick: () {
+                          onClickDichVu(index);
+                        }))),
+              )
             ],
-          )
-        ],
+          );
+          }
+          else return SizedBox();
+        }
       ),
     );
   }
+
+  List<String> soLuongBe=['1', '2', '3', '4', '5'];
 
   Widget _soLuongBe() {
     return Container(
@@ -210,7 +226,9 @@ class _ChonHocPhiState extends State<ChonHocPhi> {
           SizedBox(
             height: 20.sp,
           ),
-          DRadioButton(data: ['1', '2', '3', '4', '5'])
+          DRadioButton(data: soLuongBe,onChanged: (int index){
+            _serviceController.changeSoLuongBe(int.parse(soLuongBe[index]));
+          },)
         ],
       ),
     );
@@ -221,21 +239,38 @@ class _ChonHocPhiState extends State<ChonHocPhi> {
       decoration: BoxDecoration(
           color: AppColors.white, borderRadius: BorderRadius.circular(10.sp)),
       padding: EdgeInsets.symmetric(horizontal: 18.sp, vertical: 13.sp),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _title(icon: Assets.iconsApple, title: 'Ăn trưa (với cả ca ngày)'.tr),
-          SizedBox(
-            height: 20.sp,
-          ),
-          DRadioButton(
-            data: [
-              'Gia đình chuẩn bị',
-              'Giáo viên chuẩn bị (PH trả phụ cấp 30k/ngày)'
+      child: GetX<ServiceController>(
+        builder: (controller) {
+          if(controller.listAnTrua.value!=null) {
+            List<String> arrAnTrua=[];
+            for(int i=0;i<controller.listAnTrua.value!.length;i++){
+              arrAnTrua.add("${controller.listAnTrua.value![i].tieu_De}${controller.listAnTrua.value![i].ghi_chu!=""?" (${controller.listAnTrua.value![i].ghi_chu})":""}");
+            }
+            return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _title(icon: Assets.iconsApple, title: 'Ăn trưa (với cả ca ngày)'.tr),
+              SizedBox(
+                height: 20.sp,
+              ),
+              DRadioButton(
+                data: arrAnTrua,
+                onChanged: (int index){
+                  _serviceController.idAnTrua=controller.listAnTrua.value![index].id!;
+                  if(controller.listAnTrua.value![index].tong_tien!="0"){
+                    _serviceController.changeTienAnTrua((int.parse(controller.listAnTrua.value![index].tong_tien!)*(_serviceController.listBuoiHoc.value![indexBuoi].so_buoi!)).toDouble());
+                  }
+                  else{
+                    _serviceController.changeTienAnTrua(0);
+                  }
+                },
+                isVertical: true,
+              )
             ],
-            isVertical: true,
-          )
-        ],
+          );
+          }
+          else return SizedBox();
+        }
       ),
     );
   }
@@ -245,18 +280,40 @@ class _ChonHocPhiState extends State<ChonHocPhi> {
       decoration: BoxDecoration(
           color: AppColors.white, borderRadius: BorderRadius.circular(10.sp)),
       padding: EdgeInsets.symmetric(horizontal: 18.sp, vertical: 13.sp),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _title(icon: Assets.iconsIcTime, title: 'Thêm giờ'.tr),
-          SizedBox(
-            height: 20.sp,
-          ),
-          DRadioButton(
-            data: ['Không thêm', 'Thêm 1 giờ (+50k)', 'Thêm 2 giờ (+100k)'],
-            isVertical: true,
-          )
-        ],
+      child: GetX<ServiceController>(
+        builder: (controller) {
+          if(controller.listThemGio.value!=null) {
+            List<String> arrThemGio=[];
+            for(int i=0;i<controller.listThemGio.value!.length;i++){
+              arrThemGio.add("${controller.listThemGio.value![i].tieu_De}${controller.listThemGio.value![i].ghi_chu}");
+            }
+            return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _title(icon: Assets.iconsIcTime, title: 'Thêm giờ'.tr),
+              SizedBox(
+                height: 20.sp,
+              ),
+              DRadioButton(
+                data: arrThemGio,
+                isVertical: true,
+                onChanged: (int index){
+                  _serviceController.idThemGio=controller.listThemGio.value![index].id!;
+                  if(controller.listThemGio.value![index].tong_tien!="0"){
+                    _serviceController.changeTienThemGio(double.parse(controller.listThemGio.value![index].tong_tien!));
+                    _serviceController.indexThemGio=index;
+                  }
+                  else{
+                    _serviceController.changeTienThemGio(0);
+                    _serviceController.indexThemGio=index;
+                  }
+                },
+              )
+            ],
+          );
+          }
+          else return SizedBox();
+        }
       ),
     );
   }
@@ -280,6 +337,9 @@ class _ChonHocPhiState extends State<ChonHocPhi> {
           SizedBox(height: 9.sp,),
           DInput(controller: _noteController,
               maxLine: 5,
+              onChange: (String text){
+                _serviceController.ghiChu=text;
+              },
               borderRadius: 10.sp
               , hintText: 'Ghi chú: (Gồm Họ và tên con, Ngày sinh, Giới tính)'),
           SizedBox(height: 12.sp,),
@@ -331,6 +391,7 @@ class _ChonHocPhiState extends State<ChonHocPhi> {
     setState(() {
       indexTeacher = index;
     });
+    _serviceController.giaoVien=index==0?15:16;
   }
 
   onClickChon() {}
@@ -348,9 +409,9 @@ class _ChonHocPhiState extends State<ChonHocPhi> {
 }
 
 class ItemBuoi extends StatefulWidget {
-  const ItemBuoi({super.key, required this.index, this.data, required this.onClick, required this.isSelected});
+  const ItemBuoi({super.key, required this.index, required this.data, required this.onClick, required this.isSelected});
   final int index;
-  final data;
+  final ItemSoBuoiHoc data;
   final Function onClick;
   final bool isSelected;
 
@@ -410,7 +471,7 @@ class _ItemBuoiState extends State<ItemBuoi> {
                                 width: 6.sp,
                               ),
                               AppText(
-                                '${widget.data['soBuoi']} Buổi',
+                                '${widget.data.so_buoi} Buổi',
                                 style: AppStyle.DEFAULT_16
                                     .copyWith(fontWeight: FontWeight.w600, height: 1.2),
                               ),
@@ -443,7 +504,7 @@ class _ItemBuoiState extends State<ItemBuoi> {
                             children: [
                               RichText(
                                 text: TextSpan(
-                                  text: '${AppValue.format_money(widget.data['sellPrice'].toDouble())} ',
+                                  text: '${AppValue.format_money(double.parse(widget.data.thanh_tien!))} ',
                                   style: AppStyle.DEFAULT_18.copyWith(
                                       fontWeight: FontWeight.w700,
                                       height: 1,
@@ -457,7 +518,7 @@ class _ItemBuoiState extends State<ItemBuoi> {
                                 ),
                               ),
                               SizedBox(width: 5.sp,),
-                              widget.data['discount']!=null? Stack(
+                              widget.data.khuyen_mai!=0? Stack(
                                 children: [
                                   SvgPicture.asset(
                                     Assets.iconsDiscount,
@@ -470,7 +531,7 @@ class _ItemBuoiState extends State<ItemBuoi> {
                                     top: 0,bottom: 0,right: 5.sp,
                                     child: Center(
                                       child: AppText(
-                                        widget.data['discount'],
+                                        '-${widget.data.khuyen_mai}%',
                                         textAlign: TextAlign.center,
                                         style: AppStyle.DEFAULT_14.copyWith(fontWeight: FontWeight.w600,color: AppColors.white,height: 1.2),
                                       ),
@@ -481,8 +542,8 @@ class _ItemBuoiState extends State<ItemBuoi> {
 
                             ],
                           ),
-                          widget.data['oldPrice']!=null? AppText(
-                            '${AppValue.format_money(widget.data['oldPrice'].toDouble())} đ',
+                          widget.data.khuyen_mai!=0? AppText(
+                            '${AppValue.format_money(double.parse(widget.data.tong_tien!))} đ',
                             style: AppStyle.DEFAULT_16_BOLD.copyWith(color: AppColors.textBlack.withOpacity(0.5),decoration: TextDecoration.lineThrough,height: 1.5),
                           ):SizedBox()
                         ],
@@ -491,7 +552,7 @@ class _ItemBuoiState extends State<ItemBuoi> {
                   ),
                   Flexible(
                       child: Opacity(
-                        opacity: 0.5,
+                        opacity:widget.isSelected==true?1: 0.5,
                         child: DButton(
                           text: 'Chọn',
                           onClick: onClickChon,
@@ -527,6 +588,7 @@ class _ItemBuoiState extends State<ItemBuoi> {
   }
 
   onClickChon() {
+    widget.onClick();
   }
 }
 

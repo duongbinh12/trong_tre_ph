@@ -9,9 +9,11 @@ import 'package:trong_tre/common/routes/navigator.dart';
 import 'package:trong_tre/generated/assets.dart';
 import 'package:trong_tre/res/app_styles.dart';
 import 'package:trong_tre/res/colors.dart';
+import 'package:trong_tre/screens/login/controllers/login_controller.dart';
 import 'package:trong_tre/widgets/DButton.dart';
 import 'package:trong_tre/widgets/app_base_page.dart';
 import 'package:trong_tre/widgets/app_text.dart';
+import 'package:trong_tre/widgets/widget_dialog.dart';
 import 'package:trong_tre/widgets/widget_handle.dart';
 
 class ForgotPass extends StatefulWidget {
@@ -24,6 +26,11 @@ class ForgotPass extends StatefulWidget {
 class _ForgotPassState extends State<ForgotPass> {
   int count = 30;
   Timer? time;
+  String phone = Get.arguments[0];
+  int type = Get.arguments[1];
+  String pin = "";
+
+  LoginController _loginController = Get.find<LoginController>();
 
   @override
   void initState() {
@@ -37,7 +44,7 @@ class _ForgotPassState extends State<ForgotPass> {
         setState(() {
           count = count - 1;
         });
-      }else{
+      } else {
         time!.cancel();
       }
     });
@@ -63,17 +70,17 @@ class _ForgotPassState extends State<ForgotPass> {
               fit: BoxFit.cover,
             ),
             Positioned(
-                top: MediaQuery.of(context).viewPadding.top+10.sp,
+                top: MediaQuery.of(context).viewPadding.top + 10.sp,
                 left: 10.sp,
                 child: InkWell(
-                  onTap: (){
+                  onTap: () {
                     Get.back();
                   },
                   child: Padding(
                     padding: EdgeInsets.all(10.sp),
                     child: SvgPicture.asset(
-              Assets.iconsBack,
-            ),
+                      Assets.iconsBack,
+                    ),
                   ),
                 ))
           ],
@@ -87,12 +94,15 @@ class _ForgotPassState extends State<ForgotPass> {
                 height: 30.sp,
               ),
               AppText(
-                'Nhập mã xác thực gồm 6 chữ số đã gửi tới',
+                'Nhập mã xác thực gồm 6 chữ số đã gửi tới ${type == 1 ? "số" : "email"}',
                 style:
                     AppStyle.DEFAULT_16.copyWith(fontWeight: FontWeight.w600),
               ),
               AppText(
-                '+84123456736'.replaceRange(3, 10, "*******"),
+                type == 1
+                    ? '+84${phone.substring(1, phone.length)}'
+                        .replaceRange(3, 10, "*******")
+                    : "${phone}",
                 style:
                     AppStyle.DEFAULT_16.copyWith(fontWeight: FontWeight.w700),
               ),
@@ -100,25 +110,30 @@ class _ForgotPassState extends State<ForgotPass> {
                 height: 26.sp,
               ),
               Pinput(
-                onCompleted: (pin) => print(pin),
-                length: 6,
-                focusedPinTheme: PinTheme(
-                  width: 52.sp,
-                  height: 52.sp,
-                  textStyle: AppStyle.DEFAULT_18_BOLD.copyWith(color: AppColors.primary,height: 1),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: AppColors.primary),
-                    borderRadius: BorderRadius.circular(8.sp),
-                  ),),
-                defaultPinTheme: PinTheme(
-                  width: 52.sp,
-                  height: 52.sp,
-                  textStyle: AppStyle.DEFAULT_18_BOLD.copyWith(color: AppColors.primary,height: 1),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: AppColors.grayE5),
-                    borderRadius: BorderRadius.circular(8.sp),
-                  ),)
-              ),
+                  onCompleted: (pinn) {
+                    pin = pinn;
+                  },
+                  length: 6,
+                  focusedPinTheme: PinTheme(
+                    width: 52.sp,
+                    height: 52.sp,
+                    textStyle: AppStyle.DEFAULT_18_BOLD
+                        .copyWith(color: AppColors.primary, height: 1),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: AppColors.primary),
+                      borderRadius: BorderRadius.circular(8.sp),
+                    ),
+                  ),
+                  defaultPinTheme: PinTheme(
+                    width: 52.sp,
+                    height: 52.sp,
+                    textStyle: AppStyle.DEFAULT_18_BOLD
+                        .copyWith(color: AppColors.primary, height: 1),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: AppColors.grayE5),
+                      borderRadius: BorderRadius.circular(8.sp),
+                    ),
+                  )),
               SizedBox(
                 height: 31.sp,
               ),
@@ -138,31 +153,35 @@ class _ForgotPassState extends State<ForgotPass> {
               SizedBox(
                 height: 3.sp,
               ),
-              count!=0?AppText(
-                'Yêu cầu nhận mã mới sau 30s',
-                style: AppStyle.DEFAULT_14.copyWith(
-                    fontWeight: FontWeight.w400,
-                    color: Color(0xff292B2D).withOpacity(0.8)),
-              ):InkWell(
-                onTap: (){
-                  setState(() {
-                    count=30;
-                  });
-                  time=Timer.periodic(new Duration(seconds: 1), (timer) {
-                    if (count > 0) {
-                      setState(() {
-                        count = count - 1;
-                      });
-                    }else{
-                      time!.cancel();
-                    }
-                  });
-                },
-                child: AppText(
-                  'Gửi lại',
-                  style: AppStyle.DEFAULT_16.copyWith(color: AppColors.primary,height: 1.4),
-                ),
-              ),
+              count != 0
+                  ? AppText(
+                      'Yêu cầu nhận mã mới sau 30s',
+                      style: AppStyle.DEFAULT_14.copyWith(
+                          fontWeight: FontWeight.w400,
+                          color: Color(0xff292B2D).withOpacity(0.8)),
+                    )
+                  : InkWell(
+                      onTap: () {
+                        setState(() {
+                          count = 30;
+                        });
+                        time =
+                            Timer.periodic(new Duration(seconds: 1), (timer) {
+                          if (count > 0) {
+                            setState(() {
+                              count = count - 1;
+                            });
+                          } else {
+                            time!.cancel();
+                          }
+                        });
+                      },
+                      child: AppText(
+                        'Gửi lại',
+                        style: AppStyle.DEFAULT_16
+                            .copyWith(color: AppColors.primary, height: 1.4),
+                      ),
+                    ),
               SizedBox(
                 height: 22.sp,
               ),
@@ -175,6 +194,19 @@ class _ForgotPassState extends State<ForgotPass> {
   }
 
   onClickNext() {
-    AppNavigator.navigateNewPass();
+    if (pin != "" && pin.length == 6) {
+      if (type == 1) {
+        _loginController.checkOtpPhone(phone, pin);
+      }else{
+        _loginController.checkOtpEmail(phone, pin);
+      }
+    } else {
+      NotificationDialog.createSimpleDialog(
+          context: context,
+          titleButton1: "OK",
+          type: 2,
+          content: "Hãy nhập đúng mã PIN",
+          numberButton: 1);
+    }
   }
 }

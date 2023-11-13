@@ -36,7 +36,6 @@ class BaseController extends GetxController implements WebServiceAPICallback {
     try {
       var result = await api;
       int code = jsonDecode(jsonEncode(result))['code'];
-      print("hahaha ${code}");
       if (code == 200) {
         webServiceStateController.popLoading();
         onSuccess(result);

@@ -6,10 +6,12 @@ import 'package:trong_tre/res/colors.dart';
 import 'package:trong_tre/widgets/app_text.dart';
 
 class DRadioButton extends StatefulWidget {
-  const DRadioButton({super.key,required this.data,this.onChanged,this.isVertical=false});
+  const DRadioButton({super.key,required this.data,this.select,this.onChanged,this.isVertical=false,this.isReadonly=false});
   final List<String> data;
+  final String? select;
   final Function? onChanged;
   final bool isVertical;
+  final bool isReadonly;
 
   @override
   State<DRadioButton> createState() => _DRadioButtonState();
@@ -19,26 +21,41 @@ class _DRadioButtonState extends State<DRadioButton> {
   int groupValue = 0;
 
   @override
+  void initState() {
+    if(widget.select!=null){
+      groupValue= widget.data.indexOf(widget.select!);
+    }
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return widget.isVertical==false? Container(
-      width: Get.width,
-      decoration: BoxDecoration(
-        // border: Border.all(width: 1)
-      ),
-      child: Wrap(
-        direction: Axis.horizontal,
-        crossAxisAlignment: WrapCrossAlignment.start,
-        alignment: widget.data.length==2?WrapAlignment.spaceAround: WrapAlignment.spaceBetween,
-        runAlignment: WrapAlignment.start,
-        runSpacing: 10.sp,
-        // mainAxisAlignment:widget.data.length==2?MainAxisAlignment.spaceAround: MainAxisAlignment.spaceBetween,
-        children: List.generate(widget.data.length, (index) => _item(widget.data[index], index)),
-      ),
-    ):Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      // mainAxisAlignment:widget.data.length==2?MainAxisAlignment.spaceAround: MainAxisAlignment.spaceBetween,
-      // mainAxisAlignment:MainAxisAlignment.start,
-      children: List.generate(widget.data.length, (index) => _item(widget.data[index], index)),
+    return Stack(
+      children: [
+        widget.isVertical==false? Container(
+          width: Get.width,
+          decoration: BoxDecoration(
+            // border: Border.all(width: 1)
+          ),
+          child: Wrap(
+            direction: Axis.horizontal,
+            crossAxisAlignment: WrapCrossAlignment.start,
+            alignment: widget.data.length==2?WrapAlignment.spaceAround: WrapAlignment.spaceBetween,
+            runAlignment: WrapAlignment.start,
+            runSpacing: 10.sp,
+            // mainAxisAlignment:widget.data.length==2?MainAxisAlignment.spaceAround: MainAxisAlignment.spaceBetween,
+            children: List.generate(widget.data.length, (index) => _item(widget.data[index], index)),
+          ),
+        ):Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          // mainAxisAlignment:widget.data.length==2?MainAxisAlignment.spaceAround: MainAxisAlignment.spaceBetween,
+          // mainAxisAlignment:MainAxisAlignment.start,
+          children: List.generate(widget.data.length, (index) => _item(widget.data[index], index)),
+        ),
+        if(widget.isReadonly==true) Positioned.fill(child: Container(
+          color: Colors.transparent,
+        ))
+      ],
     );
   }
 

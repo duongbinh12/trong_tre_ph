@@ -27,6 +27,34 @@ class _MainSignUpServiceState extends State<MainSignUpService> {
   ServiceController _serviceController=Get.find<ServiceController>();
 
   @override
+  void dispose() {
+    _serviceController.tabService.value=1;
+    _serviceController.indexBuoi=0;
+    _serviceController.indexCa=0;
+    _serviceController.indexGio=0;
+    _serviceController.indexThemGio=0;
+    _serviceController.listCa.value=null;
+    _serviceController.listKhungGio.value=null;
+    _serviceController.listBuoiHoc.value=null;
+    _serviceController.hocPhi.value=null;
+    _serviceController.phuCap.value=0;
+    _serviceController.tienAnTrua.value=0;
+    _serviceController.tienThemGio.value=0;
+    _serviceController.soLuongBe.value=1;
+    _serviceController.diaDiem="";
+    _serviceController.ghiChu="";
+    _serviceController.thoiGianBatDau="";
+    _serviceController.diaDiem="";
+    _serviceController.arrThu=[];
+    _serviceController.giaoVien=15;
+    _serviceController.idKhungGioCa=-1;
+    _serviceController.idGoiHocPhi=-1;
+    _serviceController.idThemGio=-1;
+    _serviceController.idAnTrua=-1;
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return AppBasePage(
         keyScaffold: ScaffoldKey,

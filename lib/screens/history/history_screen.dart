@@ -4,6 +4,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:trong_tre/res/app_styles.dart';
+import 'package:trong_tre/screens/history/controllers/history_controller.dart';
+import 'package:trong_tre/screens/login/controllers/login_controller.dart';
+import 'package:trong_tre/screens/setting/controllers/setting_controller.dart';
+import 'package:trong_tre/services/entity/history_order_response.dart';
 import 'package:trong_tre/widgets/DButton.dart';
 import 'package:trong_tre/widgets/DInput.dart';
 import 'package:trong_tre/widgets/app_base_page.dart';
@@ -64,9 +68,23 @@ class _HistoryScreenState extends State<HistoryScreen> {
       'tongSoBuoi': 5,
     },
   ];
-  List<String> dropdown=['Mới nhất','Cũ nhất'];
-  String valueDropdown='Mới nhất';
-  TextEditingController _matKhauController=TextEditingController();
+  List<String> dropdown = ['Mới nhất', 'Cũ nhất'];
+  String valueDropdown = 'Mới nhất';
+  TextEditingController _matKhauController = TextEditingController();
+  LoginController _loginController = Get.find<LoginController>();
+  HistoryController _historyController = Get.find<HistoryController>();
+  SettingController _settingController = Get.find<SettingController>();
+
+  @override
+  void initState() {
+    Future.delayed(Duration(seconds: 0), () {
+      if (_loginController.token != null) {
+        _historyController.getHistory(page: 1, tuKhoa: "", sort: 1);
+      }
+    });
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -106,103 +124,181 @@ class _HistoryScreenState extends State<HistoryScreen> {
                             BorderRadius.vertical(top: Radius.circular(30.sp))),
                     padding:
                         EdgeInsets.only(top: 30.sp, left: 20.sp, right: 20.sp),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Expanded(
-                              child: AppText(
-                                'Danh sách đơn của bạn'.tr,
-                                style: AppStyle.DEFAULT_18_BOLD,
-                              ),
-                            ),
-                            DropdownButtonHideUnderline(
-                              child: DropdownButton2(
-                                  items: dropdown
-                                      .map((String item) => DropdownMenuItem<String>(
-                                    value: item,
+                    child: _loginController.token != null
+                        ? Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Expanded(
                                     child: AppText(
-                                      item,
-                                      style: AppStyle.DEFAULT_14,
+                                      'Danh sách đơn của bạn'.tr,
+                                      style: AppStyle.DEFAULT_18_BOLD,
                                     ),
-                                  ))
-                                      .toList(),
-                                value: valueDropdown,
-                                onChanged: (String? value) {
-                                  setState(() {
-                                    valueDropdown = value!;
-                                  });
-                                },
-                                dropdownStyleData: DropdownStyleData(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(15.sp)
-                                  )
-                                ),
-                                customButton: Container(
-                                  decoration: BoxDecoration(
-                                      color: AppColors.grayF2,
-                                      borderRadius: BorderRadius.circular(50)),
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 14.sp, vertical: 9.sp),
-                                  child: Row(
-                                    children: [
-                                      AppText(
-                                        valueDropdown,
-                                        style: AppStyle.DEFAULT_14.copyWith(
-                                            fontWeight: FontWeight.w500, height: 1),
-                                      ),
-                                      SizedBox(
-                                        width: 5.sp,
-                                      ),
-                                      RotatedBox(
-                                        quarterTurns: 3,
-                                        child: SvgPicture.asset(
-                                          Assets.iconsBack,
-                                          width: 8.sp,
-                                          height: 8.sp,
-                                          color: AppColors.textBlack,
+                                  ),
+                                  DropdownButtonHideUnderline(
+                                    child: DropdownButton2(
+                                      items: dropdown
+                                          .map((String item) =>
+                                              DropdownMenuItem<String>(
+                                                value: item,
+                                                child: AppText(
+                                                  item,
+                                                  style: AppStyle.DEFAULT_14,
+                                                ),
+                                              ))
+                                          .toList(),
+                                      value: valueDropdown,
+                                      onChanged: (String? value) {
+                                        _historyController.getHistory(page: 1, tuKhoa: "", sort: dropdown.indexOf(value!)==0?1:0);
+                                        setState(() {
+                                          valueDropdown = value;
+                                        });
+                                      },
+                                      dropdownStyleData: DropdownStyleData(
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                      15.sp))),
+                                      customButton: Container(
+                                        decoration: BoxDecoration(
+                                            color: AppColors.grayF2,
+                                            borderRadius:
+                                                BorderRadius.circular(50)),
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 14.sp, vertical: 9.sp),
+                                        child: Row(
+                                          children: [
+                                            AppText(
+                                              valueDropdown,
+                                              style: AppStyle.DEFAULT_14
+                                                  .copyWith(
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      height: 1),
+                                            ),
+                                            SizedBox(
+                                              width: 5.sp,
+                                            ),
+                                            RotatedBox(
+                                              quarterTurns: 3,
+                                              child: SvgPicture.asset(
+                                                Assets.iconsBack,
+                                                width: 8.sp,
+                                                height: 8.sp,
+                                                color: AppColors.textBlack,
+                                              ),
+                                            )
+                                          ],
                                         ),
-                                      )
-                                    ],
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              SizedBox(
+                                height: 10.sp,
+                              ),
+                              Expanded(
+                                child: GetX<HistoryController>(
+                                    builder: (controller) {
+                                  if (controller.listHistory.value != null) {
+                                    if (controller
+                                        .listHistory.value!.isNotEmpty) {
+                                      return ListView.builder(
+                                        itemCount: controller
+                                            .listHistory.value!.length,
+                                        shrinkWrap: true,
+                                        padding: EdgeInsets.only(top: 5.sp),
+                                        itemBuilder: (context, index) {
+                                          return _itemHistory(controller
+                                              .listHistory.value![index]);
+                                        },
+                                      );
+                                    } else {
+                                      return Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          SvgPicture.asset(
+                                            Assets.iconsClock,
+                                            width: 80.w,
+                                            height: 80.w,
+                                            color: AppColors.textBlack
+                                                .withOpacity(0.3),
+                                          ),
+                                          AppText(
+                                            'Danh sách lịch sử trống',
+                                            style: AppStyle.DEFAULT_16.copyWith(
+                                                fontWeight: FontWeight.w600,
+                                                color: AppColors.textBlack
+                                                    .withOpacity(0.3)),
+                                          )
+                                        ],
+                                      );
+                                    }
+                                  } else {
+                                    return SizedBox();
+                                  }
+                                }),
+                              )
+                            ],
+                          )
+                        : Column(
+                            children: [
+                              WidgetContainerImage(
+                                image: Assets.imagesBgLogin,
+                                width: Get.width,
+                                height: (Get.width) * 303 / 393,
+                                fit: BoxFit.contain,
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  AppNavigator.navigateLogin();
+                                },
+                                child: Center(
+                                  child: RichText(
+                                    text: TextSpan(
+                                      text: 'Hãy ',
+                                      style: AppStyle.DEFAULT_16,
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                            text: 'đăng nhập',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: AppColors.primary)),
+                                        TextSpan(
+                                            text: ' để sử dụng tính năng này!'),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
-
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          height: 10.sp,
-                        ),
-                        Expanded(
-                          child: ListView.builder(
-                            itemCount: data.length,
-                            shrinkWrap: true,
-                            padding: EdgeInsets.only(top: 5.sp),
-                            itemBuilder: (context, index) {
-                              return _itemHistory(data[index]);
-                            },
-                          ),
-                        )
-                      ],
-                    )))
+                            ],
+                          )))
           ]))
         ],
       ),
     );
   }
 
-  Widget _itemHistory(data) {
-    Color colorItem=data['status'] == 1
-        ? AppColors.blue
-        : data['status'] == 2
+  Widget _itemHistory(ItemHistoryOrder data) {
+    Color colorItem = data.trang_thai!.id == 72
         ? AppColors.primary
-        : data['status'] == 3
-        ? AppColors.gray60
-        : AppColors.orange;
+        : data.trang_thai!.id == 70
+            ? AppColors.blue
+            : AppColors.orange;
+    // Color colorItem=AppColors.orange;
     return InkWell(
-      onTap: (){
-        onClickItem(data['status']);
+      onTap: () {
+        if(data.trang_thai!.id==70){
+          _historyController.getThongTinGiaoVien(id: data.id.toString());
+        }
+        else if(data.trang_thai!.id==71){
+          AppNavigator.navigateTheoDoiTienTrinh(2,id: data.id,isHuy: true);
+        }
+        else{
+          onClickItem(data);
+        }
       },
       child: Container(
         margin: EdgeInsets.only(bottom: 15.sp, left: 1.sp, right: 1.sp),
@@ -220,7 +316,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
           children: [
             Container(
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.vertical(top: Radius.circular(15.sp)),
+                borderRadius:
+                    BorderRadius.vertical(top: Radius.circular(15.sp)),
                 color: AppColors.white,
               ),
               child: Container(
@@ -231,7 +328,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
                       topRight: Radius.circular(15.sp),
                       bottomLeft: Radius.circular(30.sp),
                     )),
-                padding: EdgeInsets.symmetric(horizontal: 15.sp, vertical: 12.sp),
+                padding:
+                    EdgeInsets.symmetric(horizontal: 15.sp, vertical: 12.sp),
                 child: Row(
                   children: [
                     Container(
@@ -259,14 +357,14 @@ class _HistoryScreenState extends State<HistoryScreen> {
                               style: AppStyle.DEFAULT_14.copyWith(height: 1.3),
                               children: <TextSpan>[
                                 TextSpan(
-                                    text: '0123456789',
+                                    text: data.ma_don_hang??'',
                                     style:
                                         TextStyle(fontWeight: FontWeight.w600)),
                               ],
                             ),
                           ),
                           AppText(
-                            '04/08/2023 • 08:30',
+                            data.created??'',
                             style: AppStyle.DEFAULT_12.copyWith(height: 1.3),
                           )
                         ],
@@ -278,7 +376,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                     Flexible(
                       flex: 2,
                       child: DButton(
-                          text: data['nameStatus'],
+                          text: data.trang_thai!.name??'',
                           padH: 9.sp,
                           background: colorItem,
                           borderColor: colorItem,
@@ -328,7 +426,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                       Expanded(
                           flex: 2,
                           child: AppText(
-                            'Bảo mẫu Pro',
+                            data.dichVu??'',
                             style: AppStyle.DEFAULT_14
                                 .copyWith(fontWeight: FontWeight.w500),
                           )),
@@ -342,9 +440,10 @@ class _HistoryScreenState extends State<HistoryScreen> {
                               horizontal: 12.sp, vertical: 9.sp),
                           child: RichText(
                             text: TextSpan(
-                              text: '${data['soBuoiDaDay']}/${data['tongSoBuoi']} ',
-                              style:
-                                  AppStyle.DEFAULT_14_BOLD.copyWith(height: 1.2),
+                              text:
+                                  '${data.soBuoiHoanThanh??''} ',
+                              style: AppStyle.DEFAULT_14_BOLD
+                                  .copyWith(height: 1.2),
                               children: <TextSpan>[
                                 TextSpan(
                                     text: ' buổi',
@@ -389,7 +488,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               AppText(
-                                'Ca sáng (7:00 - 11:00)',
+                                data.chonCa??'',
                                 style: AppStyle.DEFAULT_14.copyWith(
                                     fontWeight: FontWeight.w500, height: 1.2),
                               ),
@@ -397,7 +496,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                 height: 13.sp,
                               ),
                               AppText(
-                                '07/08/2023 - 11/08/2023',
+                                data.thoi_gian??'',
                                 style: AppStyle.DEFAULT_14.copyWith(
                                     fontWeight: FontWeight.w500, height: 1.2),
                               ),
@@ -416,71 +515,90 @@ class _HistoryScreenState extends State<HistoryScreen> {
 
   onClick() {}
 
-  void onClickItem(int status) {
+  void onClickItem(ItemHistoryOrder data) {
     showModalBottomSheet(
-        context: context,
-        constraints: BoxConstraints(minWidth: Get.width,maxHeight: Get.height*0.7),
-        isScrollControlled: true,
-        backgroundColor: Colors.transparent,
-        builder: (context) {
-          return SingleChildScrollView(
-            child: Container(
-              decoration: BoxDecoration(
+      context: context,
+      constraints:
+          BoxConstraints(minWidth: Get.width, maxHeight: Get.height * 0.7),
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        return SingleChildScrollView(
+          child: Container(
+            decoration: BoxDecoration(
                 color: AppColors.white,
-                borderRadius: BorderRadius.vertical(top: Radius.circular(30.sp))
-              ),
-              padding: EdgeInsets.symmetric(
-                horizontal: 20.sp
-              ),
-              child: Column(
-                children: [
-                  SizedBox(height: 13.sp,),
-                  Container(
-                    width: 38.sp,
-                    height: 4.sp,
-                    decoration: BoxDecoration(
-                        color: AppColors.grayE5,
-                        borderRadius: BorderRadius.circular(50)
-                    ),
+                borderRadius:
+                    BorderRadius.vertical(top: Radius.circular(30.sp))),
+            padding: EdgeInsets.symmetric(horizontal: 20.sp),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 13.sp,
+                ),
+                Container(
+                  width: 38.sp,
+                  height: 4.sp,
+                  decoration: BoxDecoration(
+                      color: AppColors.grayE5,
+                      borderRadius: BorderRadius.circular(50)),
+                ),
+                SizedBox(
+                  height: 20.sp,
+                ),
+                AppText(
+                  'Nhập mật khẩu'.tr,
+                  style: AppStyle.DEFAULT_20_BOLD,
+                ),
+                SizedBox(
+                  height: 27.sp,
+                ),
+                DInput(
+                    controller: _matKhauController,
+                    isPass: true,
+                    onSubmit: () {
+                      onSubmitMatKhau(data.id!);
+                    },
+                    hintText: 'Mật khẩu*'),
+                SizedBox(
+                  height: 14.sp,
+                ),
+                InkWell(
+                  onTap: onClickForgotPass,
+                  child: AppText(
+                    'Quên mật khẩu?',
+                    style: AppStyle.DEFAULT_14.copyWith(color: AppColors.blue),
                   ),
-                  SizedBox(height: 20.sp,),
-                  AppText(
-                    'Nhập mật khẩu'.tr,
-                    style: AppStyle.DEFAULT_20_BOLD,
-                  ),
-                  SizedBox(height: 27.sp,),
-                  DInput(
-                      controller: _matKhauController,
-                      isPass: true,
-                      onSubmit: (){
-                        onSubmitMatKhau(status);
-                      },
-                      hintText: 'Mật khẩu*'),
-                  SizedBox(height: 14.sp,),
-                  InkWell(
-                    onTap: onClickForgotPass,
-                    child: AppText(
-                      'Quên mật khẩu?',
-                      style: AppStyle.DEFAULT_14.copyWith(color: AppColors.blue),
-                    ),
-                  ),
-                  SizedBox(height: 30.sp+MediaQuery.of(context).viewPadding.bottom+MediaQuery.of(context).viewInsets.bottom,)
-                ],
-              ),
+                ),
+                SizedBox(
+                  height: 30.sp +
+                      MediaQuery.of(context).viewPadding.bottom +
+                      MediaQuery.of(context).viewInsets.bottom,
+                )
+              ],
             ),
-          );
-        },
+          ),
+        );
+      },
     );
   }
 
   void onClickForgotPass() {
     Get.back();
-    AppNavigator.navigateForgotPass();
+    _settingController.logOut((){
+      _loginController.token=null;
+      AppNavigator.navigateLogin();
+    });
+    // AppNavigator.navigateForgotPass();
   }
 
-  onSubmitMatKhau(int status) {
-    Get.back();
-    if(status==4) AppNavigator.navigateTheoDoiTienTrinh(2,isHuy: true);
-    else AppNavigator.navigateTheoDoiTienTrinh(3);
+  onSubmitMatKhau(int id) {
+    if(_matKhauController.text!="") {
+      _historyController.checkPass(pass: _matKhauController.text, id: id);
+    }
+    // Get.back();
+    // if (status == 4)
+    //   AppNavigator.navigateTheoDoiTienTrinh(2, isHuy: true);
+    // else
+    //   AppNavigator.navigateTheoDoiTienTrinh(3);
   }
 }

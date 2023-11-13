@@ -3,8 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:trong_tre/common/routes/navigator.dart';
+import 'package:trong_tre/screens/login/controllers/login_controller.dart';
+import 'package:trong_tre/screens/setting/controllers/setting_controller.dart';
 import 'package:trong_tre/screens/setting/widget_support.dart';
 import 'package:trong_tre/widgets/app_base_page.dart';
+import 'package:trong_tre/widgets/widget_dialog.dart';
 
 import '../../generated/assets.dart';
 import '../../res/app_styles.dart';
@@ -24,6 +27,18 @@ class SettingScreen extends StatefulWidget {
 
 class _SettingScreenState extends State<SettingScreen> {
   final GlobalKey<ScaffoldState> ScaffoldKey = GlobalKey();
+  LoginController _loginController = Get.find<LoginController>();
+  SettingController _settingController = Get.find<SettingController>();
+
+  @override
+  void initState() {
+    // Future.delayed(Duration(seconds: 0), () {
+    //   if (_loginController.token != null) {
+    //     _settingController.getMyInfo();
+    //   }
+    // });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,18 +88,23 @@ class _SettingScreenState extends State<SettingScreen> {
                           SizedBox(
                             height: 95.sp,
                           ),
-                          _item(Assets.iconsKhieuNai, 'Khiếu nại/ Góp ý',
-                              onClick: () {
-                            AppNavigator.navigateComplain();
-                          }),
-                          SizedBox(
-                            height: 10.sp,
-                          ),
+                          _loginController.token != null
+                              ? _item(Assets.iconsKhieuNai, 'Khiếu nại/ Góp ý',
+                                  onClick: () {
+                                  AppNavigator.navigateComplain();
+                                })
+                              : SizedBox(),
+                          _loginController.token != null
+                              ? SizedBox(
+                                  height: 10.sp,
+                                )
+                              : SizedBox(),
                           _item(Assets.iconsChiaSe, 'Chia sẻ Trông trẻ Pro'),
                           SizedBox(
                             height: 10.sp,
                           ),
-                          _item(Assets.iconsTroGiup, 'Trợ giúp',onClick: onClickSupport),
+                          _item(Assets.iconsTroGiup, 'Trợ giúp',
+                              onClick: onClickSupport),
                           SizedBox(
                             height: 10.sp,
                           ),
@@ -126,8 +146,10 @@ class _SettingScreenState extends State<SettingScreen> {
                           SizedBox(
                             height: 10.sp,
                           ),
-                          _item(Assets.iconsDangXuat, 'Đăng xuất',
-                              right: SizedBox()),
+                          _loginController.token != null
+                              ? _item(Assets.iconsDangXuat, 'Đăng xuất',
+                                  onClick: onClickDangXuat, right: SizedBox())
+                              : SizedBox(),
                         ],
                       ),
                     ),
@@ -157,79 +179,113 @@ class _SettingScreenState extends State<SettingScreen> {
                 blurRadius: 10,
                 color: AppColors.blue2.withOpacity(0.15))
           ]),
-      child: Column(
-        children: [
-          Container(
-            padding: EdgeInsets.symmetric(vertical: 15.sp, horizontal: 15.sp),
-            child: Row(
-              children: [
-                WidgetNetworkCacheImage(
-                  image:
-                      'https://allimages.sgp1.digitaloceanspaces.com/tipeduvn/2022/07/1657905893_880_Tuyen-Tap-Bo-Anh-Girl-Xinh-Dep-Nhat-Nam-2020.jpg',
-                  width: 97.sp,
-                  height: 97.sp,
-                  fit: BoxFit.cover,
-                  borderRadius: 100,
+      child: _loginController.token == null
+          ? Container(
+              padding: EdgeInsets.symmetric(vertical: 30.h),
+              child: InkWell(
+                onTap: () {
+                  AppNavigator.navigateLogin();
+                },
+                child: Center(
+                  child: RichText(
+                    text: TextSpan(
+                      text: 'Hãy ',
+                      style: AppStyle.DEFAULT_16,
+                      children: <TextSpan>[
+                        TextSpan(
+                            text: 'đăng nhập',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.primary)),
+                        TextSpan(text: ' để sử dụng tính năng này!'),
+                      ],
+                    ),
+                  ),
                 ),
-                SizedBox(
-                  width: 15.sp,
-                ),
-                Expanded(
-                    child: Container(
-                  height: 97.sp,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.end,
+              ),
+            )
+          : GetX<SettingController>(builder: (controller) {
+              if (controller.myInfo.value != null) {
+                return Column(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.symmetric(
+                          vertical: 15.sp, horizontal: 15.sp),
+                      child: Row(
                         children: [
-                          Expanded(
-                            child: AppText(
-                              'Nguyễn Hoàng Anh Thư',
-                              style: AppStyle.DEFAULT_16_BOLD
-                                  .copyWith(height: 1.1),
-                            ),
-                          ),
-                          InkWell(
-                              onTap: () {
-                                AppNavigator.navigateProfile();
-                              },
-                              child: SvgPicture.asset(Assets.iconsEdit))
-                        ],
-                      ),
-                      AppText(
-                        'Phụ huynh',
-                        style: AppStyle.DEFAULT_14
-                            .copyWith(height: 1.2, color: AppColors.gray7D),
-                      ),
-                      Row(
-                        children: [
-                          SvgPicture.asset(
-                            Assets.iconsCall,
-                            width: 20.sp,
-                            height: 20.sp,
-                            color: AppColors.primary,
+                          WidgetNetworkCacheImage(
+                            image:
+                                controller.myInfo.value!.anh_nguoi_dung ?? '',
+                            width: 97.sp,
+                            height: 97.sp,
+                            fit: BoxFit.cover,
+                            borderRadius: 100,
                           ),
                           SizedBox(
-                            width: 5.sp,
+                            width: 15.sp,
                           ),
-                          AppText(
-                            '0123 456 789',
-                            style: AppStyle.DEFAULT_14.copyWith(
-                                height: 1.2, fontWeight: FontWeight.w500),
-                          ),
+                          Expanded(
+                              child: Container(
+                            height: 97.sp,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Expanded(
+                                      child: AppText(
+                                        controller.myInfo.value!.hoten ?? '',
+                                        style: AppStyle.DEFAULT_16_BOLD
+                                            .copyWith(height: 1.1),
+                                      ),
+                                    ),
+                                    InkWell(
+                                        onTap: () {
+                                          AppNavigator.navigateProfile();
+                                        },
+                                        child:
+                                            SvgPicture.asset(Assets.iconsEdit))
+                                  ],
+                                ),
+                                AppText(
+                                  controller.myInfo.value!.vai_tro ?? '',
+                                  style: AppStyle.DEFAULT_14.copyWith(
+                                      height: 1.2, color: AppColors.gray7D),
+                                ),
+                                Row(
+                                  children: [
+                                    SvgPicture.asset(
+                                      Assets.iconsCall,
+                                      width: 20.sp,
+                                      height: 20.sp,
+                                      color: AppColors.primary,
+                                    ),
+                                    SizedBox(
+                                      width: 5.sp,
+                                    ),
+                                    AppText(
+                                      controller.myInfo.value!.dien_thoai ?? '',
+                                      style: AppStyle.DEFAULT_14.copyWith(
+                                          height: 1.2,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ))
                         ],
-                      )
-                    ],
-                  ),
-                ))
-              ],
-            ),
-          ),
-        ],
-      ),
+                      ),
+                    ),
+                  ],
+                );
+              } else {
+                return SizedBox();
+              }
+            }),
     );
   }
 
@@ -287,12 +343,67 @@ class _SettingScreenState extends State<SettingScreen> {
   onClickSupport() {
     showModalBottomSheet(
       context: context,
-      constraints: BoxConstraints(maxHeight: Get.height*0.7),
+      constraints: BoxConstraints(maxHeight: Get.height * 0.7),
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) {
-        return WidgetSupport();
+        return Container(
+            decoration: BoxDecoration(
+                color: AppColors.white,
+                borderRadius:
+                    BorderRadius.vertical(top: Radius.circular(30.sp))),
+            padding: EdgeInsets.only(
+                left: 20.sp,
+                right: 20.sp,
+                top: 13.sp,
+                bottom: 30 + MediaQuery.of(context).viewPadding.bottom),
+            child: Column(
+              children: [
+                Container(
+                  width: 38.sp,
+                  height: 4.sp,
+                  decoration: BoxDecoration(
+                      color: AppColors.grayE5,
+                      borderRadius: BorderRadius.circular(50)),
+                ),
+                SizedBox(
+                  height: 20.sp,
+                ),
+                AppText(
+                  'Liên hệ và trợ giúp'.tr,
+                  textAlign: TextAlign.center,
+                  style: AppStyle.DEFAULT_20_BOLD,
+                ),
+                SizedBox(
+                  height: 22.sp,
+                ),
+                Expanded(child: SingleChildScrollView(child: WidgetSupport())),
+                SizedBox(
+                  height: 40.sp,
+                ),
+                DButton(
+                    text: 'Đóng',
+                    onClick: () {
+                      Get.back();
+                    })
+              ],
+            ));
       },
     );
+  }
+
+  onClickDangXuat() {
+    NotificationDialog.createSimpleDialog(
+        context: context,
+        titleButton1: "OK",
+        titleButton2: "Hủy",
+        content: "Bạn có chắc chắn muốn đăng xuất không?",
+        onTap1: (){
+          _settingController.logOut((){
+            _loginController.token=null;
+            AppNavigator.navigateSplash();
+          });
+        },
+        numberButton: 1);
   }
 }

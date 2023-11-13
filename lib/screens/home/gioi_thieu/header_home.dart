@@ -6,6 +6,7 @@ import 'package:trong_tre/generated/assets.dart';
 import 'package:trong_tre/res/app_styles.dart';
 import 'package:trong_tre/res/colors.dart';
 import 'package:trong_tre/screens/home/home.dart';
+import 'package:trong_tre/screens/setting/controllers/setting_controller.dart';
 import 'package:trong_tre/widgets/app_text.dart';
 import 'package:trong_tre/widgets/widget_handle.dart';
 
@@ -29,11 +30,26 @@ class HeaderHome extends StatelessWidget {
             left: 20.sp,right: 20.sp,bottom: 20.sp,
             child: Row(
               children: [
-                WidgetContainerImage(
-                  image: Assets.iconsUserHome,
-                  width: 42.sp,
-                  height: 42.sp,
-                  fit: BoxFit.contain,
+                GetX<SettingController>(
+                  builder: (controller) {
+                    if(controller.myInfo.value!=null) {
+                      return WidgetNetworkImage(
+                      image: controller.myInfo.value!.anh_nguoi_dung??'',
+                      width: 42.sp,
+                      height: 42.sp,
+                      fit: BoxFit.cover,
+                      borderRadius: 42.sp,
+                    );
+                    }
+                    else {
+                      return WidgetContainerImage(
+                      image: Assets.iconsUserHome,
+                      width: 42.sp,
+                      height: 42.sp,
+                      fit: BoxFit.contain,
+                    );
+                    }
+                  }
                 ),
                 SizedBox(width: 8.sp,),
                 AppText(

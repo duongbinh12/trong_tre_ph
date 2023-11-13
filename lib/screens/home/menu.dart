@@ -6,12 +6,19 @@ import 'package:share_plus/share_plus.dart';
 import 'package:trong_tre/common/routes/navigator.dart';
 import 'package:trong_tre/generated/assets.dart';
 import 'package:trong_tre/res/app_styles.dart';
+import 'package:trong_tre/screens/login/controllers/login_controller.dart';
+import 'package:trong_tre/screens/setting/controllers/setting_controller.dart';
 import 'package:trong_tre/widgets/app_base_page.dart';
 import 'package:trong_tre/widgets/app_text.dart';
 import 'package:trong_tre/widgets/widget_handle.dart';
 
+import '../../widgets/widget_dialog.dart';
+
 class Menu extends StatelessWidget {
-  const Menu({super.key});
+  Menu({super.key});
+
+  final SettingController _settingController=Get.find<SettingController>();
+  final LoginController _loginController=Get.find<LoginController>();
 
   @override
   Widget build(BuildContext context) {
@@ -38,20 +45,59 @@ class Menu extends StatelessWidget {
             ),
           ],
         ),
-        WidgetNetworkImage(
-          image:
-              'https://gaixinhbikini.com/wp-content/uploads/2023/02/hinh-co-gai-xinh-dep-005.jpg',
-          width: 97.sp,
-          height: 97.sp,
-          fit: BoxFit.cover,
-          borderRadius: 50,
-        ),
-        SizedBox(
-          height: 14.sp,
-        ),
-        AppText(
-          'Nguyễn Văn A',
-          style: AppStyle.DEFAULT_20_BOLD,
+        GetX<SettingController>(
+          builder: (controller) {
+            if(controller.myInfo.value!=null) {
+              return Column(
+              children: [
+                WidgetNetworkImage(
+                  image:
+                  controller.myInfo.value!.anh_nguoi_dung??'',
+                  width: 97.sp,
+                  height: 97.sp,
+                  fit: BoxFit.cover,
+                  borderRadius: 50,
+                ),
+                SizedBox(
+                  height: 14.sp,
+                ),
+                AppText(
+                  controller.myInfo.value!.hoten??'',
+                  style: AppStyle.DEFAULT_20_BOLD,
+                ),
+              ],
+            );
+            }
+            else {
+              return InkWell(
+                onTap: (){
+                  AppNavigator.navigateLogin();
+                },
+                child: Column(
+                children: [
+                  WidgetContainerImage(
+                    image:Assets.imagesImgSplash,
+                    width: 97.sp,
+                    height: 97.sp,
+                    fit: BoxFit.cover,
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                  SizedBox(
+                    height: 14.sp,
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 15.w),
+                    child: AppText(
+                      'Hãy đăng nhập để sử dụng tính năng này',
+                      textAlign: TextAlign.center,
+                      style: AppStyle.DEFAULT_20_BOLD,
+                    ),
+                  ),
+                ],
+            ),
+              );
+            }
+          }
         ),
         SizedBox(
           height: 40.sp,
@@ -95,12 +141,23 @@ class Menu extends StatelessWidget {
             icon: Assets.iconsMenu6,
             text: 'Điều khoản sử dụng ứng dụng',
             onClick: () {}),
-        _itemMenu(
+        _loginController.token!=null? _itemMenu(
             icon: Assets.iconsMenu7,
             text: 'Đăng xuất',
             onClick: () {
-              AppNavigator.navigateLogin();
-            })
+              NotificationDialog.createSimpleDialog(
+                  context: context,
+                  titleButton1: "OK",
+                  titleButton2: "Hủy",
+                  content: "Bạn có chắc chắn muốn đăng xuất không?",
+                  onTap1: (){
+                    _settingController.logOut((){
+                      _loginController.token=null;
+                      AppNavigator.navigateSplash();
+                    });
+                  },
+                  numberButton: 1);
+            }):SizedBox()
       ],
     ));
   }

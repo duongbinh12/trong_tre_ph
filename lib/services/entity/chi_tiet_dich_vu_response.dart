@@ -20,13 +20,13 @@ class ItemQuyenLoi {
 @JsonSerializable()
 class ChiTietDichVuData {
   int? id,so_tien;
-  String? ten_dich_vu,doTuoi,gia_tri,hop_dong_dich_vu;
+  String? ten_dich_vu,doTuoi,gia_tri,hop_dong_dich_vu,link;
   List<String>? cam_ket;
   List<ItemQuyenLoi>? quyenLoi;
 
 
   ChiTietDichVuData(this.id, this.so_tien, this.ten_dich_vu, this.doTuoi,
-      this.gia_tri, this.hop_dong_dich_vu, this.cam_ket, this.quyenLoi);
+      this.gia_tri, this.hop_dong_dich_vu, this.cam_ket, this.quyenLoi,this.link);
 
   factory ChiTietDichVuData.fromJson(Map<String, dynamic> json) =>
       _$ChiTietDichVuDataFromJson(json);

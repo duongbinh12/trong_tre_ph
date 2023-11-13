@@ -4,10 +4,12 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:trong_tre/common/routes/navigator.dart';
 import 'package:trong_tre/res/app_styles.dart';
+import 'package:trong_tre/screens/login/controllers/login_controller.dart';
 import 'package:trong_tre/widgets/DButton.dart';
 import 'package:trong_tre/widgets/DInput.dart';
 import 'package:trong_tre/widgets/app_base_page.dart';
 import 'package:trong_tre/widgets/app_text.dart';
+import 'package:trong_tre/widgets/widget_dialog.dart';
 
 import '../../generated/assets.dart';
 import '../../widgets/widget_handle.dart';
@@ -22,6 +24,8 @@ class NewPass extends StatefulWidget {
 class _NewPassState extends State<NewPass> {
   TextEditingController _passController = TextEditingController();
   TextEditingController _rePassController = TextEditingController();
+
+  LoginController _loginController = Get.find<LoginController>();
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +74,9 @@ class _NewPassState extends State<NewPass> {
                     height: 32.sp,
                   ),
                   DInput(
-                      controller: _passController,isPass: true, hintText: 'Mật khẩu mới*'),
+                      controller: _passController,
+                      isPass: true,
+                      hintText: 'Mật khẩu mới*'),
                   SizedBox(
                     height: 15.sp,
                   ),
@@ -78,7 +84,9 @@ class _NewPassState extends State<NewPass> {
                       controller: _rePassController,
                       isPass: true,
                       hintText: 'Nhập lại mật khẩu mới*'),
-                  SizedBox(height: 15.sp,),
+                  SizedBox(
+                    height: 15.sp,
+                  ),
                   DButton(text: 'Lưu mật khẩu', onClick: onClickSave)
                 ],
               ),
@@ -90,6 +98,15 @@ class _NewPassState extends State<NewPass> {
   }
 
   onClickSave() {
-    AppNavigator.navigateChangePassSuccess();
+    if (_passController.text != "" && _rePassController.text != "") {
+      _loginController.newPass(_passController.text, _rePassController.text);
+    } else {
+      NotificationDialog.createSimpleDialog(
+          context: context,
+          titleButton1: "OK",
+          content: "Hãy nhập đủ thông tin!",
+          type: 2,
+          numberButton: 1);
+    }
   }
 }

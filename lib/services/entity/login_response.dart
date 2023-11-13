@@ -6,11 +6,11 @@ part 'login_response.g.dart';
 @JsonSerializable()
 class LoginData {
   int? id;
-  String? anh_nguoi_dung,auth_key,hoten,vai_tro;
+  String? anh_nguoi_dung,auth_key,hoten,vai_tro,dien_thoai,dia_chi,email;
 
 
   LoginData(
-      this.id, this.anh_nguoi_dung, this.auth_key, this.hoten, this.vai_tro);
+      this.id, this.anh_nguoi_dung, this.auth_key, this.hoten, this.vai_tro,this.dien_thoai,this.dia_chi,this.email);
 
   factory LoginData.fromJson(Map<String, dynamic> json) =>
       _$LoginDataFromJson(json);

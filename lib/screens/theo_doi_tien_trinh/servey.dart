@@ -8,12 +8,14 @@ import 'package:trong_tre/res/app_styles.dart';
 import 'package:trong_tre/res/colors.dart';
 import 'package:trong_tre/screens/service/widget/progress.dart';
 import 'package:trong_tre/screens/theo_doi_tien_trinh/controllers/theo_doi_tien_trinh_controller.dart';
+import 'package:trong_tre/services/entity/thong_tin_giao_vien_response.dart';
 import 'package:trong_tre/widgets/DButton.dart';
 import 'package:trong_tre/widgets/DHeader.dart';
 import 'package:trong_tre/widgets/DHeader_shadow.dart';
 import 'package:trong_tre/widgets/app_base_page.dart';
 import 'package:trong_tre/widgets/app_text.dart';
 import 'package:trong_tre/widgets/widget_handle.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Servey extends StatefulWidget {
   const Servey({super.key});
@@ -24,6 +26,7 @@ class Servey extends StatefulWidget {
 
 class _ServeyState extends State<Servey> {
   TheoDoiTienTrinhController _theoDoiTienTrinhController=Get.find<TheoDoiTienTrinhController>();
+  ThongTinGiaoVienData data=Get.arguments[2];
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +92,7 @@ class _ServeyState extends State<Servey> {
               children: [
                 WidgetNetworkCacheImage(
                     image:
-                        'https://allimages.sgp1.digitaloceanspaces.com/tipeduvn/2022/07/1657905893_880_Tuyen-Tap-Bo-Anh-Girl-Xinh-Dep-Nhat-Nam-2020.jpg',
+                        data.giaoVien!.anh_nguoi_dung??'',
                     width: 91.sp,
                   height: 91.sp,
                   fit: BoxFit.cover,
@@ -114,12 +117,12 @@ class _ServeyState extends State<Servey> {
                           children: [
                             Icon(Icons.star_rate_rounded,size: 15.sp,color: AppColors.orange,),
                             SizedBox(width: 3.sp,),
-                            AppText('5/5',style: AppStyle.DEFAULT_12.copyWith(height: 1.3),),
+                            AppText(data.giaoVien!.danh_gia??'',style: AppStyle.DEFAULT_12.copyWith(height: 1.3),),
                           ],
                         ),
                       ),
                       AppText(
-                        'Nguyễn Hoàng Anh Thư',
+                        data.giaoVien!.hoten??'',
                         style: AppStyle.DEFAULT_16_BOLD.copyWith(height: 1.1),
                       ),
                       AppText(
@@ -136,7 +139,7 @@ class _ServeyState extends State<Servey> {
                           ),
                           SizedBox(width: 5.sp,),
                           AppText(
-                            '0123 456 789',
+                            data.giaoVien!.dien_thoai??'',
                             style: AppStyle.DEFAULT_14.copyWith(height: 1.2,fontWeight: FontWeight.w500),
                           ),
                         ],
@@ -228,7 +231,7 @@ class _ServeyState extends State<Servey> {
                 padV: 2.sp,
                 background: AppColors.primary,
                 borderColor: AppColors.primary,
-                onClick: onClickCall,
+                onClick: onClickMess,
               ))
             ],
           )
@@ -238,17 +241,30 @@ class _ServeyState extends State<Servey> {
   }
 
   onClickXemChiTietGV() {
-    AppNavigator.navigateThongTinGiaoVien();
+    AppNavigator.navigateThongTinGiaoVien(data.giaoVien!.id!);
   }
 
-  onClickCall() {
+  onClickCall() async{
+    final Uri launchUri = Uri(
+      scheme: 'tel',
+      path: data.sdtQuanLy!,
+    );
+    await launchUrl(launchUri);
   }
 
   onClickKhaoSat() {
-    AppNavigator.navigateNoiDungKhaoSat();
+    AppNavigator.navigateNoiDungKhaoSat(data.noi_dung_khao_sat??'');
   }
 
   onClickDongThuan() {
       _theoDoiTienTrinhController.nextTab();
+  }
+
+  onClickMess() async{
+    final Uri launchUri = Uri(
+      scheme: 'sms',
+      path: data.sdtQuanLy!,
+    );
+    await launchUrl(launchUri);
   }
 }

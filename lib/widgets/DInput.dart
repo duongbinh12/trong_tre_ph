@@ -7,7 +7,7 @@ import 'package:trong_tre/res/colors.dart';
 import 'package:trong_tre/widgets/app_text.dart';
 
 class DInput extends StatefulWidget {
-  DInput({super.key,required this.controller,required this.hintText,this.right,this.left,this.isPass, this.maxLine=1, this.borderRadius, this.bgColor, this.title, this.title2, this.require, this.onSubmit, this.onChange,this.typeInput});
+  DInput({super.key,required this.controller,required this.hintText,this.right,this.left,this.isPass, this.maxLine=1, this.borderRadius, this.bgColor, this.title, this.title2, this.require, this.onSubmit, this.onChange,this.typeInput, this.enable});
   final TextEditingController controller;
   final String hintText;
   final String? title;
@@ -19,6 +19,7 @@ class DInput extends StatefulWidget {
   final Color? bgColor;
   final String? title2;
   final bool? require;
+  final bool? enable;
   final Function? onSubmit;
   final Function? onChange;
   final TextInputType? typeInput;
@@ -76,6 +77,7 @@ class _DInputState extends State<DInput> {
                     hintText: widget.hintText,
                     hintStyle: AppStyle.DEFAULT_14.copyWith(color: AppColors.textBlack.withOpacity(0.6))
                   ),
+                  enabled: widget.enable??true,
                   keyboardType: widget.typeInput??TextInputType.text,
                   onEditingComplete: () {
                     if(widget.onSubmit!=null) {

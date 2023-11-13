@@ -10,6 +10,7 @@ import 'package:trong_tre/screens/service/controllers/service_controller.dart';
 import 'package:trong_tre/widgets/DButton.dart';
 import 'package:trong_tre/widgets/DRowText.dart';
 import 'package:trong_tre/widgets/app_base_page.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../res/app_styles.dart';
 import '../../widgets/app_text.dart';
@@ -23,6 +24,17 @@ class XacNhanLichHoc extends StatefulWidget {
 
 class _XacNhanLichHocState extends State<XacNhanLichHoc> {
   ServiceController _serviceController=Get.find<ServiceController>();
+  double goiHoc=0;
+  double phuCap=0;
+  double tongTien=0;
+
+  @override
+  void initState() {
+    goiHoc=(double.parse(_serviceController.listBuoiHoc.value![_serviceController.indexBuoi].thanh_tien!))*_serviceController.soLuongBe.value;
+    phuCap=(_serviceController.tienAnTrua.value+_serviceController.tienThemGio.value)*_serviceController.soLuongBe.value*_serviceController.listBuoiHoc.value![_serviceController.indexBuoi].so_buoi!;
+    tongTien=goiHoc+phuCap;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +53,7 @@ class _XacNhanLichHocState extends State<XacNhanLichHoc> {
             dashColor: AppColors.textBlack.withOpacity(0.3),
           ),
           SizedBox(height: 20.sp,),
-          DRowText(textL: 'Tổng tiền'.tr,money: 2157500,styleR: AppStyle.DEFAULT_20_BOLD.copyWith(height: 1.2,color: AppColors.primary),),
+          DRowText(textL: 'Tổng tiền'.tr,money: tongTien,styleR: AppStyle.DEFAULT_20_BOLD.copyWith(height: 1.2,color: AppColors.primary),),
           SizedBox(height: 20.sp,),
           DottedLine(
             dashColor: AppColors.textBlack.withOpacity(0.3),
@@ -89,7 +101,9 @@ class _XacNhanLichHocState extends State<XacNhanLichHoc> {
                         fontWeight: FontWeight.w600,
                         color: AppColors.white,
                         height: 1.1),
-                    onClick: onClickChiTietCT),
+                    onClick: (){
+                      onClickChiTietCT(_serviceController.detailService.value!.link??'');
+                    }),
               )
             ],
           )
@@ -112,38 +126,31 @@ class _XacNhanLichHocState extends State<XacNhanLichHoc> {
           _itemThongTin(
               icon: Assets.iconsIcLocation,
               title: 'Địa chỉ',
-              content: 'Số 5, Ngách 128/6/6 Khâm Thiên, Đống Đa, Hà Nội'),
+              content: _serviceController.diaDiem),
           SizedBox(
             height: 16.sp,
           ),
           _itemThongTin(
               icon: Assets.iconsNote,
               title: 'Ghi chú/dặn dò',
-              content: """• Con dễ gần, cá tính, ham tìm 
-   hiểu và hiếu động.
-• Yêu cầu giáo viên kinh nghiệm,   
-   tận tâm và thân thiện.
-• Có giáo án cho bé phát triển về 
-   thể chất, chơi nhiều môn thể 
-   thao, dạy bé Tiếng Anh mầm 
-   non về nhận biết chữ, số đếm."""),
+              content: _serviceController.ghiChu),
           SizedBox(
             height: 16.sp,
           ),
           _itemThongTin(
               icon: Assets.iconsIcCalendar,
               title: 'Lịch học'.tr,
-              content: 'Thứ 2,4,6 hàng tuần'),
+              content: 'Thứ ${_serviceController.arrThu.join(",")} hàng tuần'),
           SizedBox(height: 16.sp,),
           _itemThongTin(
               icon: Assets.iconsEditCalendar,
               title: 'Thời gian'.tr,
-              content: '07/08/2023 - 11/08/2023'),
+              content: 'Bắt đầu từ ${_serviceController.thoiGianBatDau}'),
           SizedBox(height: 16.sp,),
           _itemThongTin(
               icon: Assets.iconsIcTime,
               title: 'Ca'.tr,
-              content: 'Ca sáng (7:00 - 11:00)'),
+              content: '${_serviceController.listCa.value![_serviceController.indexCa].name} (${_serviceController.listKhungGio.value![_serviceController.indexGio].khung_gio})'),
           SizedBox(height: 25.sp,)
         ],
       ),
@@ -159,9 +166,9 @@ class _XacNhanLichHocState extends State<XacNhanLichHoc> {
         children: [
           _title(icon: Assets.iconsWallet, title: 'Gói dịch vụ'.tr),
           SizedBox(height: 21.sp,),
-          DRowText(textL: 'Gói 5 buổi'.tr,money: 1757500,),
+          DRowText(textL: 'Gói ${_serviceController.listBuoiHoc.value![_serviceController.indexBuoi].so_buoi} buổi'.tr,money: goiHoc,),
           SizedBox(height: 16.sp,),
-          DRowText(textL: 'Phụ cấp'.tr,money: 500000,),
+          DRowText(textL: 'Phụ cấp'.tr,money: phuCap,),
         ],
       ),
     );
@@ -227,7 +234,11 @@ class _XacNhanLichHocState extends State<XacNhanLichHoc> {
     );
   }
 
-  onClickChiTietCT() {}
+  onClickChiTietCT(String url) async{
+    if (!await launchUrl(Uri.parse(url))) {
+    throw Exception('Could not launch $url');
+    }
+  }
 
   onClickNext() {
     _serviceController.nextTab();

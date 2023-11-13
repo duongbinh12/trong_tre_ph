@@ -3,11 +3,14 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:trong_tre/screens/theo_doi_tien_trinh/controllers/theo_doi_tien_trinh_controller.dart';
 import 'package:trong_tre/screens/theo_doi_tien_trinh/widgets/widget_contact.dart';
+import 'package:trong_tre/services/entity/thong_tin_giao_vien_response.dart';
 import 'package:trong_tre/widgets/DButton.dart';
 import 'package:trong_tre/widgets/DHeader_shadow.dart';
 import 'package:trong_tre/widgets/DInput.dart';
 import 'package:trong_tre/widgets/app_base_page.dart';
+import 'package:trong_tre/widgets/widget_dialog.dart';
 
 import '../../generated/assets.dart';
 import '../../res/app_styles.dart';
@@ -27,6 +30,12 @@ class _DanhGiaGiaoVienState extends State<DanhGiaGiaoVien> {
   final GlobalKey<ScaffoldState> ScaffoldKey = GlobalKey();
 
   TextEditingController _noteController = TextEditingController();
+  TheoDoiTienTrinhController _theoDoiTienTrinhController =
+      Get.find<TheoDoiTienTrinhController>();
+
+  GiaoVien data = Get.arguments[0];
+  int id=Get.arguments[1];
+  double danhGia = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +94,7 @@ class _DanhGiaGiaoVienState extends State<DanhGiaGiaoVien> {
                         height: 32.sp,
                       ),
                       onRatingUpdate: (rating) {
-                        print(rating);
+                        danhGia = rating;
                       },
                     ),
                     SizedBox(
@@ -98,9 +107,13 @@ class _DanhGiaGiaoVienState extends State<DanhGiaGiaoVien> {
                       borderRadius: 10.sp,
                       bgColor: AppColors.white,
                     ),
-                    SizedBox(height: 15.sp,),
+                    SizedBox(
+                      height: 15.sp,
+                    ),
                     DButton(text: 'Gửi', onClick: onClickSend),
-                    SizedBox(height: 50.sp,),
+                    SizedBox(
+                      height: 50.sp,
+                    ),
                     WidgetContact()
                   ],
                 ),
@@ -130,7 +143,7 @@ class _DanhGiaGiaoVienState extends State<DanhGiaGiaoVien> {
               children: [
                 WidgetNetworkCacheImage(
                   image:
-                      'https://allimages.sgp1.digitaloceanspaces.com/tipeduvn/2022/07/1657905893_880_Tuyen-Tap-Bo-Anh-Girl-Xinh-Dep-Nhat-Nam-2020.jpg',
+                      data.anh_nguoi_dung??'',
                   width: 97.sp,
                   height: 97.sp,
                   fit: BoxFit.cover,
@@ -166,18 +179,18 @@ class _DanhGiaGiaoVienState extends State<DanhGiaGiaoVien> {
                               width: 3.sp,
                             ),
                             AppText(
-                              '5/5',
+                              data.danh_gia??'',
                               style: AppStyle.DEFAULT_12.copyWith(height: 1.3),
                             ),
                           ],
                         ),
                       ),
                       AppText(
-                        'Nguyễn Hoàng Anh Thư',
+                        data.hoten??'',
                         style: AppStyle.DEFAULT_16_BOLD.copyWith(height: 1.1),
                       ),
                       AppText(
-                        'Giáo viên',
+                        data.trinh_do??'',
                         style: AppStyle.DEFAULT_14
                             .copyWith(height: 1.2, color: AppColors.gray7D),
                       ),
@@ -193,5 +206,16 @@ class _DanhGiaGiaoVienState extends State<DanhGiaGiaoVien> {
   }
 
   onClickSend() {
+    if (danhGia != 0) {
+      _theoDoiTienTrinhController.danhGiaGiaoVien(
+          id: id, danhGia: danhGia, noiDung: _noteController.text);
+    } else {
+      NotificationDialog.createSimpleDialog(
+          context: context,
+          titleButton1: "OK",
+          type: 2,
+          content: "Hãy chọn số sao đánh giá",
+          numberButton: 1);
+    }
   }
 }

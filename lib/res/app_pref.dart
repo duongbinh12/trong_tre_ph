@@ -27,6 +27,12 @@ class AppPref extends Pref {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getBool(key.toString());
   }
+
+  @override
+  Future<bool?> removeString(String key) async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.remove(key.toString());
+  }
 }
 
 class MemoryPref extends Pref {
@@ -51,6 +57,12 @@ class MemoryPref extends Pref {
     memoryMap[key] = value;
     return Future.value(true);
   }
+
+  @override
+  Future<bool?> removeString(String key) {
+    // TODO: implement removeString
+    throw UnimplementedError();
+  }
 }
 
 abstract class Pref {
@@ -59,4 +71,6 @@ abstract class Pref {
 
   Future<String?> getString(String key);
   Future<bool?> getBool(String key);
+
+  Future<bool?> removeString(String key);
 }

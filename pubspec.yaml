@@ -82,6 +82,7 @@ dependencies:
   just_the_tooltip: ^0.0.12
   share_plus: ^6.0.1
   scroll_indicator: ^0.0.3
+  flutter_widget_from_html: ^0.14.6
 
 dev_dependencies:
   flutter_test:
