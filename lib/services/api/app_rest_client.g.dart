@@ -24,6 +24,7 @@ class _AppRestClient implements AppRestClient {
   Future<LoginResponse> login(
     String phone,
     String password,
+    String mobileToken,
   ) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -36,6 +37,10 @@ class _AppRestClient implements AppRestClient {
     _data.fields.add(MapEntry(
       'password',
       password,
+    ));
+    _data.fields.add(MapEntry(
+      'mobile_token',
+      mobileToken,
     ));
     final _result = await _dio
         .fetch<Map<String, dynamic>>(_setStreamType<LoginResponse>(Options(
@@ -62,6 +67,7 @@ class _AppRestClient implements AppRestClient {
   Future<LoginResponse> loginEmail(
     String email,
     String password,
+    String mobileToken,
   ) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -74,6 +80,10 @@ class _AppRestClient implements AppRestClient {
     _data.fields.add(MapEntry(
       'password',
       password,
+    ));
+    _data.fields.add(MapEntry(
+      'mobile_token',
+      mobileToken,
     ));
     final _result = await _dio
         .fetch<Map<String, dynamic>>(_setStreamType<LoginResponse>(Options(

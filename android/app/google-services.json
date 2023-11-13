@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "769555555541",
+    "project_id": "trongtrepro-309aa",
+    "storage_bucket": "trongtrepro-309aa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:769555555541:android:d30c969aef3b3ddac56e5c",
+        "android_client_info": {
+          "package_name": "com.app.trongtre.pro"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBG8J_Jn26w36UrqPgHgBT3q3l2WptO_XY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

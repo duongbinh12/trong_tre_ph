@@ -32,14 +32,14 @@ class CommonRepository extends AppCommonRepository {
   CommonRepository(this.dio) : super(dio);
 
 //authentic
-  Future<LoginResponse> loginPhone(String phone, String password) async {
+  Future<LoginResponse> loginPhone(String phone, String password,String token) async {
     final client = AppRestClient(dio);
-    return client.login(phone, password);
+    return client.login(phone, password,token);
   }
 
-  Future<LoginResponse> loginEmail(String email, String password) async {
+  Future<LoginResponse> loginEmail(String email, String password,String token) async {
     final client = AppRestClient(dio);
-    return client.loginEmail(email, password);
+    return client.loginEmail(email, password,token);
   }
 
   Future<PolicyResponse> getPolicy() async {

@@ -6,6 +6,7 @@ import 'package:trong_tre/common/routes/navigator.dart';
 import 'package:trong_tre/generated/assets.dart';
 import 'package:trong_tre/res/app_styles.dart';
 import 'package:trong_tre/res/colors.dart';
+import 'package:trong_tre/screens/login/controllers/login_controller.dart';
 import 'package:trong_tre/widgets/DButton.dart';
 import 'package:trong_tre/widgets/app_base_page.dart';
 import 'package:trong_tre/widgets/app_text.dart';
@@ -19,6 +20,8 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  LoginController _loginController=Get.find<LoginController>();
+
   @override
   Widget build(BuildContext context) {
     return AppBasePage(
@@ -89,7 +92,7 @@ class _LoginState extends State<Login> {
                         height: 25.sp,
                         fit: BoxFit.contain,
                       ),
-                      onClick: onClickPhone),
+                      onClick: onClickFb),
                   SizedBox(height: 15.sp,),
                   DButton(
                       text: 'Tiếp tục với Google'.tr,
@@ -102,7 +105,7 @@ class _LoginState extends State<Login> {
                         height: 25.sp,
                         fit: BoxFit.contain,
                       ),
-                      onClick: onClickPhone),
+                      onClick: onClickGg),
                   SizedBox(height: 15.sp,),
                   InkWell(
                     onTap: (){
@@ -148,5 +151,12 @@ class _LoginState extends State<Login> {
 
   onClickEmail() {
     AppNavigator.navigateLoginPhone(isPhone: false);
+  }
+
+  onClickFb() {
+  }
+
+  onClickGg() async{
+    await _loginController.signInWithGoogle();
   }
 }

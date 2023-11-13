@@ -36,13 +36,15 @@ abstract class AppRestClient {
   @POST(Endpoint.login)
   Future<LoginResponse> login(
       @Part(name: 'dien_thoai') String phone,
-      @Part(name: 'password') String password
+      @Part(name: 'password') String password,
+      @Part(name: 'mobile_token') String mobileToken ,
       );
 
   @POST(Endpoint.login)
   Future<LoginResponse> loginEmail(
       @Part(name: 'email') String email,
-      @Part(name: 'password') String password
+      @Part(name: 'password') String password,
+      @Part(name: 'mobile_token') String mobileToken
       );
 
   @POST(Endpoint.register)

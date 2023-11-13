@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 import 'package:trong_tre/common/controllers/base_controller.dart';
 import 'package:trong_tre/common/routes/navigator.dart';
@@ -8,20 +9,41 @@ import 'package:trong_tre/services/entity/policy_response.dart';
 import 'package:trong_tre/services/repo/common_repository.dart';
 
 import '../../../widgets/widget_dialog.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginController extends BaseController {
   CommonRepository commonRepository = Get.find<CommonRepository>();
 
   Rx<String> policy = Rx("");
+  String? tokenFirebase;
   String? token;
 
   getToken()async{
     token=await AppPref().getString(AppPref.auth_token);
   }
 
+  Future getTokenFirebase()async{
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+    tokenFirebase = await messaging.getToken();
+    print("Token firebase ${tokenFirebase}");
+  }
+
+  Future signInWithGoogle() async {
+    try {
+      GoogleSignIn googleSignIn = GoogleSignIn();
+      GoogleSignInAccount? user = await googleSignIn.signIn();
+      if (user != null) {
+        String? token = (await user.authentication).accessToken;
+        print('login gg token $token');
+      }
+    } catch (error) {
+      print('errorrrrrr $error');
+    }
+  }
+
   loginPhone(String phone, String pass) {
     callApi<LoginResponse>(
-        api: commonRepository.loginPhone(phone, pass),
+        api: commonRepository.loginPhone(phone, pass,tokenFirebase??''),
         onSuccess: (result) async{
           token=result.data!.auth_key;
           await AppPref().saveString(AppPref.auth_token, result.data!.auth_key!);
@@ -34,7 +56,7 @@ class LoginController extends BaseController {
 
   loginEmail(String email, String pass) {
     callApi<LoginResponse>(
-        api: commonRepository.loginEmail(email, pass),
+        api: commonRepository.loginEmail(email, pass,tokenFirebase??''),
         onSuccess: (result) async{
           token=result.data!.auth_key;
           await AppPref().saveString(AppPref.auth_token, result.data!.auth_key!);

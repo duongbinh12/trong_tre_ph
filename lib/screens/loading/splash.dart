@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -21,6 +22,7 @@ class _SplashState extends State<Splash> {
   void initState() {
     Future.delayed(Duration(seconds: 0),(){
       _loginController.getToken();
+      _loginController.getTokenFirebase();
     });
     Future.delayed(Duration(seconds: 2),(){
       AppNavigator.navigateHome();

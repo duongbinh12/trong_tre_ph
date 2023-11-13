@@ -220,7 +220,9 @@ class _GioiThieuState extends State<GioiThieu> {
   Widget _item(ItemDichVu data) {
     return InkWell(
       onTap: () {
-        AppNavigator.navigateService(data.id!);
+        if(data.khoa_dich_vu==0) {
+          AppNavigator.navigateService(data.id!);
+        }
       },
       child: Opacity(
         opacity: data.khoa_dich_vu==0? 1:0.5,
@@ -241,7 +243,7 @@ class _GioiThieuState extends State<GioiThieu> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               WidgetNetworkCacheImage(
-                image: "${Endpoint.BASE_URL}/${data.image ?? ''}",
+                image: data.image ?? '',
                 width: 52.sp,
                 height: 47.sp,
                 fit: BoxFit.contain,
