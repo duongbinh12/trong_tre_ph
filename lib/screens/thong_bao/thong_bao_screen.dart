@@ -36,7 +36,9 @@ class _ThongBaoScreenState extends State<ThongBaoScreen> {
   @override
   void initState() {
     Future.delayed(Duration(seconds: 0), () {
-      _thongBaoController.getThongBao(type: "", page: 1, sort: 1, tuKhoa: "");
+      if (_loginController.token != null) {
+        _thongBaoController.getThongBao(type: "", page: 1, sort: 1, tuKhoa: "");
+      }
     });
     super.initState();
   }

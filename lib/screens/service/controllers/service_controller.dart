@@ -99,6 +99,8 @@ class ServiceController extends BaseController {
           listLoaiGiaoVien.value = result.data!.loaiGiaoVien;
           listAnTrua.value = result.data!.anTrua;
           listThemGio.value = result.data!.themGio;
+          idAnTrua=result.data!.anTrua![0].id!;
+          idThemGio=result.data!.themGio![0].id!;
         },
         onError: (e) {
           print("error getChonHocPhi ${e}");

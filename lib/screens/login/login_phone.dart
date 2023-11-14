@@ -232,21 +232,23 @@ class _LoginPhoneState extends State<LoginPhone> {
   }
 
   onClickLogin() {
-    if (_phoneController.text != "" && _passController.text != "") {
-      if (isPhone) {
-        _loginController.loginPhone(
-            _phoneController.text, _passController.text);
-      } else {
-        _loginController.loginEmail(
-            _phoneController.text, _passController.text);
-      }
-    } else {
-      NotificationDialog.createSimpleDialog(
-          context: context,
-          titleButton1: 'OK',
-          content: "Hãy nhập đầy đủ thông tin",
-          type: 2,
-          numberButton: 1);
+    if (isPhone == true && _phoneController.text != "" &&
+        _passController.text != "") {
+      _loginController.loginPhone(
+          _phoneController.text, _passController.text);
+    }
+    else if(isPhone == false && _emailController.text != "" &&
+        _passController.text != "") {
+      _loginController.loginEmail(
+          _emailController.text, _passController.text);
+    }
+    else {
+    NotificationDialog.createSimpleDialog(
+    context: context,
+    titleButton1: 'OK',
+    content: "Hãy nhập đầy đủ thông tin",
+    type: 2,
+    numberButton: 1);
     }
   }
 

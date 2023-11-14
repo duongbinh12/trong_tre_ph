@@ -247,6 +247,7 @@ class _GioiThieuState extends State<GioiThieu> {
                 width: 52.sp,
                 height: 47.sp,
                 fit: BoxFit.contain,
+                borderRadius: 0,
               ),
               SizedBox(
                 height: 12.sp,
