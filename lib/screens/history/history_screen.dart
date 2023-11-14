@@ -354,7 +354,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                           RichText(
                             text: TextSpan(
                               text: 'Mã đơn hàng: ',
-                              style: AppStyle.DEFAULT_14.copyWith(height: 1.3),
+                              style: AppStyle.DEFAULT_14.copyWith(height: 1.3,fontSize: 13.sp),
                               children: <TextSpan>[
                                 TextSpan(
                                     text: data.ma_don_hang??'',
@@ -443,7 +443,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                               text:
                                   '${data.soBuoiHoanThanh??''} ',
                               style: AppStyle.DEFAULT_14_BOLD
-                                  .copyWith(height: 1.2),
+                                  .copyWith(height: 1.2,fontSize: 13.sp),
                               children: <TextSpan>[
                                 TextSpan(
                                     text: ' buổi',
