@@ -153,7 +153,7 @@ class Menu extends StatelessWidget {
                   onTap1: (){
                     _settingController.logOut((){
                       _loginController.token=null;
-                      AppNavigator.navigateSplash();
+                      AppNavigator.navigateLogin();
                     });
                   },
                   numberButton: 1);

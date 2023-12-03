@@ -20,7 +20,8 @@ import '../../widgets/app_text.dart';
 import '../../widgets/widget_handle.dart';
 
 class TrongKhoaHoc extends StatefulWidget {
-  const TrongKhoaHoc({super.key});
+  const TrongKhoaHoc({super.key,required this.id});
+  final int id;
 
   @override
   State<TrongKhoaHoc> createState() => _TrongKhoaHocState();
@@ -33,8 +34,9 @@ class _TrongKhoaHocState extends State<TrongKhoaHoc> {
 
   @override
   void initState() {
-    if (Get.arguments[3] != null) {
-      id = Get.arguments[3];
+    print("Dương ${widget.id}");
+    if (widget.id != -1) {
+      id = widget.id;
       Future.delayed(Duration(seconds: 0), () {
         _theoDoiTienTrinhController.getThongTinKhoaHoc(id: id!, buoi: 1);
       });

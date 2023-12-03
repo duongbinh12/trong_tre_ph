@@ -27,12 +27,22 @@ class _XacNhanLichHocState extends State<XacNhanLichHoc> {
   double goiHoc=0;
   double phuCap=0;
   double tongTien=0;
+  String thoiGian="";
 
   @override
   void initState() {
     goiHoc=(double.parse(_serviceController.listBuoiHoc.value![_serviceController.indexBuoi].thanh_tien!))*_serviceController.soLuongBe.value;
     phuCap=(_serviceController.tienAnTrua.value+_serviceController.tienThemGio.value)*_serviceController.soLuongBe.value*_serviceController.listBuoiHoc.value![_serviceController.indexBuoi].so_buoi!;
     tongTien=goiHoc+phuCap;
+    if(_serviceController.arrThu.contains(1)){
+      _serviceController.arrThu.remove(1);
+      _serviceController.arrThu.sort();
+      thoiGian="${_serviceController.arrThu.join(',')},chủ nhật";
+    }
+    else{
+      _serviceController.arrThu.sort();
+      thoiGian=_serviceController.arrThu.join(',');
+    }
     super.initState();
   }
 
@@ -140,7 +150,7 @@ class _XacNhanLichHocState extends State<XacNhanLichHoc> {
           _itemThongTin(
               icon: Assets.iconsIcCalendar,
               title: 'Lịch học'.tr,
-              content: 'Thứ ${_serviceController.arrThu.join(",")} hàng tuần'),
+              content: 'Thứ ${thoiGian} hàng tuần'),
           SizedBox(height: 16.sp,),
           _itemThongTin(
               icon: Assets.iconsEditCalendar,

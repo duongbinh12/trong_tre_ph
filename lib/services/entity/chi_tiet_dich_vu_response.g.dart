@@ -27,7 +27,7 @@ ChiTietDichVuData _$ChiTietDichVuDataFromJson(Map<String, dynamic> json) =>
       json['doTuoi'] as String?,
       json['gia_tri'] as String?,
       json['hop_dong_dich_vu'] as String?,
-      (json['cam_ket'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      json['cam_ket'] as String?,
       (json['quyenLoi'] as List<dynamic>?)
           ?.map((e) => ItemQuyenLoi.fromJson(e as Map<String, dynamic>))
           .toList(),

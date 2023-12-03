@@ -151,9 +151,9 @@ class CommonRepository extends AppCommonRepository {
   }
 
   Future<SoBuoiHocResponse> getSoBuoiHoc(
-      int dichVuId, int page, int limit, int sort) async {
+      int dichVuId, int page, int limit, int sort,int trinhDo) async {
     final client = AppRestClient(dio);
-    return client.getSoBuoiHoc(dichVuId, page, limit, sort);
+    return client.getSoBuoiHoc(dichVuId, page, limit, sort,trinhDo);
   }
 
   Future<ThongBaoResponse> getThongBao(
@@ -280,5 +280,20 @@ class CommonRepository extends AppCommonRepository {
   Future<DanhSachDaoTaoResponse> danhSachDaoTao(String id,String page,String limit,String sort) async {
     final client = AppRestClient(dio);
     return client.danhSachDaoTao(id, page, limit, sort);
+  }
+
+  Future<PolicyResponse> vnpay(int id) async {
+    final client = AppRestClient(dio);
+    return client.vnpay(id);
+  }
+
+  Future<BaseResponse> dongThuan(int id) async {
+    final client = AppRestClient(dio);
+    return client.dongThuan(id);
+  }
+
+  Future<BaseResponse> tuChoi(int id) async {
+    final client = AppRestClient(dio);
+    return client.tuChoi(id);
   }
 }

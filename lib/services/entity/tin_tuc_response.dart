@@ -6,10 +6,10 @@ part 'tin_tuc_response.g.dart';
 @JsonSerializable()
 class ItemNews {
   int? id;
-  String? tieu_de,noi_dung,anh_dai_dien,date;
+  String? tieu_de,noi_dung,anh_dai_dien,date,link;
 
 
-  ItemNews(this.id, this.tieu_de, this.noi_dung, this.anh_dai_dien, this.date);
+  ItemNews(this.id, this.tieu_de, this.noi_dung, this.anh_dai_dien, this.date,this.link);
 
   factory ItemNews.fromJson(Map<String, dynamic> json) =>
       _$ItemNewsFromJson(json);

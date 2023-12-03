@@ -74,11 +74,11 @@ class _ChiTietChuongTrinhState extends State<ChiTietChuongTrinh> {
                   padding: EdgeInsets.symmetric(horizontal: 20.sp),
                   margin: EdgeInsets.only(top: 20.sp),
                   child:
-                      GetX<TheoDoiTienTrinhController>(builder: (controller) {
+                  GetX<TheoDoiTienTrinhController>(builder: (controller) {
                     if (controller.chuongTrinhHocList.value != null) {
                       return Column(
                         children:
-                            List.generate(controller.chuongTrinhHocList.value!.length, (index) => ItemChuongTrinh(data: controller.chuongTrinhHocList.value![index],)),
+                        List.generate(controller.chuongTrinhHocList.value!.length, (index) => ItemChuongTrinh(data: controller.chuongTrinhHocList.value![index],)),
                       );
                     } else {
                       return SizedBox();

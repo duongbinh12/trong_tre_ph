@@ -8,9 +8,11 @@ import 'package:trong_tre/services/entity/base_response.dart';
 import 'package:trong_tre/services/entity/chi_tiet_dich_vu_response.dart';
 import 'package:trong_tre/services/entity/chon_hoc_phi_response.dart';
 import 'package:trong_tre/services/entity/get_ca_response.dart';
+import 'package:trong_tre/services/entity/policy_response.dart';
 import 'package:trong_tre/services/entity/so_buoi_hoc_response.dart';
 import 'package:trong_tre/services/entity/tao_don_response.dart';
 import 'package:trong_tre/services/repo/common_repository.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../widgets/widget_dialog.dart';
 
@@ -92,7 +94,7 @@ class ServiceController extends BaseController {
         });
   }
 
-  getChonHocPhi() {
+  getChonHocPhi(int dichVuId) {
     callApi<ChonHocPhiResponse>(
         api: commonRepository.getChonHocPhi(),
         onSuccess: (result) {
@@ -101,6 +103,7 @@ class ServiceController extends BaseController {
           listThemGio.value = result.data!.themGio;
           idAnTrua=result.data!.anTrua![0].id!;
           idThemGio=result.data!.themGio![0].id!;
+          getSoBuoiHoc(dichVuId: dichVuId, page: 1, sort: 0, trinhDo: result.data!.loaiGiaoVien![0].id!);
         },
         onError: (e) {
           print("error getChonHocPhi ${e}");
@@ -111,9 +114,10 @@ class ServiceController extends BaseController {
     required int dichVuId,
     required int page,
     required int sort,
+    required int trinhDo
   }) {
     callApi<SoBuoiHocResponse>(
-        api: commonRepository.getSoBuoiHoc(dichVuId, page, 10, sort),
+        api: commonRepository.getSoBuoiHoc(dichVuId, page, 10, sort,trinhDo),
         onSuccess: (result) {
           if (page == 1) {
             listBuoiHoc.value = result.data;
@@ -194,10 +198,31 @@ class ServiceController extends BaseController {
             idAnTrua.toString(),
             idThemGio.toString()),
         onSuccess: (result) {
-          AppNavigator.navigatechuyenKhoan(result.data!.id!);
+          if(hinh_thuc_thanh_toan_id=="23"){
+            vnpay(don_dich_vu_id: result.data!.id!);
+          }
+          else if(hinh_thuc_thanh_toan_id=="25") {
+            AppNavigator.navigatechuyenKhoan(result.data!.id!);
+          }
         },
         onError: (e) {
           print("error addHoaDon ${e}");
+        });
+  }
+
+  vnpay({
+    required int don_dich_vu_id,
+  }) {
+    callApi<PolicyResponse>(
+        api: commonRepository.vnpay(don_dich_vu_id),
+        onSuccess: (result) async{
+          // if (!await launchUrl(Uri.parse(result.data??''))) {
+          // throw Exception('Could not launch vnpay');
+          // }
+          AppNavigator.navigateVnpay(result.data??'');
+        },
+        onError: (e) {
+          print("error vnpay ${e}");
         });
   }
 

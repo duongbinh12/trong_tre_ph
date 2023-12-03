@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
 import 'package:trong_tre/common/routes/navigator.dart';
 import 'package:trong_tre/generated/assets.dart';
@@ -11,6 +12,7 @@ import 'package:trong_tre/services/api/api.dart';
 import 'package:trong_tre/services/entity/tin_tuc_response.dart';
 import 'package:trong_tre/widgets/app_text.dart';
 import 'package:trong_tre/widgets/widget_handle.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../widgets/DTittle.dart';
 
@@ -26,7 +28,6 @@ class TinTuc extends StatefulWidget {
 }
 
 class _TinTucState extends State<TinTuc> {
-  int indexTab = 0;
 
   HomeController _homeController = Get.find<HomeController>();
 
@@ -45,7 +46,9 @@ class _TinTucState extends State<TinTuc> {
           widget.noTitle == false
               ? DTitle(
                   title: 'Tin tức'.tr,
-                  showMore: onClickShowMore,
+                  showMore: (){
+                    onClickShowMore();
+                  },
                 )
               : SizedBox(),
           widget.noTitle == false
@@ -62,9 +65,7 @@ class _TinTucState extends State<TinTuc> {
                       controller.listTabTinTuc.value!.length,
                       (index) => InkWell(
                             onTap: () {
-                              setState(() {
-                                indexTab = index;
-                              });
+                              _homeController.changeIndexTab(index);
                               _homeController.getNews(
                                   type: controller
                                       .listTabTinTuc.value![index].id!,
@@ -77,7 +78,7 @@ class _TinTucState extends State<TinTuc> {
                               padding: EdgeInsets.symmetric(
                                   vertical: 12.sp, horizontal: 8.sp),
                               decoration: BoxDecoration(
-                                  color: indexTab == index
+                                  color: controller.indexTab.value == index
                                       ? AppColors.primary
                                       : AppColors.primary.withOpacity(0.1),
                                   borderRadius: BorderRadius.circular(50.sp)),
@@ -89,7 +90,7 @@ class _TinTucState extends State<TinTuc> {
                                 textAlign: TextAlign.center,
                                 style: AppStyle.DEFAULT_14.copyWith(
                                     fontWeight: FontWeight.w600,
-                                    color: indexTab == index
+                                    color: controller.indexTab.value == index
                                         ? AppColors.white
                                         : AppColors.black,
                                     height: 1),
@@ -132,91 +133,99 @@ class _TinTucState extends State<TinTuc> {
   }
 
   Widget _item(ItemNews data) {
-    return Container(
-      margin: EdgeInsets.only(bottom: 11.sp),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: AppColors.white,
-          boxShadow: [
-            BoxShadow(
-                offset: Offset(0, 0),
-                spreadRadius: 0,
-                blurRadius: 10,
-                color: AppColors.blue2.withOpacity(0.15))
-          ]),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Spacer(),
-              Container(
-                padding:
-                    EdgeInsets.symmetric(horizontal: 11.sp, vertical: 6.sp),
-                decoration: BoxDecoration(
-                    color: AppColors.primary,
-                    borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(10.sp),
-                        bottomLeft: Radius.circular(10.sp))),
-                child: Row(
-                  children: [
-                    SvgPicture.asset(
-                      Assets.iconsClock,
-                      width: 15.sp,
-                      height: 15.sp,
-                    ),
-                    SizedBox(
-                      width: 5.sp,
-                    ),
-                    AppText(
-                      data.date ?? '',
-                      style: AppStyle.DEFAULT_12.copyWith(
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.white,
-                          height: 1.3),
-                    )
-                  ],
-                ),
-              ),
-            ],
-          ),
-          Container(
-            padding: EdgeInsets.only(left: 15.sp, right: 15.sp, bottom: 19.sp),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
+    return InkWell(
+      onTap: ()async{
+        if (!await launchUrl(Uri.parse(data.link??''))) {
+          throw Exception('Could not launch');
+        }
+      },
+      child: Container(
+        margin: EdgeInsets.only(bottom: 11.sp),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: AppColors.white,
+            boxShadow: [
+              BoxShadow(
+                  offset: Offset(0, 0),
+                  spreadRadius: 0,
+                  blurRadius: 10,
+                  color: AppColors.blue2.withOpacity(0.15))
+            ]),
+        child: Column(
+          children: [
+            Row(
               children: [
-                Expanded(
-                  child: Column(
+                Spacer(),
+                Container(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 11.sp, vertical: 6.sp),
+                  decoration: BoxDecoration(
+                      color: AppColors.primary,
+                      borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(10.sp),
+                          bottomLeft: Radius.circular(10.sp))),
+                  child: Row(
                     children: [
-                      AppText(
-                        data.tieu_de ?? '',
-                        style: AppStyle.DEFAULT_14_BOLD,
+                      SvgPicture.asset(
+                        Assets.iconsClock,
+                        width: 15.sp,
+                        height: 15.sp,
                       ),
                       SizedBox(
-                        height: 8.sp,
+                        width: 5.sp,
                       ),
                       AppText(
-                        data.noi_dung ?? '',
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        style: AppStyle.DEFAULT_12,
+                        data.date ?? '',
+                        style: AppStyle.DEFAULT_12.copyWith(
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.white,
+                            height: 1.3),
                       )
                     ],
                   ),
                 ),
-                SizedBox(
-                  width: 15.sp,
-                ),
-                WidgetNetworkCacheImage(
-                  image: data.anh_dai_dien ?? '',
-                  width: 80.sp,
-                  height: 80.sp,
-                  fit: BoxFit.cover,
-                  borderRadius: 10.sp,
-                ),
               ],
             ),
-          )
-        ],
+            Container(
+              padding: EdgeInsets.only(left: 15.sp, right: 15.sp, bottom: 19.sp),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        AppText(
+                          data.tieu_de ?? '',
+                          style: AppStyle.DEFAULT_14_BOLD,
+                        ),
+                        SizedBox(
+                          height: 8.sp,
+                        ),
+                        HtmlWidget(
+                          data.noi_dung ?? '',
+                          textStyle: AppStyle.DEFAULT_12,
+
+                        )
+
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    width: 15.sp,
+                  ),
+                  WidgetNetworkCacheImage(
+                    image: data.anh_dai_dien ?? '',
+                    width: 80.sp,
+                    height: 80.sp,
+                    fit: BoxFit.cover,
+                    borderRadius: 10.sp,
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

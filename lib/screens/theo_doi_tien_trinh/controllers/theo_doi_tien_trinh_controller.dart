@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:trong_tre/common/controllers/base_controller.dart';
 import 'package:trong_tre/common/routes/navigator.dart';
+import 'package:trong_tre/screens/history/controllers/history_controller.dart';
 import 'package:trong_tre/services/entity/base_response.dart';
 import 'package:trong_tre/services/entity/chi_tiet_giao_vien_response.dart';
 import 'package:trong_tre/services/entity/chi_tiet_nx_response.dart';
@@ -14,6 +15,7 @@ import 'package:trong_tre/widgets/widget_dialog.dart';
 
 class TheoDoiTienTrinhController extends BaseController {
   CommonRepository commonRepository = Get.find<CommonRepository>();
+  HistoryController _historyController = Get.find<HistoryController>();
   Rx<int> indexTab = Rx(2);
   Rx<List<ItemLichSuCaDay>?> listLichSu = Rxn(null);
   Rx<List<ItemDanhSachDaoTao>?> listDaoTao = Rxn(null);
@@ -24,6 +26,37 @@ class TheoDoiTienTrinhController extends BaseController {
   Rx<List<ChuongTrinhHocData>?> chuongTrinhHocList = Rxn(null);
   Rx<int> maxList = Rx(1);
   Rx<int> maxDaoTao = Rx(1);
+
+
+  dongThuan({
+    required int id,
+    Function? onSuccess
+  }) {
+    callApi<BaseResponse>(
+        api: commonRepository.dongThuan(id),
+        onSuccess: (result) {
+          _historyController.getHistory(page: 1, tuKhoa: '', sort: 1);
+          nextTab();
+        },
+        onError: (e) {
+          print("error dongThuan ${e}");
+        });
+  }
+
+  tuChoi({
+    required int id,
+    Function? onSuccess
+  }) {
+    callApi<BaseResponse>(
+        api: commonRepository.tuChoi(id),
+        onSuccess: (result) {
+          Get.back();
+          Get.back();
+        },
+        onError: (e) {
+          print("error tuChoi ${e}");
+        });
+  }
 
   chiTietGiaoVien({
     required String id,
@@ -85,6 +118,7 @@ class TheoDoiTienTrinhController extends BaseController {
         api: commonRepository.getThongTinKhoaHoc(id, buoi),
         onSuccess: (res) {
           thongTinKhoaHoc.value = res.data;
+          thongTinKhoaHoc.refresh();
         },
         onError: (e) {
           print("error getThongTinKhoaHoc ${e}");

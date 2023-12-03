@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
 import 'package:trong_tre/screens/service/controllers/service_controller.dart';
 import 'package:trong_tre/widgets/DButton.dart';
@@ -64,8 +65,8 @@ class _SelectShiftState extends State<SelectShift> {
                         select_ca = index;
                         select_gio = 0;
                       });
-                      _serviceController.indexCa=index;
-                      _serviceController.indexGio=0;
+                      _serviceController.indexCa = index;
+                      _serviceController.indexGio = 0;
                       _serviceController.getKhungGio(
                           widget.dichVuId, controller.listCa.value![index].id!);
                     },
@@ -96,70 +97,90 @@ class _SelectShiftState extends State<SelectShift> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                padding:
+              GetX<ServiceController>(builder: (controller) {
+                if (controller.listKhungGio.value != null && controller.listKhungGio.value!.isNotEmpty) {
+                  List<String> dataKhung = [];
+                  for (int i = 0;
+                      i < controller.listKhungGio.value!.length;
+                      i++) {
+                    dataKhung
+                        .add(controller.listKhungGio.value![i].khung_gio!);
+                  }
+                  return Container(
+                    padding:
                     EdgeInsets.symmetric(horizontal: 13.sp, vertical: 15.sp),
-                decoration: BoxDecoration(
-                    border: Border(
-                        bottom: BorderSide(
-                            width: 1,
-                            color: AppColors.primary.withOpacity(0.2)))),
-                child: GetX<ServiceController>(builder: (controller) {
-                  if (controller.listKhungGio.value != null) {
-                    List<String> dataKhung = [];
-                    for (int i = 0;
-                        i < controller.listKhungGio.value!.length;
-                        i++) {
-                      dataKhung
-                          .add(controller.listKhungGio.value![i].khung_gio!);
-                    }
-                    return DRadioButton(
+                    decoration: BoxDecoration(
+                        border: Border(
+                            bottom: BorderSide(
+                                width: 1,
+                                color: AppColors.primary.withOpacity(0.2)))),
+                    child: DRadioButton(
                       data: dataKhung,
                       onChanged: (int index) {
                         setState(() {
                           select_gio = index;
                         });
-                        _serviceController.indexGio=index;
-                        _serviceController.idKhungGioCa=controller.listKhungGio.value![index].id!;
+                        _serviceController.indexGio = index;
+                        _serviceController.idKhungGioCa =
+                            controller.listKhungGio.value![index].id!;
                       },
-                    );
-                  } else {
-                    return SizedBox();
-                  }
-                }),
-              ),
+                    ),
+                  );
+                } else {
+                  return SizedBox();
+                }
+              }),
               SizedBox(
                 height: 18.sp,
               ),
               GetX<ServiceController>(builder: (controller) {
                 if (controller.listKhungGio.value != null) {
-                  return Container(
-                    padding: EdgeInsets.symmetric(horizontal: 13.sp),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        RichText(
-                          text: TextSpan(
-                            text: 'Thời lượng ',
-                            style: AppStyle.DEFAULT_16_BOLD,
-                            children: <TextSpan>[
-                              TextSpan(
-                                  text: controller.listKhungGio.value![select_gio].khung_gio,
-                                  style: AppStyle.DEFAULT_16_BOLD
-                                      .copyWith(color: AppColors.primary)),
-                            ],
+                  if (controller.listKhungGio.value!.isNotEmpty) {
+                    return Container(
+                      padding: EdgeInsets.symmetric(horizontal: 13.sp),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          RichText(
+                            text: TextSpan(
+                              text: 'Thời lượng ',
+                              style: AppStyle.DEFAULT_16_BOLD,
+                              children: <TextSpan>[
+                                TextSpan(
+                                    text: controller.listKhungGio
+                                        .value![select_gio].khung_gio,
+                                    style: AppStyle.DEFAULT_16_BOLD
+                                        .copyWith(color: AppColors.primary)),
+                              ],
+                            ),
                           ),
-                        ),
-                        SizedBox(
-                          height: 15.sp,
-                        ),
-                        AppText(controller.listKhungGio.value![select_gio].noi_dung??''),
-                        SizedBox(
-                          height: 18.sp,
-                        ),
-                      ],
-                    ),
-                  );
+                          SizedBox(
+                            height: 15.sp,
+                          ),
+                          HtmlWidget(
+                            controller
+                                    .listKhungGio.value![select_gio].noi_dung ??
+                                '',
+                            textStyle: AppStyle.TEXT_16,
+                          ),
+                          SizedBox(
+                            height: 18.sp,
+                          ),
+                        ],
+                      ),
+                    );
+                  } else {
+                    return Container(
+                      width: Get.width,
+                      padding: EdgeInsets.symmetric(horizontal: 13.sp,vertical: 10),
+                      child: AppText(
+                        'Không có thông tin ca dạy',
+                        textAlign: TextAlign.center,
+                        style: AppStyle.DEFAULT_16
+                            .copyWith(fontStyle: FontStyle.italic),
+                      ),
+                    );
+                  }
                 } else
                   return SizedBox();
               }),

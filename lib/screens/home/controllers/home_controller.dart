@@ -12,6 +12,12 @@ class HomeController extends BaseController {
   Rx<List<ItemNews>?> listTinTuc=Rxn(null);
   Rx<List<ItemTinTuc>?> listTabTinTuc=Rxn(null);
   Rx<List<ItemBanner>?> listBanner=Rxn(null);
+  Rx<int> indexTab=Rx(0);
+
+
+  changeIndexTab(int index){
+    indexTab.value=index;
+  }
 
   getHome() {
     callApi<HomeResponse>(

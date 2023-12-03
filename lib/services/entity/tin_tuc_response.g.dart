@@ -12,6 +12,7 @@ ItemNews _$ItemNewsFromJson(Map<String, dynamic> json) => ItemNews(
       json['noi_dung'] as String?,
       json['anh_dai_dien'] as String?,
       json['date'] as String?,
+      json['link'] as String?,
     );
 
 Map<String, dynamic> _$ItemNewsToJson(ItemNews instance) => <String, dynamic>{
@@ -20,6 +21,7 @@ Map<String, dynamic> _$ItemNewsToJson(ItemNews instance) => <String, dynamic>{
       'noi_dung': instance.noi_dung,
       'anh_dai_dien': instance.anh_dai_dien,
       'date': instance.date,
+      'link': instance.link,
     };
 
 TinTucData _$TinTucDataFromJson(Map<String, dynamic> json) => TinTucData(
