@@ -156,7 +156,8 @@ abstract class AppRestClient {
       @Query('dich_vu_id') int dichVuId,
       @Query('page') int page,
       @Query('limit') int limit,
-      @Query('sort') int sort
+      @Query('sort') int sort,
+      @Query('trinh_do') int trinhDo
       );
 
   @GET(Endpoint.thongBao)
@@ -277,5 +278,20 @@ abstract class AppRestClient {
       @Query('page') String page,
       @Query('limit') String limit,
       @Query('sort') String sort,
+      );
+
+  @POST(Endpoint.vnpay)
+  Future<PolicyResponse> vnpay(
+      @Part(value: "don_dich_vu_id") int id,
+      );
+
+  @POST(Endpoint.dongThuan)
+  Future<BaseResponse> dongThuan(
+      @Part(value: "id") int id,
+      );
+
+  @POST(Endpoint.tuChoi)
+  Future<BaseResponse> tuChoi(
+      @Part(value: "id") int id,
       );
 }

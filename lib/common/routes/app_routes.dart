@@ -31,4 +31,5 @@ abstract class Routes {
   static const gioiThieuApp = '/gioiThieuApp';
   static const lienHe = '/lienHe';
   static const noiDungKhaoSat = '/noiDungKhaoSat';
+  static const vnpay = '/vnpay';
 }

@@ -82,7 +82,7 @@ class _TheoDoiTienTrinhState extends State<TheoDoiTienTrinh> {
                     SizedBox(
                       height: 23.sp,
                     ),
-                    Expanded(child: (controller.indexTab.value==2&&isHuy==true)?NoFindTeacher():controller.indexTab.value==2?Servey():controller.indexTab.value==3?TrongKhoaHoc(): Container()),
+                    Expanded(child: (controller.indexTab.value==2&&isHuy==true)?NoFindTeacher():controller.indexTab.value==2?Servey(id: id??-1,):controller.indexTab.value==3?TrongKhoaHoc(id: id??-1,): TrongKhoaHoc(id: id??-1,)),
                   ],
                 ),
               ))

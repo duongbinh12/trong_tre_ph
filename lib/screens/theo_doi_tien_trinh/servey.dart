@@ -14,19 +14,23 @@ import 'package:trong_tre/widgets/DHeader.dart';
 import 'package:trong_tre/widgets/DHeader_shadow.dart';
 import 'package:trong_tre/widgets/app_base_page.dart';
 import 'package:trong_tre/widgets/app_text.dart';
+import 'package:trong_tre/widgets/widget_dialog.dart';
 import 'package:trong_tre/widgets/widget_handle.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Servey extends StatefulWidget {
-  const Servey({super.key});
+  const Servey({super.key, required this.id});
+
+  final int id;
 
   @override
   State<Servey> createState() => _ServeyState();
 }
 
 class _ServeyState extends State<Servey> {
-  TheoDoiTienTrinhController _theoDoiTienTrinhController=Get.find<TheoDoiTienTrinhController>();
-  ThongTinGiaoVienData data=Get.arguments[2];
+  TheoDoiTienTrinhController _theoDoiTienTrinhController =
+      Get.find<TheoDoiTienTrinhController>();
+  ThongTinGiaoVienData data = Get.arguments[2];
 
   @override
   Widget build(BuildContext context) {
@@ -35,10 +39,15 @@ class _ServeyState extends State<Servey> {
       child: Column(
         children: [
           _teacher(),
-          SizedBox(height: 7.sp,),
+          SizedBox(
+            height: 7.sp,
+          ),
           _contact(),
-          SizedBox(height: 100.sp,),
-          DButton(text: 'Xem nội dung khảo sát'.tr,
+          SizedBox(
+            height: 100.sp,
+          ),
+          DButton(
+              text: 'Xem nội dung khảo sát'.tr,
               right: SvgPicture.asset(
                 Assets.iconsUpload,
                 color: AppColors.primary,
@@ -46,20 +55,24 @@ class _ServeyState extends State<Servey> {
               background: AppColors.grayF5,
               textColor: AppColors.primary,
               onClick: onClickKhaoSat),
-          SizedBox(height: 17.sp,),
+          SizedBox(
+            height: 17.sp,
+          ),
           Row(
             children: [
-              Expanded(child: DButton(
+              Expanded(
+                  child: DButton(
                 text: 'Từ chối'.tr,
                 textColor: AppColors.textBlack,
                 background: AppColors.grayE5,
                 borderColor: AppColors.grayE5,
-                onClick: (){
-
-                },
+                onClick: onClickTuChoi,
               )),
-              SizedBox(width: 15.sp,),
-              Expanded(child: DButton(
+              SizedBox(
+                width: 15.sp,
+              ),
+              Expanded(
+                  child: DButton(
                 text: 'Đồng thuận'.tr,
                 onClick: onClickDongThuan,
               ))
@@ -73,17 +86,15 @@ class _ServeyState extends State<Servey> {
   Widget _teacher() {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.white,
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: [
-          BoxShadow(
-            offset: Offset(0, 0),
-            spreadRadius: 0,
-            blurRadius: 10,
-            color: AppColors.blue2.withOpacity(0.15)
-          )
-        ]
-      ),
+          color: AppColors.white,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+                offset: Offset(0, 0),
+                spreadRadius: 0,
+                blurRadius: 10,
+                color: AppColors.blue2.withOpacity(0.15))
+          ]),
       child: Column(
         children: [
           Container(
@@ -91,15 +102,17 @@ class _ServeyState extends State<Servey> {
             child: Row(
               children: [
                 WidgetNetworkCacheImage(
-                    image:
-                        data.giaoVien!.anh_nguoi_dung??'',
-                    width: 91.sp,
+                  image: data.giaoVien!.anh_nguoi_dung ?? '',
+                  width: 91.sp,
                   height: 91.sp,
                   fit: BoxFit.cover,
                   borderRadius: 100,
                 ),
-                SizedBox(width: 15.sp,),
-                Expanded(child: Container(
+                SizedBox(
+                  width: 15.sp,
+                ),
+                Expanded(
+                    child: Container(
                   height: 91.sp,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -108,26 +121,37 @@ class _ServeyState extends State<Servey> {
                     children: [
                       Container(
                         decoration: BoxDecoration(
-                          border: Border.all(width: 1,color: AppColors.orange),
-                          borderRadius: BorderRadius.circular(50)
-                        ),
-                        padding: EdgeInsets.symmetric(horizontal: 5.sp,vertical: 2.sp),
+                            border:
+                                Border.all(width: 1, color: AppColors.orange),
+                            borderRadius: BorderRadius.circular(50)),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 5.sp, vertical: 2.sp),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Icon(Icons.star_rate_rounded,size: 15.sp,color: AppColors.orange,),
-                            SizedBox(width: 3.sp,),
-                            AppText(data.giaoVien!.danh_gia??'',style: AppStyle.DEFAULT_12.copyWith(height: 1.3),),
+                            Icon(
+                              Icons.star_rate_rounded,
+                              size: 15.sp,
+                              color: AppColors.orange,
+                            ),
+                            SizedBox(
+                              width: 3.sp,
+                            ),
+                            AppText(
+                              data.giaoVien!.danh_gia ?? '',
+                              style: AppStyle.DEFAULT_12.copyWith(height: 1.3),
+                            ),
                           ],
                         ),
                       ),
                       AppText(
-                        data.giaoVien!.hoten??'',
+                        data.giaoVien!.hoten ?? '',
                         style: AppStyle.DEFAULT_16_BOLD.copyWith(height: 1.1),
                       ),
                       AppText(
                         'Giáo viên',
-                        style: AppStyle.DEFAULT_14.copyWith(height: 1.2,color: AppColors.gray7D),
+                        style: AppStyle.DEFAULT_14
+                            .copyWith(height: 1.2, color: AppColors.gray7D),
                       ),
                       Row(
                         children: [
@@ -137,10 +161,13 @@ class _ServeyState extends State<Servey> {
                             height: 20.sp,
                             color: AppColors.primary,
                           ),
-                          SizedBox(width: 5.sp,),
+                          SizedBox(
+                            width: 5.sp,
+                          ),
                           AppText(
-                            data.giaoVien!.dien_thoai??'',
-                            style: AppStyle.DEFAULT_14.copyWith(height: 1.2,fontWeight: FontWeight.w500),
+                            data.giaoVien!.dien_thoai ?? '',
+                            style: AppStyle.DEFAULT_14.copyWith(
+                                height: 1.2, fontWeight: FontWeight.w500),
                           ),
                         ],
                       )
@@ -156,21 +183,25 @@ class _ServeyState extends State<Servey> {
             color: AppColors.grayF2,
           ),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 15.sp,vertical: 10.sp),
+            padding: EdgeInsets.symmetric(horizontal: 15.sp, vertical: 10.sp),
             child: Row(
               children: [
-                Expanded(child: AppText(
+                Expanded(
+                    child: AppText(
                   'Thông tin giáo viên',
-                  style: AppStyle.DEFAULT_14.copyWith(fontWeight: FontWeight.w500),
+                  style:
+                      AppStyle.DEFAULT_14.copyWith(fontWeight: FontWeight.w500),
                 )),
-                Expanded(child: DButton(
-                    text: 'Xem chi tiết'.tr,
-                    right: SvgPicture.asset(
-                      Assets.iconsNext
-                    ),
-                    textStyle: AppStyle.DEFAULT_14.copyWith(fontWeight: FontWeight.w500,color: AppColors.white,height: 1.2),
-                    padH: 6.sp,
-                    onClick: onClickXemChiTietGV))
+                Expanded(
+                    child: DButton(
+                        text: 'Xem chi tiết'.tr,
+                        right: SvgPicture.asset(Assets.iconsNext),
+                        textStyle: AppStyle.DEFAULT_14.copyWith(
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.white,
+                            height: 1.2),
+                        padH: 6.sp,
+                        onClick: onClickXemChiTietGV))
               ],
             ),
           )
@@ -179,7 +210,7 @@ class _ServeyState extends State<Servey> {
     );
   }
 
-  Widget _contact(){
+  Widget _contact() {
     return Container(
       decoration: BoxDecoration(
           color: AppColors.white,
@@ -189,11 +220,9 @@ class _ServeyState extends State<Servey> {
                 offset: Offset(0, 0),
                 spreadRadius: 0,
                 blurRadius: 10,
-                color: AppColors.blue2.withOpacity(0.15)
-            )
-          ]
-      ),
-      padding: EdgeInsets.symmetric(horizontal: 15.sp,vertical: 15.sp),
+                color: AppColors.blue2.withOpacity(0.15))
+          ]),
+      padding: EdgeInsets.symmetric(horizontal: 15.sp, vertical: 15.sp),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -201,10 +230,13 @@ class _ServeyState extends State<Servey> {
             'Liên hệ với Quản lý vận hành',
             style: AppStyle.DEFAULT_16_BOLD,
           ),
-          SizedBox(height: 15.sp,),
+          SizedBox(
+            height: 15.sp,
+          ),
           Row(
             children: [
-              Expanded(child: DButton(
+              Expanded(
+                  child: DButton(
                 text: 'Gọi điện'.tr,
                 left: SvgPicture.asset(
                   Assets.iconsCall,
@@ -218,8 +250,11 @@ class _ServeyState extends State<Servey> {
                 borderColor: AppColors.blue,
                 onClick: onClickCall,
               )),
-              SizedBox(width: 7.sp,),
-              Expanded(child: DButton(
+              SizedBox(
+                width: 7.sp,
+              ),
+              Expanded(
+                  child: DButton(
                 text: 'Nhắn tin'.tr,
                 left: SvgPicture.asset(
                   Assets.iconsChat,
@@ -244,7 +279,7 @@ class _ServeyState extends State<Servey> {
     AppNavigator.navigateThongTinGiaoVien(data.giaoVien!.id!);
   }
 
-  onClickCall() async{
+  onClickCall() async {
     final Uri launchUri = Uri(
       scheme: 'tel',
       path: data.sdtQuanLy!,
@@ -253,18 +288,32 @@ class _ServeyState extends State<Servey> {
   }
 
   onClickKhaoSat() {
-    AppNavigator.navigateNoiDungKhaoSat(data.noi_dung_khao_sat??'');
+    AppNavigator.navigateNoiDungKhaoSat(data.noi_dung_khao_sat ?? '');
   }
 
   onClickDongThuan() {
-      _theoDoiTienTrinhController.nextTab();
+    _theoDoiTienTrinhController.dongThuan(id: widget.id);
   }
 
-  onClickMess() async{
+  onClickMess() async {
     final Uri launchUri = Uri(
       scheme: 'sms',
       path: data.sdtQuanLy!,
     );
     await launchUrl(launchUri);
+  }
+
+  onClickTuChoi() {
+    NotificationDialog.createSimpleDialog(
+        context: context,
+        titleButton1: "OK",
+        numberButton: 2,
+        content: "Bạn có chắc chắn từ chối giáo viên này?",
+        type: 2,
+        onTap1: (){
+          Get.back();
+          _theoDoiTienTrinhController.tuChoi(id: widget.id);
+        },
+        titleButton2: "Hủy");
   }
 }

@@ -175,10 +175,11 @@ class _SignUpServiceState extends State<SignUpService> {
           Row(
             children: [
               Expanded(
-                  flex: 3,
+                  flex: 2,
                   child: _title(
                       icon: Assets.iconsIcCalendar, title: 'Thời gian'.tr)),
               Expanded(
+                flex: 1,
                   child: InkWell(
                 onTap: onClickTime,
                 child: Container(
@@ -191,7 +192,7 @@ class _SignUpServiceState extends State<SignUpService> {
                     children: [
                       Expanded(
                           child: AppText(
-                        '${_thoiGianPick.month}/${_thoiGianPick.year}',
+                        '${_thoiGianPick.day}/${_thoiGianPick.month}/${_thoiGianPick.year}',
                         style: AppStyle.DEFAULT_14.copyWith(
                             fontWeight: FontWeight.w500,
                             color: AppColors.white,

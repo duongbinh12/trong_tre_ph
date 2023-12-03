@@ -17,6 +17,7 @@ import 'package:trong_tre/services/entity/home_response.dart';
 import 'package:trong_tre/widgets/DTittle.dart';
 import 'package:trong_tre/widgets/app_text.dart';
 import 'package:trong_tre/widgets/widget_handle.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../login/controllers/login_controller.dart';
 
@@ -61,6 +62,12 @@ class _GioiThieuState extends State<GioiThieu> {
       }
     });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _homeController.indexTab.value=0;
+    super.dispose();
   }
 
   @override
@@ -181,12 +188,19 @@ class _GioiThieuState extends State<GioiThieu> {
                 scrollDirection: Axis.horizontal,
                 physics: PageScrollPhysics(),
                 child: Row(
-                  children: List.generate(controller.listBanner.value!.length, (index) => WidgetNetworkCacheImage(
-                    image: controller.listBanner.value![index].image??'',
-                    width: Get.width - 20.sp - 20.sp,
-                    height: (Get.width - 20.sp - 20.sp) * (200 / 353),
-                    fit: BoxFit.cover,
-                    borderRadius: 10.sp,
+                  children: List.generate(controller.listBanner.value!.length, (index) => InkWell(
+                    onTap: ()async{
+                      if (!await launchUrl(Uri.parse(controller.listBanner.value![index].link??''))) {
+                      throw Exception('Could not launch');
+                      }
+                    },
+                    child: WidgetNetworkCacheImage(
+                      image: controller.listBanner.value![index].image??'',
+                      width: Get.width - 20.sp - 20.sp,
+                      height: (Get.width - 20.sp - 20.sp) * (200 / 353),
+                      fit: BoxFit.cover,
+                      borderRadius: 10.sp,
+                    ),
                   )),
                 ),
               );

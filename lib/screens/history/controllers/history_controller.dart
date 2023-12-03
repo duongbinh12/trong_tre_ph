@@ -38,7 +38,7 @@ class HistoryController extends BaseController{
     await callApi<ThongTinGiaoVienResponse>(
         api: commonRepository.getThongTinGiaoVien(id),
         onSuccess: (res) {
-          AppNavigator.navigateTheoDoiTienTrinh(2,data: res.data);
+          AppNavigator.navigateTheoDoiTienTrinh(2,data: res.data,id: int.parse(id));
         },
         onError: (e) {
           print("err history ${e}");
@@ -48,12 +48,15 @@ class HistoryController extends BaseController{
   checkPass({
     required String pass,
     required int id,
+    required int idTrangThai,
   }) async {
     await callApi<BaseResponse>(
         api: commonRepository.checkPass(pass),
         onSuccess: (res) {
           Get.back();
-          AppNavigator.navigateTheoDoiTienTrinh(3,id: id);
+          if(idTrangThai==72)
+            AppNavigator.navigateTheoDoiTienTrinh(3,id: id);
+          else AppNavigator.navigateTheoDoiTienTrinh(4,id: id);
         },
         onError: (e) {
           print("err checkPass ${e}");

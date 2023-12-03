@@ -21,7 +21,7 @@ class ItemQuyenLoi {
 class ChiTietDichVuData {
   int? id,so_tien;
   String? ten_dich_vu,doTuoi,gia_tri,hop_dong_dich_vu,link;
-  List<String>? cam_ket;
+  String? cam_ket;
   List<ItemQuyenLoi>? quyenLoi;
 
 

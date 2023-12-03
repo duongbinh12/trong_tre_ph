@@ -37,6 +37,9 @@ class Endpoint {
   static const danhGiaGiaoVien = '/parent-api/danh-gia-giao-vien';
   static const danhGiaBuoiHoc = '/parent-api/danh-gia-buoi-hoc';
   static const danhSachDaoTao = '/parent-api/danh-sach-dao-tao';
+  static const vnpay = '/services/create-payment';
+  static const dongThuan = '/parent-api/dong-thuan';
+  static const tuChoi = '/parent-api/tu-choi';
 
   static const home = '/parent-api/home';
   static const tinTuc = '/parent-api/tin-tuc';

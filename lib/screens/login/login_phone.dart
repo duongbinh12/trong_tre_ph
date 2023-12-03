@@ -58,7 +58,7 @@ class _LoginPhoneState extends State<LoginPhone> {
                         height: 30.sp,
                       ),
                       AppText(
-                        'Đăng nhập bằng số điện thoại của bạn',
+                        isPhone?'Đăng nhập bằng số điện thoại của bạn':'Đăng nhập bằng email của bạn',
                         style: AppStyle.DEFAULT_16
                             .copyWith(fontWeight: FontWeight.w600),
                       ),

@@ -19,7 +19,8 @@ class ThongBaoController extends BaseController{
         onSuccess: (res) {
           if(page==1){
             listThongBao.value=res.data!.thong_bao;
-            listType.value=res.data!.type;
+            listType.value=[ItemTypeThongBao(-1, "Tất cả")];
+            listType.value=[...listType.value!,...res.data!.type!];
           }
           else{
             listThongBao.value=[...listThongBao.value!,...res.data!.thong_bao!];

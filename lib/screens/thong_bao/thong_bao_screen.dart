@@ -91,7 +91,7 @@ class _ThongBaoScreenState extends State<ThongBaoScreen> {
                               child: GetX<ThongBaoController>(
                                   builder: (controller) {
                                 if (controller.listType.value != null) {
-                                  return Row(
+                                    return Row(
                                     children: List.generate(
                                         controller.listType.value!.length,
                                         (index) => InkWell(
@@ -99,6 +99,11 @@ class _ThongBaoScreenState extends State<ThongBaoScreen> {
                                                 setState(() {
                                                   indexSelect = index;
                                                 });
+                                                if(index==0) {
+                                                  _thongBaoController.getThongBao(type: "", page: 1, sort: 1, tuKhoa: "");
+                                                }
+                                                else
+                                                _thongBaoController.getThongBao(type: controller.listType.value![index].id.toString(), page: 1, sort: 1, tuKhoa: "");
                                               },
                                               child: Container(
                                                 decoration: BoxDecoration(
@@ -132,6 +137,7 @@ class _ThongBaoScreenState extends State<ThongBaoScreen> {
                                               ),
                                             )),
                                   );
+
                                 } else {
                                   return SizedBox();
                                 }
@@ -144,7 +150,8 @@ class _ThongBaoScreenState extends State<ThongBaoScreen> {
                               child: GetX<ThongBaoController>(
                                   builder: (controller) {
                                 if (controller.listThongBao.value != null) {
-                                  return ListView.builder(
+                                  if(controller.listThongBao.value!.isNotEmpty) {
+                                    return ListView.builder(
                                     padding: EdgeInsets.only(top: 20.sp),
                                     itemCount:
                                         controller.listThongBao.value!.length,
@@ -196,6 +203,11 @@ class _ThongBaoScreenState extends State<ThongBaoScreen> {
                                       );
                                     },
                                   );
+                                  } else{
+                                    return Center(
+                                      child: AppText('Không có thông báo',style: AppStyle.DEFAULT_16.copyWith(fontStyle: FontStyle.italic),),
+                                    );
+                                  }
                                 } else
                                   return SizedBox();
                               }),

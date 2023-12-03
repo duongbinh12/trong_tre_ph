@@ -60,12 +60,12 @@ class _GioiThieuAppState extends State<GioiThieuApp> {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        WidgetContainerImage(
-                          image: Assets.imagesImgGioiThieu,
+                        WidgetNetworkImage(
+                          image: controller.gioiThieu.value!.image??'',
                           width: Get.width,
                           height: 156.sp,
                           fit: BoxFit.cover,
-                          borderRadius: BorderRadius.circular(10.sp),
+                          borderRadius: 10,
                         ),
                         SizedBox(
                           height: 28.sp,

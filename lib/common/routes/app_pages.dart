@@ -18,6 +18,7 @@ import 'package:trong_tre/screens/service/hoan_tat_dang_ky.dart';
 import 'package:trong_tre/screens/service/main_sign_up_service.dart';
 import 'package:trong_tre/screens/service/sign_up_service.dart';
 import 'package:trong_tre/screens/service/thong_tin_hoa_don.dart';
+import 'package:trong_tre/screens/service/vnpay.dart';
 import 'package:trong_tre/screens/service/xac_nhan_lich_hoc.dart';
 import 'package:trong_tre/screens/setting/complain.dart';
 import 'package:trong_tre/screens/setting/profile.dart';
@@ -72,6 +73,7 @@ class AppPages extends CommonPages {
         GetPage(name: Routes.gioiThieuApp, page: () => const GioiThieuApp()),
         GetPage(name: Routes.lienHe, page: () => const LienHe()),
         GetPage(name: Routes.noiDungKhaoSat, page: () => const NoiDungKhaoSat()),
+        GetPage(name: Routes.vnpay, page: () => const VnpayScreen()),
         GetPage(name: Routes.theoDoiTienTrinh, page: () => const TheoDoiTienTrinh(),binding: TienTrinhBinding()),
      ];
   }

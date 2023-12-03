@@ -204,15 +204,21 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                   if (controller.listHistory.value != null) {
                                     if (controller
                                         .listHistory.value!.isNotEmpty) {
-                                      return ListView.builder(
-                                        itemCount: controller
-                                            .listHistory.value!.length,
-                                        shrinkWrap: true,
-                                        padding: EdgeInsets.only(top: 5.sp),
-                                        itemBuilder: (context, index) {
-                                          return _itemHistory(controller
-                                              .listHistory.value![index]);
+                                      return RefreshIndicator(
+                                        onRefresh: () {
+                                          _historyController.getHistory(page: 1, tuKhoa: "", sort: 1);
+                                          return Future<void>.delayed(const Duration(milliseconds: 500));
                                         },
+                                        child: ListView.builder(
+                                          itemCount: controller
+                                              .listHistory.value!.length,
+                                          shrinkWrap: true,
+                                          padding: EdgeInsets.only(top: 5.sp),
+                                          itemBuilder: (context, index) {
+                                            return _itemHistory(controller
+                                                .listHistory.value![index]);
+                                          },
+                                        ),
                                       );
                                     } else {
                                       return Column(
@@ -378,10 +384,12 @@ class _HistoryScreenState extends State<HistoryScreen> {
                       child: DButton(
                           text: data.trang_thai!.name??'',
                           padH: 9.sp,
+                          padV: 8.w,
                           background: colorItem,
                           borderColor: colorItem,
                           textStyle: AppStyle.DEFAULT_14.copyWith(
                               fontWeight: FontWeight.w500,
+                              fontSize: 13.sp,
                               height: 1.2,
                               color: AppColors.white),
                           onClick: onClick),
@@ -556,7 +564,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                     controller: _matKhauController,
                     isPass: true,
                     onSubmit: () {
-                      onSubmitMatKhau(data.id!);
+                      onSubmitMatKhau(data.id!,data.trang_thai!.id!);
                     },
                     hintText: 'Mật khẩu*'),
                 SizedBox(
@@ -591,9 +599,9 @@ class _HistoryScreenState extends State<HistoryScreen> {
     // AppNavigator.navigateForgotPass();
   }
 
-  onSubmitMatKhau(int id) {
+  onSubmitMatKhau(int id,int idTrangThai) {
     if(_matKhauController.text!="") {
-      _historyController.checkPass(pass: _matKhauController.text, id: id);
+      _historyController.checkPass(pass: _matKhauController.text, id: id,idTrangThai: idTrangThai);
     }
     // Get.back();
     // if (status == 4)
