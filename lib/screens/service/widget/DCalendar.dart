@@ -130,8 +130,9 @@ class _DCalendarState extends State<DCalendar> {
                   _focusedDay = focusedDay;
                 });
               },
+              currentDay: DateTime.now().add(Duration(days: 2)),
               onDaySelected: (selectedDay, focusedDay) {
-                if (!isSameDay(_selectedDay, selectedDay)) {
+                if (!isSameDay(_selectedDay, selectedDay) && selectedDay.day>=DateTime.now().day+2) {
                   setState(() {
                     _selectedDay = selectedDay;
                     _focusedDay = focusedDay;
@@ -166,7 +167,7 @@ class _DCalendarState extends State<DCalendar> {
                     decoration: BoxDecoration(
                         border: Border.all(
                             width: 1.sp,
-                            color: day == _selectedDay
+                            color: (day == _selectedDay&& day.day>=DateTime.now().day+2)
                                 ? AppColors.blue
                                 : AppColors.grayE5),
                         borderRadius: BorderRadius.circular(5.sp)),
@@ -181,7 +182,7 @@ class _DCalendarState extends State<DCalendar> {
                         textAlign: TextAlign.center,
                         style: AppStyle.DEFAULT_16.copyWith(
                             fontWeight: FontWeight.w600,
-                            color: day.weekday == 6
+                            color:(day.day<DateTime.now().day+2)?AppColors.textBlack.withOpacity(0.5): day.weekday == 6
                                 ? AppColors.blue
                                 : day.weekday == 7
                                 ? AppColors.primary

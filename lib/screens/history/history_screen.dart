@@ -30,50 +30,14 @@ class HistoryScreen extends StatefulWidget {
 class _HistoryScreenState extends State<HistoryScreen> {
   final GlobalKey<ScaffoldState> ScaffoldKey = GlobalKey();
 
-  List data = [
-    {
-      'status': 1,
-      'nameStatus': 'Sắp diễn ra',
-      'soBuoiDaDay': 0,
-      'tongSoBuoi': 5,
-    },
-    {
-      'status': 2,
-      'nameStatus': 'Đang dạy',
-      'soBuoiDaDay': 3,
-      'tongSoBuoi': 5,
-    },
-    {
-      'status': 3,
-      'nameStatus': 'Hoàn tất',
-      'soBuoiDaDay': 5,
-      'tongSoBuoi': 5,
-    },
-    {
-      'status': 4,
-      'nameStatus': 'Hủy',
-      'soBuoiDaDay': 0,
-      'tongSoBuoi': 5,
-    },
-    {
-      'status': 2,
-      'nameStatus': 'Đang dạy',
-      'soBuoiDaDay': 3,
-      'tongSoBuoi': 5,
-    },
-    {
-      'status': 3,
-      'nameStatus': 'Hoàn tất',
-      'soBuoiDaDay': 5,
-      'tongSoBuoi': 5,
-    },
-  ];
   List<String> dropdown = ['Mới nhất', 'Cũ nhất'];
   String valueDropdown = 'Mới nhất';
   TextEditingController _matKhauController = TextEditingController();
   LoginController _loginController = Get.find<LoginController>();
   HistoryController _historyController = Get.find<HistoryController>();
   SettingController _settingController = Get.find<SettingController>();
+  ScrollController _scrollController=ScrollController();
+  int page=1;
 
   @override
   void initState() {
@@ -83,6 +47,14 @@ class _HistoryScreenState extends State<HistoryScreen> {
       }
     });
 
+
+    _scrollController.addListener(() {
+      if(_scrollController.offset==_scrollController.position.maxScrollExtent  ){
+        _historyController.getHistory(page: page+1, tuKhoa: "", sort: dropdown.indexOf(valueDropdown)==0?1:0);
+        page=page+1;
+      }
+
+    });
     super.initState();
   }
 
@@ -207,9 +179,11 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                       return RefreshIndicator(
                                         onRefresh: () {
                                           _historyController.getHistory(page: 1, tuKhoa: "", sort: 1);
+                                          page=1;
                                           return Future<void>.delayed(const Duration(milliseconds: 500));
                                         },
                                         child: ListView.builder(
+                                          controller: _scrollController,
                                           itemCount: controller
                                               .listHistory.value!.length,
                                           shrinkWrap: true,
@@ -288,18 +262,20 @@ class _HistoryScreenState extends State<HistoryScreen> {
   }
 
   Widget _itemHistory(ItemHistoryOrder data) {
-    Color colorItem = data.trang_thai!.id == 72
+    Color colorItem = data.trang_thai!.id == 47
         ? AppColors.primary
-        : data.trang_thai!.id == 70
+        : data.trang_thai!.id == 46
             ? AppColors.blue
+        : data.trang_thai!.id == 48
+        ? AppColors.green
             : AppColors.orange;
     // Color colorItem=AppColors.orange;
     return InkWell(
       onTap: () {
-        if(data.trang_thai!.id==70){
+        if(data.trang_thai!.id==45||data.trang_thai!.id==46){
           _historyController.getThongTinGiaoVien(id: data.id.toString());
         }
-        else if(data.trang_thai!.id==71){
+        else if(data.trang_thai!.id==50){
           AppNavigator.navigateTheoDoiTienTrinh(2,id: data.id,isHuy: true);
         }
         else{

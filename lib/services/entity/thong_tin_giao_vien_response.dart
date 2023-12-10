@@ -19,11 +19,12 @@ class GiaoVien {
 
 @JsonSerializable()
 class ThongTinGiaoVienData {
-  String? noi_dung_khao_sat,sdtQuanLy;
+  String? noi_dung_khao_sat;
   GiaoVien? giaoVien;
+  GiaoVien? leaderKD;
 
 
-  ThongTinGiaoVienData(this.noi_dung_khao_sat, this.sdtQuanLy, this.giaoVien);
+  ThongTinGiaoVienData(this.noi_dung_khao_sat, this.leaderKD, this.giaoVien);
 
   factory ThongTinGiaoVienData.fromJson(Map<String, dynamic> json) =>
       _$ThongTinGiaoVienDataFromJson(json);

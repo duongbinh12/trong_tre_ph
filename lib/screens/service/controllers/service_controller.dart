@@ -35,7 +35,7 @@ class ServiceController extends BaseController {
   Rx<int> soLuongBe = Rx(1);
   String diaDiem = "";
   String ghiChu = "";
-  List<int> arrThu = [];
+  List<int> arrThu = [2,3,4,5,6];
   String thoiGianBatDau = "";
   int giaoVien = 15;
   int indexThemGio = 0;
@@ -262,5 +262,9 @@ class ServiceController extends BaseController {
 
   nextTab() {
     tabService.value = tabService.value + 1;
+  }
+
+  preTab() {
+    tabService.value = tabService.value - 1;
   }
 }

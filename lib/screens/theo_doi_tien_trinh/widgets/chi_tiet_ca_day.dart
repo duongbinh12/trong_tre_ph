@@ -18,10 +18,11 @@ import '../../../services/entity/thong_tin_khoa_hoc_response.dart';
 import '../../../widgets/widget_handle.dart';
 
 class ChiTietCaDay extends StatefulWidget {
-  const ChiTietCaDay({super.key,required this.tienDo,required this.giaoVien,required this.sdt,required this.avatar,required this.idKh});
+  const ChiTietCaDay({super.key,required this.tienDo,required this.giaoVien,required this.sdt,required this.avatar,required this.idKh, required this.name});
   final TienDo tienDo;
   final GiaoVien giaoVien;
   final String sdt;
+  final String name;
   final String avatar;
   final int idKh;
 
@@ -281,7 +282,7 @@ class _ChiTietCaDayState extends State<ChiTietCaDay> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               AppText(
-                                'Liên hệ với Quản lý vận hành',
+                                'Liên hệ với Quản lý ${widget.name}',
                                 style: AppStyle.DEFAULT_14
                                     .copyWith(fontWeight: FontWeight.w600),
                               ),

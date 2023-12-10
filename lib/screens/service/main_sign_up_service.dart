@@ -24,33 +24,34 @@ class MainSignUpService extends StatefulWidget {
 class _MainSignUpServiceState extends State<MainSignUpService> {
   final GlobalKey<ScaffoldState> ScaffoldKey = GlobalKey();
 
-  ServiceController _serviceController=Get.find<ServiceController>();
+  ServiceController _serviceController = Get.find<ServiceController>();
+  PageController _pageController = PageController();
 
   @override
   void dispose() {
-    _serviceController.tabService.value=1;
-    _serviceController.indexBuoi=0;
-    _serviceController.indexCa=0;
-    _serviceController.indexGio=0;
-    _serviceController.indexThemGio=0;
-    _serviceController.listCa.value=null;
-    _serviceController.listKhungGio.value=null;
-    _serviceController.listBuoiHoc.value=null;
-    _serviceController.hocPhi.value=null;
-    _serviceController.phuCap.value=0;
-    _serviceController.tienAnTrua.value=0;
-    _serviceController.tienThemGio.value=0;
-    _serviceController.soLuongBe.value=1;
-    _serviceController.diaDiem="";
-    _serviceController.ghiChu="";
-    _serviceController.thoiGianBatDau="";
-    _serviceController.diaDiem="";
-    _serviceController.arrThu=[];
-    _serviceController.giaoVien=15;
-    _serviceController.idKhungGioCa=-1;
-    _serviceController.idGoiHocPhi=-1;
-    _serviceController.idThemGio=-1;
-    _serviceController.idAnTrua=-1;
+    _serviceController.tabService.value = 1;
+    _serviceController.indexBuoi = 0;
+    _serviceController.indexCa = 0;
+    _serviceController.indexGio = 0;
+    _serviceController.indexThemGio = 0;
+    _serviceController.listCa.value = null;
+    _serviceController.listKhungGio.value = null;
+    _serviceController.listBuoiHoc.value = null;
+    _serviceController.hocPhi.value = null;
+    _serviceController.phuCap.value = 0;
+    _serviceController.tienAnTrua.value = 0;
+    _serviceController.tienThemGio.value = 0;
+    _serviceController.soLuongBe.value = 1;
+    _serviceController.diaDiem = "";
+    _serviceController.ghiChu = "";
+    _serviceController.thoiGianBatDau = "";
+    _serviceController.diaDiem = "";
+    _serviceController.arrThu = [];
+    _serviceController.giaoVien = 15;
+    _serviceController.idKhungGioCa = -1;
+    _serviceController.idGoiHocPhi = -1;
+    _serviceController.idThemGio = -1;
+    _serviceController.idAnTrua = -1;
     super.dispose();
   }
 
@@ -66,14 +67,26 @@ class _MainSignUpServiceState extends State<MainSignUpService> {
         child: Column(
           children: [
             GetX<ServiceController>(
-              builder: (controller) {
-                return DHeaderShadow(
-                  title:controller.tabService.value==1? 'Đăng ký dịch vụ'.tr:controller.tabService.value==2?'Chọn gói học phí'.tr:controller.tabService.value==3?'Xác nhận lịch học'.tr:'Thanh toán'.tr,
-                  keyMenu: ScaffoldKey,
-                  showMenu: true,
-                  colorTitle: AppColors.black,
-                );
-              }
+                builder: (controller) {
+                  return DHeaderShadow(
+                    title: controller.tabService.value == 1 ? 'Đăng ký dịch vụ'
+                        .tr : controller.tabService.value == 2
+                        ? 'Chọn gói học phí'.tr
+                        : controller.tabService.value == 3 ? 'Xác nhận lịch học'
+                        .tr : 'Thanh toán'.tr,
+                    keyMenu: ScaffoldKey,
+                    showMenu: true,
+                    colorTitle: AppColors.black,
+                    onBack: () {
+                      if(controller.tabService.value>1){
+                        controller.preTab();
+                      }
+                      else{
+                        Get.back();
+                      }
+                    },
+                  );
+                }
             ),
             Expanded(child: Container(
               padding: EdgeInsets.symmetric(horizontal: 20.sp),
@@ -81,30 +94,29 @@ class _MainSignUpServiceState extends State<MainSignUpService> {
                 children: [
                   SizedBox(height: 30.sp,),
                   GetX<ServiceController>(
-                    builder: (controller) {
-                      return DProgress(progress: [
-                        Assets.iconsDangKyDichVu1,
-                        Assets.iconsDangKyDichVu2,
-                        Assets.iconsDangKyDichVu3,
-                        Assets.iconsDangKyDichVu4
-                      ],indexS: controller.tabService.value,);
-                    }
+                      builder: (controller) {
+                        return DProgress(progress: [
+                          Assets.iconsDangKyDichVu1,
+                          Assets.iconsDangKyDichVu2,
+                          Assets.iconsDangKyDichVu3,
+                          Assets.iconsDangKyDichVu4
+                        ], indexS: controller.tabService.value,);
+                      }
                   ),
                   SizedBox(height: 16.sp,),
-                  Expanded(child: GetX<ServiceController>(builder: (controller) {
-                    if(controller.tabService.value==1){
-                      return SignUpService();
-                    }
-                    else if(controller.tabService.value==2){
-                      return ChonHocPhi();
-                    }
-                    else if(controller.tabService.value==3){
-                      return XacNhanLichHoc();
-                    }
-                    else{
-                      return ThanhToan();
-                    }
-                  },))
+                  Expanded(
+                      child: GetX<ServiceController>(builder: (controller) {
+                        return IndexedStack(
+                          children: [
+                                  SignUpService(),
+                                  ChonHocPhi(),
+                                  XacNhanLichHoc(),
+                                  ThanhToan()
+                          ],
+                          index: controller.tabService.value-1,
+                        );
+
+                      },))
                 ],
               ),
             ))

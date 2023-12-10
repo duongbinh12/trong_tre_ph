@@ -4,12 +4,13 @@ import 'package:trong_tre/res/colors.dart';
 import 'package:trong_tre/widgets/DHeader.dart';
 
 class DHeaderShadow extends StatelessWidget {
-  const DHeaderShadow({super.key, required this.title, this.colorTitle, this.showMenu=false, this.noBack=false, this.keyMenu});
+  const DHeaderShadow({super.key, required this.title, this.colorTitle, this.showMenu=false, this.noBack=false, this.keyMenu, this.onBack});
   final String title;
   final Color? colorTitle;
   final bool? showMenu;
   final bool? noBack;
   final GlobalKey<ScaffoldState>? keyMenu;
+  final Function? onBack;
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +34,7 @@ class DHeaderShadow extends StatelessWidget {
         showMenu: showMenu,
         colorTitle: colorTitle??AppColors.black,
         noBack: noBack,
+        onBack: onBack,
       ),
     );
   }

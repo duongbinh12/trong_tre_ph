@@ -101,20 +101,20 @@ class _XacNhanLichHocState extends State<XacNhanLichHoc> {
                       .copyWith(fontWeight: FontWeight.w500, height: 1.1),
                 ),
               ),
-              Expanded(
-                flex: 3,
-                child: DButton(
-                    text: 'Chi tiết chương trình'.tr,
-                    right: SvgPicture.asset(Assets.iconsUpload),
-                    padH: 8.sp,
-                    textStyle: AppStyle.DEFAULT_14.copyWith(
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.white,
-                        height: 1.1),
-                    onClick: (){
-                      onClickChiTietCT(_serviceController.detailService.value!.link??'');
-                    }),
-              )
+              // Expanded(
+              //   flex: 3,
+              //   child: DButton(
+              //       text: 'Chi tiết chương trình'.tr,
+              //       right: SvgPicture.asset(Assets.iconsUpload),
+              //       padH: 8.sp,
+              //       textStyle: AppStyle.DEFAULT_14.copyWith(
+              //           fontWeight: FontWeight.w600,
+              //           color: AppColors.white,
+              //           height: 1.1),
+              //       onClick: (){
+              //         onClickChiTietCT(_serviceController.detailService.value!.link??'');
+              //       }),
+              // )
             ],
           )
         ],

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 import 'package:trong_tre/common/controllers/base_controller.dart';
@@ -15,11 +17,14 @@ class LoginController extends BaseController {
   CommonRepository commonRepository = Get.find<CommonRepository>();
 
   Rx<String> policy = Rx("");
+  Rx<LoginData?> dataLogin = Rxn(null);
   String? tokenFirebase;
   String? token;
 
   getToken()async{
     token=await AppPref().getString(AppPref.auth_token);
+    String? data=await AppPref().getString("dataLogin");
+    dataLogin.value=LoginData.fromJson(jsonDecode(data!));
   }
 
   Future getTokenFirebase()async{
@@ -46,7 +51,9 @@ class LoginController extends BaseController {
         api: commonRepository.loginPhone(phone, pass,tokenFirebase??''),
         onSuccess: (result) async{
           token=result.data!.auth_key;
+          dataLogin.value=result.data;
           await AppPref().saveString(AppPref.auth_token, result.data!.auth_key!);
+          await AppPref().saveString("dataLogin", jsonEncode(result.data!));
           AppNavigator.navigateHome();
         },
         onError: (e) {
@@ -59,7 +66,9 @@ class LoginController extends BaseController {
         api: commonRepository.loginEmail(email, pass,tokenFirebase??''),
         onSuccess: (result) async{
           token=result.data!.auth_key;
+          dataLogin.value=result.data;
           await AppPref().saveString(AppPref.auth_token, result.data!.auth_key!);
+          await AppPref().saveString("dataLogin", jsonEncode(result.data!));
           AppNavigator.navigateHome();
         });
   }

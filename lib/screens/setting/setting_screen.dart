@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:trong_tre/common/routes/navigator.dart';
 import 'package:trong_tre/screens/login/controllers/login_controller.dart';
 import 'package:trong_tre/screens/setting/controllers/setting_controller.dart';
 import 'package:trong_tre/screens/setting/widget_support.dart';
 import 'package:trong_tre/widgets/app_base_page.dart';
 import 'package:trong_tre/widgets/widget_dialog.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../generated/assets.dart';
 import '../../res/app_styles.dart';
@@ -99,7 +101,13 @@ class _SettingScreenState extends State<SettingScreen> {
                                   height: 10.sp,
                                 )
                               : SizedBox(),
-                          _item(Assets.iconsChiaSe, 'Chia sẻ Trông trẻ Pro'),
+                          _item(Assets.iconsChiaSe, 'Chia sẻ Trông trẻ Pro',onClick: (){
+                            try{
+                              Share.share('${_loginController.dataLogin.value!.web}');
+                            }catch(e){
+                              print("error share ${e}");
+                            }
+                          }),
                           SizedBox(
                             height: 10.sp,
                           ),
@@ -108,37 +116,62 @@ class _SettingScreenState extends State<SettingScreen> {
                           SizedBox(
                             height: 10.sp,
                           ),
-                          _item(Assets.iconsTaiNguyen, 'Tham khảo/ Tài nguyên'),
+                          _item(Assets.iconsTaiNguyen, 'Tham khảo/ Tài nguyên',onClick: ()async{
+                            if (!await launchUrl(Uri.parse(_loginController.dataLogin.value!.tai_nguyen??''))) {
+                            throw Exception('Could not launch tài nguyên');
+                            }
+                          }),
                           SizedBox(
                             height: 10.sp,
                           ),
                           _item(Assets.iconsCongDong, 'Cộng đồng',
                               right: Row(
                                 children: [
-                                  Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 5.sp),
-                                    child: SvgPicture.asset(
-                                      Assets.iconsFb2,
-                                      width: 28.sp,
-                                      height: 28.sp,
+                                  InkWell(
+                                    onTap: ()async{
+                                      if (!await launchUrl(Uri.parse(_loginController.dataLogin.value!.facebook??''))) {
+                                        throw Exception('Could not launch tài nguyên');
+                                      }
+                                    },
+                                    child: Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 5.sp),
+                                      child: SvgPicture.asset(
+                                        Assets.iconsFb2,
+                                        width: 28.sp,
+                                        height: 28.sp,
+                                      ),
                                     ),
                                   ),
-                                  Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 5.sp),
-                                    child: SvgPicture.asset(
-                                      Assets.iconsYoutube,
-                                      width: 28.sp,
-                                      height: 28.sp,
+                                  InkWell(
+                                    onTap: ()async{
+                                      if (!await launchUrl(Uri.parse(_loginController.dataLogin.value!.youtube??''))) {
+                                        throw Exception('Could not launch tài nguyên');
+                                      }
+                                    },
+                                    child: Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 5.sp),
+                                      child: SvgPicture.asset(
+                                        Assets.iconsYoutube,
+                                        width: 28.sp,
+                                        height: 28.sp,
+                                      ),
                                     ),
                                   ),
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 5.sp),
-                                    child: SvgPicture.asset(
-                                      Assets.iconsWeb,
-                                      width: 28.sp,
-                                      height: 28.sp,
+                                  InkWell(
+                                    onTap: ()async{
+                                      if (!await launchUrl(Uri.parse(_loginController.dataLogin.value!.web??''))) {
+                                        throw Exception('Could not launch tài nguyên');
+                                      }
+                                    },
+                                    child: Padding(
+                                      padding: EdgeInsets.only(left: 5.sp),
+                                      child: SvgPicture.asset(
+                                        Assets.iconsWeb,
+                                        width: 28.sp,
+                                        height: 28.sp,
+                                      ),
                                     ),
                                   )
                                 ],
