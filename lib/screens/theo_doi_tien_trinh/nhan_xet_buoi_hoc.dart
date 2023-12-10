@@ -184,7 +184,7 @@ class _NhanXetBuoiHocState extends State<NhanXetBuoiHoc> {
                                   height: 30.sp,
                                 ),
                                 AppText(
-                                  'Form đánh giá',
+                                  'Nhận xét ngày',
                                   style: AppStyle.DEFAULT_18_BOLD,
                                 ),
                                 SizedBox(

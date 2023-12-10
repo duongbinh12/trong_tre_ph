@@ -227,7 +227,7 @@ class _ServeyState extends State<Servey> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AppText(
-            'Liên hệ với Quản lý vận hành',
+            'Liên hệ với Quản lý ${data.leaderKD!.hoten}',
             style: AppStyle.DEFAULT_16_BOLD,
           ),
           SizedBox(
@@ -282,7 +282,7 @@ class _ServeyState extends State<Servey> {
   onClickCall() async {
     final Uri launchUri = Uri(
       scheme: 'tel',
-      path: data.sdtQuanLy!,
+      path: data.leaderKD!.dien_thoai,
     );
     await launchUrl(launchUri);
   }
@@ -298,7 +298,7 @@ class _ServeyState extends State<Servey> {
   onClickMess() async {
     final Uri launchUri = Uri(
       scheme: 'sms',
-      path: data.sdtQuanLy!,
+      path:  data.leaderKD!.dien_thoai,
     );
     await launchUrl(launchUri);
   }

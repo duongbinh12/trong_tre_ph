@@ -53,7 +53,9 @@ ThongTinKhoaHocData _$ThongTinKhoaHocDataFromJson(Map<String, dynamic> json) =>
       json['chonCa'] as String?,
       json['dia_chi'] as String?,
       json['noi_dung_khao_sat'] as String?,
-      json['sdtQuanLy'] as String?,
+      json['leaderKD'] == null
+          ? null
+          : GiaoVien.fromJson(json['leaderKD'] as Map<String, dynamic>),
       json['giaoVien'] == null
           ? null
           : GiaoVien.fromJson(json['giaoVien'] as Map<String, dynamic>),
@@ -78,8 +80,8 @@ Map<String, dynamic> _$ThongTinKhoaHocDataToJson(
       'chonCa': instance.chonCa,
       'dia_chi': instance.dia_chi,
       'noi_dung_khao_sat': instance.noi_dung_khao_sat,
-      'sdtQuanLy': instance.sdtQuanLy,
       'giaoVien': instance.giaoVien,
+      'leaderKD': instance.leaderKD,
       'tienDo': instance.tienDo,
     };
 

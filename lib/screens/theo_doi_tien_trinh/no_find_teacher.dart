@@ -148,32 +148,32 @@ class NoFindTeacher extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            SizedBox(
-                              width: 5.sp,
-                            ),
-                            SvgPicture.asset(
-                              Assets.iconsTag,
-                              height: 19.sp,
-                              color: AppColors.green,
-                            ),
-                            Container(
-                              height: 19.sp,
-                              padding: EdgeInsets.only(right: 8.sp),
-                              decoration: BoxDecoration(
-                                  color: AppColors.green,
-                                  borderRadius: BorderRadius.horizontal(
-                                      right: Radius.circular(3.sp))),
-                              child: Center(
-                                child: AppText(
-                                  controller.donHuy.value!.trang_thai_thanh_toan??'',
-                                  textAlign: TextAlign.center,
-                                  style: AppStyle.DEFAULT_14.copyWith(
-                                      fontWeight: FontWeight.w600,
-                                      color: AppColors.white,
-                                      height: 1.2),
-                                ),
-                              ),
-                            )
+                            // SizedBox(
+                            //   width: 5.sp,
+                            // ),
+                            // SvgPicture.asset(
+                            //   Assets.iconsTag,
+                            //   height: 19.sp,
+                            //   color: AppColors.green,
+                            // ),
+                            // Container(
+                            //   height: 19.sp,
+                            //   padding: EdgeInsets.only(right: 8.sp),
+                            //   decoration: BoxDecoration(
+                            //       color: AppColors.green,
+                            //       borderRadius: BorderRadius.horizontal(
+                            //           right: Radius.circular(3.sp))),
+                            //   child: Center(
+                            //     child: AppText(
+                            //       controller.donHuy.value!.trang_thai_thanh_toan??'',
+                            //       textAlign: TextAlign.center,
+                            //       style: AppStyle.DEFAULT_14.copyWith(
+                            //           fontWeight: FontWeight.w600,
+                            //           color: AppColors.white,
+                            //           height: 1.2),
+                            //     ),
+                            //   ),
+                            // )
                           ],
                         )),
                     _itemThongTin(

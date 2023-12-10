@@ -15,6 +15,12 @@ LoginData _$LoginDataFromJson(Map<String, dynamic> json) => LoginData(
       json['dien_thoai'] as String?,
       json['dia_chi'] as String?,
       json['email'] as String?,
+      json['tai_nguyen'] as String?,
+      json['dieu_khoan'] as String?,
+      json['tai_lieu'] as String?,
+      json['facebook'] as String?,
+      json['youtube'] as String?,
+      json['web'] as String?,
     );
 
 Map<String, dynamic> _$LoginDataToJson(LoginData instance) => <String, dynamic>{
@@ -26,6 +32,12 @@ Map<String, dynamic> _$LoginDataToJson(LoginData instance) => <String, dynamic>{
       'dien_thoai': instance.dien_thoai,
       'dia_chi': instance.dia_chi,
       'email': instance.email,
+      'tai_nguyen': instance.tai_nguyen,
+      'dieu_khoan': instance.dieu_khoan,
+      'tai_lieu': instance.tai_lieu,
+      'facebook': instance.facebook,
+      'youtube': instance.youtube,
+      'web': instance.web,
     };
 
 LoginResponse _$LoginResponseFromJson(Map<String, dynamic> json) =>

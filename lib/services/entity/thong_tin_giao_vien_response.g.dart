@@ -28,7 +28,9 @@ ThongTinGiaoVienData _$ThongTinGiaoVienDataFromJson(
         Map<String, dynamic> json) =>
     ThongTinGiaoVienData(
       json['noi_dung_khao_sat'] as String?,
-      json['sdtQuanLy'] as String?,
+      json['leaderKD'] == null
+          ? null
+          : GiaoVien.fromJson(json['leaderKD'] as Map<String, dynamic>),
       json['giaoVien'] == null
           ? null
           : GiaoVien.fromJson(json['giaoVien'] as Map<String, dynamic>),
@@ -38,8 +40,8 @@ Map<String, dynamic> _$ThongTinGiaoVienDataToJson(
         ThongTinGiaoVienData instance) =>
     <String, dynamic>{
       'noi_dung_khao_sat': instance.noi_dung_khao_sat,
-      'sdtQuanLy': instance.sdtQuanLy,
       'giaoVien': instance.giaoVien,
+      'leaderKD': instance.leaderKD,
     };
 
 ThongTinGiaoVienResponse _$ThongTinGiaoVienResponseFromJson(

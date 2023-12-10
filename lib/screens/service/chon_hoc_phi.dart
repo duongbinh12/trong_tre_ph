@@ -40,7 +40,6 @@ class _ChonHocPhiState extends State<ChonHocPhi> {
   void initState() {
     Future.delayed(Duration(seconds: 0), () {
       _serviceController.getChonHocPhi(dichVuId);
-
     });
     super.initState();
   }
@@ -49,6 +48,7 @@ class _ChonHocPhiState extends State<ChonHocPhi> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
+
         children: [
           _pickTeacher(),
           SizedBox(
@@ -107,6 +107,7 @@ class _ChonHocPhiState extends State<ChonHocPhi> {
           ),
           GetX<ServiceController>(builder: (controller) {
             return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 DRowText(
                   textL: 'Học phí',
@@ -137,6 +138,16 @@ class _ChonHocPhiState extends State<ChonHocPhi> {
                                   .value![controller.indexBuoi].so_buoi!,
                   styleR: AppStyle.DEFAULT_20_BOLD
                       .copyWith(color: AppColors.primary, height: 1.2),
+                ),
+                SizedBox(
+                  height: 10.h,
+                ),
+                AppText(
+                  '(không bao gồm các ngày nghỉ Lễ, Tết)',
+                  style: AppStyle.DEFAULT_14.copyWith(
+                      fontWeight: FontWeight.w500,
+                      fontStyle: FontStyle.italic,
+                      color: AppColors.textBlack),
                 ),
               ],
             );
@@ -197,8 +208,10 @@ class _ChonHocPhiState extends State<ChonHocPhi> {
                                 ? AppColors.primary.withOpacity(0.1)
                                 : AppColors.primary,
                             onClick: () {
-                              onClickDichVu(index,controller
-                                  .listLoaiGiaoVien.value![index].id!);
+                              onClickDichVu(
+                                  index,
+                                  controller
+                                      .listLoaiGiaoVien.value![index].id!);
                             }))),
               )
             ],
@@ -405,12 +418,13 @@ class _ChonHocPhiState extends State<ChonHocPhi> {
     );
   }
 
-  onClickDichVu(int index,int id) {
+  onClickDichVu(int index, int id) {
     setState(() {
       indexTeacher = index;
     });
     _serviceController.giaoVien = index == 0 ? 15 : 16;
-    _serviceController.getSoBuoiHoc(dichVuId: dichVuId, page: 1, sort: 0, trinhDo: id);
+    _serviceController.getSoBuoiHoc(
+        dichVuId: dichVuId, page: 1, sort: 0, trinhDo: id);
   }
 
   onClickChon() {}
@@ -513,32 +527,32 @@ class _ItemBuoiState extends State<ItemBuoi> {
                                 style: AppStyle.DEFAULT_16.copyWith(
                                     fontWeight: FontWeight.w600, height: 1.2),
                               ),
-                              SizedBox(
-                                width: 6.sp,
-                              ),
-                              InkWell(
-                                onTap: onClickInfo,
-                                child: JustTheTooltip(
-                                  controller: _justTheController,
-                                  backgroundColor: AppColors.blue,
-                                  tailBaseWidth: 10.sp,
-                                  tailLength: 10.sp,
-                                  content: Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 10.sp, vertical: 8.sp),
-                                    child: AppText(
-                                      '(không bao gồm các ngày nghỉ Lễ, Tết)',
-                                      style: AppStyle.DEFAULT_12.copyWith(
-                                          fontWeight: FontWeight.w500,
-                                          fontStyle: FontStyle.italic,
-                                          color: AppColors.white),
-                                    ),
-                                  ),
-                                  child: SvgPicture.asset(
-                                    Assets.iconsInfo,
-                                  ),
-                                ),
-                              ),
+                              // SizedBox(
+                              //   width: 6.sp,
+                              // ),
+                              // InkWell(
+                              //   onTap: onClickInfo,
+                              //   child: JustTheTooltip(
+                              //     controller: _justTheController,
+                              //     backgroundColor: AppColors.blue,
+                              //     tailBaseWidth: 10.sp,
+                              //     tailLength: 10.sp,
+                              //     content: Padding(
+                              //       padding: EdgeInsets.symmetric(
+                              //           horizontal: 10.sp, vertical: 8.sp),
+                              //       child: AppText(
+                              //         '(không bao gồm các ngày nghỉ Lễ, Tết)',
+                              //         style: AppStyle.DEFAULT_12.copyWith(
+                              //             fontWeight: FontWeight.w500,
+                              //             fontStyle: FontStyle.italic,
+                              //             color: AppColors.white),
+                              //       ),
+                              //     ),
+                              //     child: SvgPicture.asset(
+                              //       Assets.iconsInfo,
+                              //     ),
+                              //   ),
+                              // ),
                             ],
                           ),
                           SizedBox(

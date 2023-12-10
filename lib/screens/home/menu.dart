@@ -11,6 +11,7 @@ import 'package:trong_tre/screens/setting/controllers/setting_controller.dart';
 import 'package:trong_tre/widgets/app_base_page.dart';
 import 'package:trong_tre/widgets/app_text.dart';
 import 'package:trong_tre/widgets/widget_handle.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../widgets/widget_dialog.dart';
 
@@ -121,7 +122,7 @@ class Menu extends StatelessWidget {
             text: 'Chia sẻ với phụ huynh khác',
             onClick: () {
               try{
-                Share.share('check out my website https://example.com');
+                Share.share('${_loginController.dataLogin.value!.web}');
               }catch(e){
                 print("error share ${e}");
               }
@@ -136,11 +137,19 @@ class Menu extends StatelessWidget {
         _itemMenu(
             icon: Assets.iconsMenu5,
             text: 'Link tải tài liệu',
-            onClick: () {}),
+            onClick: () async{
+              if (!await launchUrl(Uri.parse(_loginController.dataLogin.value!.tai_lieu??''))) {
+              throw Exception('Could not launch tài liệu');
+              }
+            }),
         _itemMenu(
             icon: Assets.iconsMenu6,
             text: 'Điều khoản sử dụng ứng dụng',
-            onClick: () {}),
+            onClick: () async{
+              if (!await launchUrl(Uri.parse(_loginController.dataLogin.value!.dieu_khoan??''))) {
+              throw Exception('Could not launch tài liệu');
+              }
+            }),
         _loginController.token!=null? _itemMenu(
             icon: Assets.iconsMenu7,
             text: 'Đăng xuất',

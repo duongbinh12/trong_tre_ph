@@ -10,6 +10,7 @@ import '../../../common/controllers/base_controller.dart';
 class HistoryController extends BaseController{
   CommonRepository commonRepository=Get.find<CommonRepository>();
   Rx<List<ItemHistoryOrder>?> listHistory=Rxn(null);
+  int lastPage=1;
 
   getHistory({
     required int page,
@@ -54,7 +55,7 @@ class HistoryController extends BaseController{
         api: commonRepository.checkPass(pass),
         onSuccess: (res) {
           Get.back();
-          if(idTrangThai==72)
+          if(idTrangThai==47)
             AppNavigator.navigateTheoDoiTienTrinh(3,id: id);
           else AppNavigator.navigateTheoDoiTienTrinh(4,id: id);
         },

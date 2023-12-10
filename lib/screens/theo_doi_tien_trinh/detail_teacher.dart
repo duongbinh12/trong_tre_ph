@@ -85,7 +85,7 @@ class _DetailTeacherState extends State<DetailTeacher> {
 
   @override
   Widget build(BuildContext context) {
-    double maxExtent = 214.sp;
+    double maxExtent = 250.sp;
     double minExtent = 0;
     final expendPercentage = 1 - min(1, offset / (maxExtent - minExtent));
     return AppBasePage(
@@ -281,7 +281,7 @@ class _DetailTeacherState extends State<DetailTeacher> {
                                 children: [
                                   RichText(
                                     text: TextSpan(
-                                      text: 'Mã đơn hàng: ',
+                                      text: 'Mã ca dạy: ',
                                       style: AppStyle.DEFAULT_14
                                           .copyWith(height: 1.3),
                                       children: <TextSpan>[
@@ -292,11 +292,11 @@ class _DetailTeacherState extends State<DetailTeacher> {
                                       ],
                                     ),
                                   ),
-                                  AppText(
-                                    controller.listLichSu.value![index].created??'',
-                                    style: AppStyle.DEFAULT_12
-                                        .copyWith(height: 1.3),
-                                  )
+                                  // AppText(
+                                  //   controller.listLichSu.value![index].created??'',
+                                  //   style: AppStyle.DEFAULT_12
+                                  //       .copyWith(height: 1.3),
+                                  // )
                                 ],
                               ),
                             ),

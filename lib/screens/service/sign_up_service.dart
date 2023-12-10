@@ -301,6 +301,14 @@ class _ItemThuState extends State<ItemThu> {
   ServiceController _serviceController = Get.find<ServiceController>();
 
   @override
+  void initState() {
+    if(widget.idThu!=1&&widget.idThu!=7){
+      selected=true;
+    }
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {

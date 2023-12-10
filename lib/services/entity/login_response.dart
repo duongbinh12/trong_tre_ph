@@ -6,11 +6,24 @@ part 'login_response.g.dart';
 @JsonSerializable()
 class LoginData {
   int? id;
-  String? anh_nguoi_dung,auth_key,hoten,vai_tro,dien_thoai,dia_chi,email;
+  String? anh_nguoi_dung,auth_key,hoten,vai_tro,dien_thoai,dia_chi,email,tai_nguyen,dieu_khoan,tai_lieu,facebook,youtube,web;
 
 
   LoginData(
-      this.id, this.anh_nguoi_dung, this.auth_key, this.hoten, this.vai_tro,this.dien_thoai,this.dia_chi,this.email);
+      this.id,
+      this.anh_nguoi_dung,
+      this.auth_key,
+      this.hoten,
+      this.vai_tro,
+      this.dien_thoai,
+      this.dia_chi,
+      this.email,
+      this.tai_nguyen,
+      this.dieu_khoan,
+      this.tai_lieu,
+      this.facebook,
+      this.youtube,
+      this.web);
 
   factory LoginData.fromJson(Map<String, dynamic> json) =>
       _$LoginDataFromJson(json);

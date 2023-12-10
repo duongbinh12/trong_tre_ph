@@ -36,8 +36,9 @@ class TienDo {
 @JsonSerializable()
 class ThongTinKhoaHocData {
   int? id,so_gio;
-  String? ma_don_hang,dichVu,soBuoiHoanThanh,tong_tien,trang_thai_thanh_toan,lich_hoc,thoi_gian,chonCa,dia_chi,noi_dung_khao_sat,sdtQuanLy;
+  String? ma_don_hang,dichVu,soBuoiHoanThanh,tong_tien,trang_thai_thanh_toan,lich_hoc,thoi_gian,chonCa,dia_chi,noi_dung_khao_sat;
   GiaoVien? giaoVien;
+  GiaoVien? leaderKD;
   TienDo? tienDo;
 
 
@@ -53,7 +54,7 @@ class ThongTinKhoaHocData {
       this.chonCa,
       this.dia_chi,
       this.noi_dung_khao_sat,
-      this.sdtQuanLy,
+      this.leaderKD,
       this.giaoVien,
       this.tienDo,this.so_gio);
 
