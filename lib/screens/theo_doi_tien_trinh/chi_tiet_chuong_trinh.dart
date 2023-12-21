@@ -77,8 +77,24 @@ class _ChiTietChuongTrinhState extends State<ChiTietChuongTrinh> {
                   GetX<TheoDoiTienTrinhController>(builder: (controller) {
                     if (controller.chuongTrinhHocList.value != null) {
                       return Column(
-                        children:
-                        List.generate(controller.chuongTrinhHocList.value!.length, (index) => ItemChuongTrinh(data: controller.chuongTrinhHocList.value![index],)),
+                          children:
+                          // [
+
+                          List.generate(controller.chuongTrinhHocList.value!.length, (index) => Column(
+                            children: [
+                              Row(
+                                children: [
+                                  AppText(
+                                    controller.chuongTrinhHocList.value![index].ten_chuong_trinh??'',
+                                    style: AppStyle.DEFAULT_18_BOLD,
+                                  ),
+                                  AppText(controller.chuongTrinhHocList.value![index].name??'',style: AppStyle.DEFAULT_18_BOLD.copyWith(color: AppColors.primary),)
+                                ],
+                              ),
+                              ...List.generate(controller.chuongTrinhHocList.value![index].goiHoc!.length, (index1) => ItemChuongTrinh(data: controller.chuongTrinhHocList.value![index].goiHoc![index1],))
+                            ],
+                          ))
+                        // ]
                       );
                     } else {
                       return SizedBox();
@@ -123,6 +139,7 @@ class _ItemChuongTrinhState extends State<ItemChuongTrinh> {
       duration: Duration(milliseconds: 300),
       height: height,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
             padding: EdgeInsets.only(left: 15.sp, top: 15.sp, bottom: 10.sp),
@@ -142,13 +159,13 @@ class _ItemChuongTrinhState extends State<ItemChuongTrinh> {
                 ),
                 Expanded(
                     child: AppText(
-                  widget.data.tieu_de??'',
-                  style: AppStyle.DEFAULT_18_BOLD,
-                )),
+                      'Bài học',
+                      style: AppStyle.DEFAULT_18_BOLD,
+                    )),
                 SizedBox(
                   width: 10.sp,
                 ),
-                ContainerText(text: '#${widget.data.id}', color: AppColors.primary),
+                ContainerText(text: '#${widget.data.tieu_de}', color: AppColors.primary),
                 InkWell(
                   onTap: () {
                     if (height == null)
@@ -179,30 +196,75 @@ class _ItemChuongTrinhState extends State<ItemChuongTrinh> {
           SizedBox(
             height: 15.sp,
           ),
+          Container(
+            decoration: BoxDecoration(
+                border: Border.all(width: 1,color: AppColors.grayE5),
+                borderRadius: BorderRadius.circular(10.sp)
+            ),
+            margin: EdgeInsets.only(left: 15.w),
+            clipBehavior: Clip.antiAlias,
+            width: 156.w,
+            child: Column(
+              children: [
+                WidgetNetworkImage(image: widget.data.giaoCu!.image??'',width: 154.w,height: 105.h,fit: BoxFit.cover,),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 8.w,vertical: 6.h),
+                  decoration: BoxDecoration(
+                      color: AppColors.orange
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: AppText(
+                          'Gói giáo cụ',
+                          style: AppStyle.DEFAULT_12_BOLD.copyWith(color: AppColors.white),
+                        ),
+                      ),
+                      SizedBox(width: 6.sp,),
+                      Expanded(child: Container(
+                        decoration: BoxDecoration(
+                            color: AppColors.white,
+                            borderRadius: BorderRadius.circular(50.sp)
+                        ),
+                        child: AppText(
+                          widget.data.giaoCu!.code??'',
+                          textAlign: TextAlign.center,
+                          style: AppStyle.DEFAULT_14.copyWith(color: AppColors.orange,fontWeight: FontWeight.w600),
+                        ),
+                      ))
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 15.sp,
+          ),
           ...List.generate(
               widget.data.buoiHoc!.length,
-              (index) => Container(
-                    padding: EdgeInsets.symmetric(horizontal: 15.sp),
-                    margin: EdgeInsets.only(bottom: 15.sp),
-                    width: Get.width,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        AppText(
-                          'Nội dung hoạt động buổi ${widget.data.buoiHoc![index].buoi}',
-                          style: AppStyle.DEFAULT_14
-                              .copyWith(fontWeight: FontWeight.w600),
-                        ),
-                        SizedBox(
-                          height: 10.sp,
-                        ),
-                        HtmlWidget(
-                          widget.data.buoiHoc![index].noi_dung??'',
-                          textStyle: AppStyle.DEFAULT_14.copyWith(),
-                        ),
-                      ],
+                  (index) => Container(
+                padding: EdgeInsets.symmetric(horizontal: 15.sp),
+                margin: EdgeInsets.only(bottom: 15.sp),
+                width: Get.width,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    AppText(
+                      'Nội dung hoạt động buổi ${widget.data.buoiHoc![index].buoi}',
+                      style: AppStyle.DEFAULT_14
+                          .copyWith(fontWeight: FontWeight.w600),
                     ),
-                  ))
+                    SizedBox(
+                      height: 10.sp,
+                    ),
+                    HtmlWidget(
+                      widget.data.buoiHoc![index].noi_dung??'',
+                      textStyle: AppStyle.DEFAULT_14.copyWith(),
+                    ),
+                  ],
+                ),
+              ))
         ],
       ),
     );

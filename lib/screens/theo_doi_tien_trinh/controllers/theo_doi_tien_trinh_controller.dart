@@ -23,7 +23,7 @@ class TheoDoiTienTrinhController extends BaseController {
   Rx<ThongTinKhoaHocData?> thongTinKhoaHoc = Rxn(null);
   Rx<ChiTietNXData?> chiTietNX = Rxn(null);
   Rx<DonHuyData?> donHuy = Rxn(null);
-  Rx<List<ChuongTrinhHocData>?> chuongTrinhHocList = Rxn(null);
+  Rx<List<GoiHocData>?> chuongTrinhHocList = Rxn(null);
   Rx<int> maxList = Rx(1);
   Rx<int> maxDaoTao = Rx(1);
 

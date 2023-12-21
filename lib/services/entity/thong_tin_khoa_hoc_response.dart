@@ -9,7 +9,7 @@ part 'thong_tin_khoa_hoc_response.g.dart';
 @JsonSerializable()
 class TienDo {
   int? id,danh_gia,so_gio,buoi,tong_buoi;
-  String? ngay_day,ca_day,ke_hoach_day,nhan_xet_buoi_hoc,image,video,thoi_gian;
+  String? ngay_day,ca_day,nhan_xet_buoi_hoc,image,video,thoi_gian;
   TrangThaiData? trang_thai;
 
   TienDo(
@@ -19,7 +19,6 @@ class TienDo {
       this.buoi,
       this.ngay_day,
       this.ca_day,
-      this.ke_hoach_day,
       this.nhan_xet_buoi_hoc,
       this.trang_thai,
       this.image,

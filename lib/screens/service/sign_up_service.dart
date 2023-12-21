@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:lunar/calendar/Lunar.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:trong_tre/generated/assets.dart';
@@ -47,42 +48,44 @@ class _SignUpServiceState extends State<SignUpService> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          SizedBox(
-            height: 10.sp,
-          ),
-          _thongtinDichVu(),
-          SizedBox(
-            height: 20.sp,
-          ),
-          _diaDiem(),
-          SizedBox(
-            height: 20.sp,
-          ),
-          _thoiGian(),
-          SizedBox(
-            height: 20.sp,
-          ),
-          SelectShift(
-            dichVuId: dichVuId,
-          ),
-          SizedBox(
-            height: 38.sp,
-          ),
-          DButton(
-              text: 'Tiếp tục',
-              right: SvgPicture.asset(
-                Assets.iconsNext,
-                width: 18.sp,
-                height: 18.sp,
-              ),
-              onClick: onClickNext),
-          SizedBox(
-            height: MediaQuery.of(context).viewPadding.bottom + 20.sp,
-          )
-        ],
+    return KeyboardDismisser(
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(
+              height: 10.sp,
+            ),
+            _thongtinDichVu(),
+            SizedBox(
+              height: 20.sp,
+            ),
+            _diaDiem(),
+            SizedBox(
+              height: 20.sp,
+            ),
+            _thoiGian(),
+            SizedBox(
+              height: 20.sp,
+            ),
+            SelectShift(
+              dichVuId: dichVuId,
+            ),
+            SizedBox(
+              height: 38.sp,
+            ),
+            DButton(
+                text: 'Tiếp tục',
+                right: SvgPicture.asset(
+                  Assets.iconsNext,
+                  width: 18.sp,
+                  height: 18.sp,
+                ),
+                onClick: onClickNext),
+            SizedBox(
+              height: MediaQuery.of(context).viewPadding.bottom + 20.sp,
+            )
+          ],
+        ),
       ),
     );
   }

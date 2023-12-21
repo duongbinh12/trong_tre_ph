@@ -21,6 +21,7 @@ class AppColors {
   static final blue2 =const Color(0xff0056B1);
   static final red =const Color(0xffE4002B);
   static final orange =const Color(0xffFFA02F);
+  static final orange2 =const Color(0xffFC4D32);
   static final borderRed =const Color(0xffFFC2CD);
   static final borderGray =const Color(0xffEFF0F6);
   static final bgRed =const Color(0xffFDE6EA);

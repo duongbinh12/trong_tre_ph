@@ -13,7 +13,6 @@ TienDo _$TienDoFromJson(Map<String, dynamic> json) => TienDo(
       json['buoi'] as int?,
       json['ngay_day'] as String?,
       json['ca_day'] as String?,
-      json['ke_hoach_day'] as String?,
       json['nhan_xet_buoi_hoc'] as String?,
       json['trang_thai'] == null
           ? null
@@ -32,7 +31,6 @@ Map<String, dynamic> _$TienDoToJson(TienDo instance) => <String, dynamic>{
       'tong_buoi': instance.tong_buoi,
       'ngay_day': instance.ngay_day,
       'ca_day': instance.ca_day,
-      'ke_hoach_day': instance.ke_hoach_day,
       'nhan_xet_buoi_hoc': instance.nhan_xet_buoi_hoc,
       'image': instance.image,
       'video': instance.video,

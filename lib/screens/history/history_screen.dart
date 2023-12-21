@@ -263,12 +263,13 @@ class _HistoryScreenState extends State<HistoryScreen> {
 
   Widget _itemHistory(ItemHistoryOrder data) {
     Color colorItem = data.trang_thai!.id == 47
-        ? AppColors.primary
+        ? AppColors.blue
         : data.trang_thai!.id == 46
-            ? AppColors.blue
+            ? AppColors.orange2
         : data.trang_thai!.id == 48
         ? AppColors.green
-            : AppColors.orange;
+    :data.trang_thai!.id==49?Color(0xff29A0EB)
+            : AppColors.primary;
     // Color colorItem=AppColors.orange;
     return InkWell(
       onTap: () {
@@ -360,7 +361,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                       child: DButton(
                           text: data.trang_thai!.name??'',
                           padH: 9.sp,
-                          padV: 8.w,
+                          padV: 3.w,
                           background: colorItem,
                           borderColor: colorItem,
                           textStyle: AppStyle.DEFAULT_14.copyWith(

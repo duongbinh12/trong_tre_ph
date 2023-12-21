@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:just_the_tooltip/just_the_tooltip.dart';
+import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:trong_tre/generated/assets.dart';
 import 'package:trong_tre/res/app_values.dart';
 import 'package:trong_tre/screens/service/controllers/service_controller.dart';
@@ -46,121 +47,123 @@ class _ChonHocPhiState extends State<ChonHocPhi> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
+    return KeyboardDismisser(
+      child: SingleChildScrollView(
+        child: Column(
 
-        children: [
-          _pickTeacher(),
-          SizedBox(
-            height: 20.sp,
-          ),
-          _soLuongBe(),
-          SizedBox(
-            height: 20.sp,
-          ),
-          _anTrua(),
-          SizedBox(
-            height: 20.sp,
-          ),
-          _themGio(),
-          SizedBox(
-            height: 20.sp,
-          ),
-          Container(
-              margin: EdgeInsets.symmetric(horizontal: 15.sp),
-              child: _title(
-                  icon: Assets.iconsIcCalendar,
-                  title: 'Chọn buổi',
-                  colorIcon: AppColors.blue)),
-          SizedBox(
-            height: 15.sp,
-          ),
-          GetX<ServiceController>(builder: (controller) {
-            if (controller.listBuoiHoc.value != null) {
-              return ListView.builder(
-                itemCount: controller.listBuoiHoc.value!.length,
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                padding: EdgeInsets.zero,
-                itemBuilder: (context, index) {
-                  return ItemBuoi(
-                      index: index,
-                      data: controller.listBuoiHoc.value![index],
-                      onClick: () {
-                        setState(() {
-                          indexBuoi = index;
-                        });
-                        _serviceController.chooseBuoi(index);
-                      },
-                      isSelected: indexBuoi == index);
-                },
+          children: [
+            _pickTeacher(),
+            SizedBox(
+              height: 20.sp,
+            ),
+            _soLuongBe(),
+            SizedBox(
+              height: 20.sp,
+            ),
+            _anTrua(),
+            SizedBox(
+              height: 20.sp,
+            ),
+            _themGio(),
+            SizedBox(
+              height: 20.sp,
+            ),
+            Container(
+                margin: EdgeInsets.symmetric(horizontal: 15.sp),
+                child: _title(
+                    icon: Assets.iconsIcCalendar,
+                    title: 'Chọn buổi',
+                    colorIcon: AppColors.blue)),
+            SizedBox(
+              height: 15.sp,
+            ),
+            GetX<ServiceController>(builder: (controller) {
+              if (controller.listBuoiHoc.value != null) {
+                return ListView.builder(
+                  itemCount: controller.listBuoiHoc.value!.length,
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  padding: EdgeInsets.zero,
+                  itemBuilder: (context, index) {
+                    return ItemBuoi(
+                        index: index,
+                        data: controller.listBuoiHoc.value![index],
+                        onClick: () {
+                          setState(() {
+                            indexBuoi = index;
+                          });
+                          _serviceController.chooseBuoi(index);
+                        },
+                        isSelected: indexBuoi == index);
+                  },
+                );
+              } else
+                return SizedBox();
+            }),
+            SizedBox(
+              height: 10.sp,
+            ),
+            DottedLine(),
+            SizedBox(
+              height: 24.sp,
+            ),
+            GetX<ServiceController>(builder: (controller) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  DRowText(
+                    textL: 'Học phí',
+                    money: controller.hocPhi.value! * controller.soLuongBe.value,
+                  ),
+                  SizedBox(
+                    height: 16.sp,
+                  ),
+                  DRowText(
+                    textL: 'Phụ cấp',
+                    money: (controller.tienAnTrua.value +
+                            controller.tienThemGio.value) *
+                        controller.soLuongBe.value *
+                        controller
+                            .listBuoiHoc.value![controller.indexBuoi].so_buoi!,
+                  ),
+                  SizedBox(
+                    height: 16.sp,
+                  ),
+                  DRowText(
+                    textL: 'Tổng',
+                    money:
+                        (controller.hocPhi.value! * controller.soLuongBe.value) +
+                            (controller.tienAnTrua.value +
+                                    controller.tienThemGio.value) *
+                                controller.soLuongBe.value *
+                                controller.listBuoiHoc
+                                    .value![controller.indexBuoi].so_buoi!,
+                    styleR: AppStyle.DEFAULT_20_BOLD
+                        .copyWith(color: AppColors.primary, height: 1.2),
+                  ),
+                  SizedBox(
+                    height: 10.h,
+                  ),
+                  AppText(
+                    '(không bao gồm các ngày nghỉ Lễ, Tết)',
+                    style: AppStyle.DEFAULT_14.copyWith(
+                        fontWeight: FontWeight.w500,
+                        fontStyle: FontStyle.italic,
+                        color: AppColors.textBlack),
+                  ),
+                ],
               );
-            } else
-              return SizedBox();
-          }),
-          SizedBox(
-            height: 10.sp,
-          ),
-          DottedLine(),
-          SizedBox(
-            height: 24.sp,
-          ),
-          GetX<ServiceController>(builder: (controller) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                DRowText(
-                  textL: 'Học phí',
-                  money: controller.hocPhi.value! * controller.soLuongBe.value,
-                ),
-                SizedBox(
-                  height: 16.sp,
-                ),
-                DRowText(
-                  textL: 'Phụ cấp',
-                  money: (controller.tienAnTrua.value +
-                          controller.tienThemGio.value) *
-                      controller.soLuongBe.value *
-                      controller
-                          .listBuoiHoc.value![controller.indexBuoi].so_buoi!,
-                ),
-                SizedBox(
-                  height: 16.sp,
-                ),
-                DRowText(
-                  textL: 'Tổng',
-                  money:
-                      (controller.hocPhi.value! * controller.soLuongBe.value) +
-                          (controller.tienAnTrua.value +
-                                  controller.tienThemGio.value) *
-                              controller.soLuongBe.value *
-                              controller.listBuoiHoc
-                                  .value![controller.indexBuoi].so_buoi!,
-                  styleR: AppStyle.DEFAULT_20_BOLD
-                      .copyWith(color: AppColors.primary, height: 1.2),
-                ),
-                SizedBox(
-                  height: 10.h,
-                ),
-                AppText(
-                  '(không bao gồm các ngày nghỉ Lễ, Tết)',
-                  style: AppStyle.DEFAULT_14.copyWith(
-                      fontWeight: FontWeight.w500,
-                      fontStyle: FontStyle.italic,
-                      color: AppColors.textBlack),
-                ),
-              ],
-            );
-          }),
-          SizedBox(
-            height: 22.sp,
-          ),
-          DottedLine(),
-          SizedBox(
-            height: 20.sp,
-          ),
-          _note()
-        ],
+            }),
+            SizedBox(
+              height: 22.sp,
+            ),
+            DottedLine(),
+            SizedBox(
+              height: 20.sp,
+            ),
+            _note()
+          ],
+        ),
       ),
     );
   }
