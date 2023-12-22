@@ -16,18 +16,22 @@ import '../../res/app_styles.dart';
 import '../../widgets/app_text.dart';
 
 class XacNhanLichHoc extends StatefulWidget {
-  const XacNhanLichHoc({super.key});
+  const XacNhanLichHoc({super.key,required this.pageController});
+  final PageController pageController;
 
   @override
   State<XacNhanLichHoc> createState() => _XacNhanLichHocState();
 }
 
-class _XacNhanLichHocState extends State<XacNhanLichHoc> {
+class _XacNhanLichHocState extends State<XacNhanLichHoc> with AutomaticKeepAliveClientMixin{
   ServiceController _serviceController=Get.find<ServiceController>();
   double goiHoc=0;
   double phuCap=0;
   double tongTien=0;
   String thoiGian="";
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -252,5 +256,6 @@ class _XacNhanLichHocState extends State<XacNhanLichHoc> {
 
   onClickNext() {
     _serviceController.nextTab();
+    widget.pageController.nextPage(duration: Duration(milliseconds: 200), curve: Curves.ease);
   }
 }

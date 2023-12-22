@@ -25,19 +25,23 @@ import 'package:url_launcher/url_launcher.dart';
 import '../home/menu.dart';
 
 class SignUpService extends StatefulWidget {
-  const SignUpService({super.key});
+  const SignUpService({super.key,required this.pageController});
+  final PageController pageController;
 
   @override
   State<SignUpService> createState() => _SignUpServiceState();
 }
 
-class _SignUpServiceState extends State<SignUpService> {
+class _SignUpServiceState extends State<SignUpService>  with AutomaticKeepAliveClientMixin {
   int indexThu = 0;
   List<String> thu = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'];
   DateTime _thoiGianPick = DateTime.now().add(Duration(days: 2));
   int dichVuId = Get.arguments;
 
   ServiceController _serviceController = Get.find<ServiceController>();
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -280,6 +284,7 @@ class _SignUpServiceState extends State<SignUpService> {
     if (_serviceController.diaDiem != "" &&
         _serviceController.arrThu.isNotEmpty) {
       _serviceController.nextTab();
+      widget.pageController.nextPage(duration: Duration(milliseconds: 300), curve: Curves.ease);
     } else {
       NotificationDialog.createSimpleDialog(
           context: context, titleButton1: "OK",

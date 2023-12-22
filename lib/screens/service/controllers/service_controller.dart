@@ -121,8 +121,11 @@ class ServiceController extends BaseController {
         onSuccess: (result) {
           if (page == 1) {
             listBuoiHoc.value = result.data;
-            hocPhi.value = double.parse(result.data![0].thanh_tien!);
-            idGoiHocPhi=result.data![0].id!;
+            if(result.data!.isNotEmpty)
+            {
+              hocPhi.value = double.parse(result.data![0].thanh_tien!);
+              idGoiHocPhi=result.data![0].id!;
+            }
           } else {
             listBuoiHoc.value = [...listBuoiHoc.value!, ...result.data!];
           }
