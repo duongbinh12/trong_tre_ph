@@ -15,13 +15,17 @@ import 'package:trong_tre/widgets/app_text.dart';
 import 'package:trong_tre/widgets/widget_handle.dart';
 
 class ThanhToan extends StatefulWidget {
-  const ThanhToan({super.key});
+  const ThanhToan({super.key, required this.pageController});
+  final PageController pageController;
 
   @override
   State<ThanhToan> createState() => _ThanhToanState();
 }
 
-class _ThanhToanState extends State<ThanhToan> {
+class _ThanhToanState extends State<ThanhToan> with AutomaticKeepAliveClientMixin{
+
+  @override
+  bool get wantKeepAlive => true;
   List phuongThuc = [
     {
       'image': Assets.iconsVnPay,

@@ -22,13 +22,14 @@ import '../../res/colors.dart';
 import '../../widgets/app_text.dart';
 
 class ChonHocPhi extends StatefulWidget {
-  const ChonHocPhi({super.key});
+  const ChonHocPhi({super.key,required this.pageController});
+  final PageController pageController;
 
   @override
   State<ChonHocPhi> createState() => _ChonHocPhiState();
 }
 
-class _ChonHocPhiState extends State<ChonHocPhi> {
+class _ChonHocPhiState extends State<ChonHocPhi>with AutomaticKeepAliveClientMixin {
   int indexTeacher = 0;
   int indexBuoi = 0;
   TextEditingController _noteController = TextEditingController();
@@ -36,6 +37,9 @@ class _ChonHocPhiState extends State<ChonHocPhi> {
   int dichVuId = Get.arguments;
 
   JustTheController _justTheController = JustTheController();
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -78,7 +82,8 @@ class _ChonHocPhiState extends State<ChonHocPhi> {
               height: 15.sp,
             ),
             GetX<ServiceController>(builder: (controller) {
-              if (controller.listBuoiHoc.value != null) {
+              if (controller.listBuoiHoc.value != null && controller.listBuoiHoc.value!.isNotEmpty) {
+                print("hahaha 1");
                 return ListView.builder(
                   itemCount: controller.listBuoiHoc.value!.length,
                   shrinkWrap: true,
@@ -97,8 +102,9 @@ class _ChonHocPhiState extends State<ChonHocPhi> {
                         isSelected: indexBuoi == index);
                   },
                 );
-              } else
+              } else {
                 return SizedBox();
+              }
             }),
             SizedBox(
               height: 10.sp,
@@ -108,7 +114,8 @@ class _ChonHocPhiState extends State<ChonHocPhi> {
               height: 24.sp,
             ),
             GetX<ServiceController>(builder: (controller) {
-              return Column(
+              if(controller.listBuoiHoc.value!=null && controller.listBuoiHoc.value!.isNotEmpty) {
+                return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   DRowText(
@@ -153,6 +160,8 @@ class _ChonHocPhiState extends State<ChonHocPhi> {
                   ),
                 ],
               );
+              }
+              else return SizedBox();
             }),
             SizedBox(
               height: 22.sp,
@@ -219,8 +228,9 @@ class _ChonHocPhiState extends State<ChonHocPhi> {
               )
             ],
           );
-        } else
+        } else {
           return SizedBox();
+        }
       }),
     );
   }
@@ -289,8 +299,9 @@ class _ChonHocPhiState extends State<ChonHocPhi> {
               )
             ],
           );
-        } else
+        } else {
           return SizedBox();
+        }
       }),
     );
   }
@@ -332,8 +343,9 @@ class _ChonHocPhiState extends State<ChonHocPhi> {
               )
             ],
           );
-        } else
+        } else {
           return SizedBox();
+        }
       }),
     );
   }
@@ -437,6 +449,7 @@ class _ChonHocPhiState extends State<ChonHocPhi> {
   onCLickNext() {
     if (_noteController.text != "") {
       _serviceController.nextTab();
+      widget.pageController.nextPage(duration: Duration(milliseconds: 200), curve: Curves.ease);
     } else {
       NotificationDialog.createSimpleDialog(
           context: context,

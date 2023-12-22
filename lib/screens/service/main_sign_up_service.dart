@@ -21,11 +21,16 @@ class MainSignUpService extends StatefulWidget {
   State<MainSignUpService> createState() => _MainSignUpServiceState();
 }
 
-class _MainSignUpServiceState extends State<MainSignUpService> {
+class _MainSignUpServiceState extends State<MainSignUpService>{
   final GlobalKey<ScaffoldState> ScaffoldKey = GlobalKey();
 
   ServiceController _serviceController = Get.find<ServiceController>();
-  PageController _pageController = PageController();
+  PageController _pageController=PageController();
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -46,7 +51,7 @@ class _MainSignUpServiceState extends State<MainSignUpService> {
     _serviceController.ghiChu = "";
     _serviceController.thoiGianBatDau = "";
     _serviceController.diaDiem = "";
-    _serviceController.arrThu = [];
+    _serviceController.arrThu = [2,3,4,5,6];
     _serviceController.giaoVien = 15;
     _serviceController.idKhungGioCa = -1;
     _serviceController.idGoiHocPhi = -1;
@@ -80,6 +85,7 @@ class _MainSignUpServiceState extends State<MainSignUpService> {
                     onBack: () {
                       if(controller.tabService.value>1){
                         controller.preTab();
+                        _pageController.previousPage(duration: Duration(milliseconds: 100), curve: Curves.ease);
                       }
                       else{
                         Get.back();
@@ -105,18 +111,15 @@ class _MainSignUpServiceState extends State<MainSignUpService> {
                   ),
                   SizedBox(height: 16.sp,),
                   Expanded(
-                      child: GetX<ServiceController>(builder: (controller) {
-                        return IndexedStack(
-                          children: [
-                                  SignUpService(),
-                                  ChonHocPhi(),
-                                  XacNhanLichHoc(),
-                                  ThanhToan()
-                          ],
-                          index: controller.tabService.value-1,
-                        );
-
-                      },))
+                      child: PageView(
+                        controller: _pageController,
+                        children: [
+                            SignUpService(pageController: _pageController,),
+                            ChonHocPhi(pageController: _pageController,),
+                            XacNhanLichHoc(pageController: _pageController,),
+                            ThanhToan(pageController: _pageController,)
+                        ],
+                      ))
                 ],
               ),
             ))
