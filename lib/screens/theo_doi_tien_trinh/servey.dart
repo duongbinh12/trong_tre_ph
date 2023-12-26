@@ -227,7 +227,7 @@ class _ServeyState extends State<Servey> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AppText(
-            'Liên hệ với Quản lý ${data.leaderKD!.hoten}',
+            'Liên hệ với Quản lý ${data.leaderKD!=null? data.leaderKD!.hoten:''}',
             style: AppStyle.DEFAULT_16_BOLD,
           ),
           SizedBox(

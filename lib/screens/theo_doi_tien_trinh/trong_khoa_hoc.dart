@@ -34,7 +34,6 @@ class _TrongKhoaHocState extends State<TrongKhoaHoc> {
 
   @override
   void initState() {
-    print("Dương ${widget.id}");
     if (widget.id != -1) {
       id = widget.id;
       Future.delayed(Duration(seconds: 0), () {

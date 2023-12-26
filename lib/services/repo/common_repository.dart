@@ -23,6 +23,7 @@ import 'package:trong_tre/services/entity/thong_tin_khoa_hoc_response.dart';
 import 'package:trong_tre/services/entity/tin_tuc_response.dart';
 import '../api/app_rest_client.dart';
 import '../entity/danh_sach_dao_tao_response.dart';
+import '../entity/find_teacher_response.dart';
 import '../entity/login_response.dart';
 import 'app_common_repository.dart';
 
@@ -295,5 +296,15 @@ class CommonRepository extends AppCommonRepository {
   Future<BaseResponse> tuChoi(int id) async {
     final client = AppRestClient(dio);
     return client.tuChoi(id);
+  }
+
+  Future<FindTeacherResponse> timGiaoVien(int id) async {
+    final client = AppRestClient(dio);
+    return client.timGiaoVien(id);
+  }
+
+  Future<BaseResponse> huyDon(int id,String li_do_huy) async {
+    final client = AppRestClient(dio);
+    return client.huyDon(id, li_do_huy);
   }
 }

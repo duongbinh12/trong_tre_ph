@@ -35,8 +35,8 @@ class _XacNhanLichHocState extends State<XacNhanLichHoc> with AutomaticKeepAlive
 
   @override
   void initState() {
-    goiHoc=(double.parse(_serviceController.listBuoiHoc.value![_serviceController.indexBuoi].thanh_tien!))*_serviceController.soLuongBe.value;
-    phuCap=(_serviceController.tienAnTrua.value+_serviceController.tienThemGio.value)*_serviceController.soLuongBe.value*_serviceController.listBuoiHoc.value![_serviceController.indexBuoi].so_buoi!;
+    goiHoc=(double.parse(_serviceController.listBuoiHoc.value![_serviceController.indexBuoi].thanh_tien!))+(double.parse(_serviceController.listBuoiHoc.value![_serviceController.indexBuoi].thanh_tien!)/2)*(_serviceController.soLuongBe.value-1);
+    phuCap=(_serviceController.tienAnTrua.value+_serviceController.tienThemGio.value)*_serviceController.listBuoiHoc.value![_serviceController.indexBuoi].so_buoi!;
     tongTien=goiHoc+phuCap;
     if(_serviceController.arrThu.contains(1)){
       _serviceController.arrThu.remove(1);

@@ -27,11 +27,7 @@ class TheoDoiTienTrinhController extends BaseController {
   Rx<int> maxList = Rx(1);
   Rx<int> maxDaoTao = Rx(1);
 
-
-  dongThuan({
-    required int id,
-    Function? onSuccess
-  }) {
+  dongThuan({required int id, Function? onSuccess}) {
     callApi<BaseResponse>(
         api: commonRepository.dongThuan(id),
         onSuccess: (result) {
@@ -43,10 +39,7 @@ class TheoDoiTienTrinhController extends BaseController {
         });
   }
 
-  tuChoi({
-    required int id,
-    Function? onSuccess
-  }) {
+  tuChoi({required int id, Function? onSuccess}) {
     callApi<BaseResponse>(
         api: commonRepository.tuChoi(id),
         onSuccess: (result) {
@@ -174,7 +167,7 @@ class TheoDoiTienTrinhController extends BaseController {
               context: Get.context!,
               titleButton1: "OK",
               content: "Đánh giá giáo viên thành công!",
-              onTap1: (){
+              onTap1: () {
                 Get.back();
                 Get.back();
               },

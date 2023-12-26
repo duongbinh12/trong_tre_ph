@@ -25,6 +25,7 @@ import 'package:trong_tre/services/entity/thong_tin_giao_vien_response.dart';
 import 'package:trong_tre/services/entity/thong_tin_khoa_hoc_response.dart';
 import 'package:trong_tre/services/entity/tin_tuc_response.dart';
 import '../entity/chuong_trinh_hoc_response.dart';
+import '../entity/find_teacher_response.dart';
 import 'endpoint.dart';
 part 'app_rest_client.g.dart';
 
@@ -293,5 +294,16 @@ abstract class AppRestClient {
   @POST(Endpoint.tuChoi)
   Future<BaseResponse> tuChoi(
       @Part(value: "id") int id,
+      );
+
+  @GET(Endpoint.timGiaoVien)
+  Future<FindTeacherResponse> timGiaoVien(
+      @Query('id') int id,
+      );
+
+  @POST(Endpoint.huyDon)
+  Future<BaseResponse> huyDon(
+      @Part(value: "id") int id,
+      @Part(value: "li_do_huy") String li_do_huy,
       );
 }
