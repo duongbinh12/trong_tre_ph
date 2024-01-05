@@ -273,7 +273,10 @@ class _HistoryScreenState extends State<HistoryScreen> {
     // Color colorItem=AppColors.orange;
     return InkWell(
       onTap: () {
-        if(data.trang_thai!.id==45||data.trang_thai!.id==46){
+        if(data.trang_thai!.id==45){
+          AppNavigator.navigateTheoDoiTienTrinh(1,id: data.id);
+        }
+        else if(data.trang_thai!.id==46){
           _historyController.getThongTinGiaoVien(id: data.id.toString());
         }
         else if(data.trang_thai!.id==50){

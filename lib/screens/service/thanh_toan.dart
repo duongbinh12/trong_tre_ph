@@ -54,12 +54,13 @@ class _ThanhToanState extends State<ThanhToan> with AutomaticKeepAliveClientMixi
 
   @override
   void initState() {
-    goiHoc = (double.parse(_serviceController
-            .listBuoiHoc.value![_serviceController.indexBuoi].thanh_tien!)) *
-        _serviceController.soLuongBe.value;
+    goiHoc =(double.parse(_serviceController
+        .listBuoiHoc.value![_serviceController.indexBuoi].thanh_tien!))+ (double.parse(_serviceController
+            .listBuoiHoc.value![_serviceController.indexBuoi].thanh_tien!)/2) *
+        (_serviceController.soLuongBe.value-1);
     phuCap = (_serviceController.tienAnTrua.value +
             _serviceController.tienThemGio.value) *
-        _serviceController.soLuongBe.value *
+        // _serviceController.soLuongBe.value *
         _serviceController
             .listBuoiHoc.value![_serviceController.indexBuoi].so_buoi!;
     tongTien = goiHoc + phuCap;

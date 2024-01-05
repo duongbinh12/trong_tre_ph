@@ -71,7 +71,7 @@ class NotificationDialog {
                   ) : Container(),
                   image != null ? AppValue.vSpaceSmall : AppValue.kEmptyWidget,
 
-                  Text(title ?? 'notification.notification'.tr,
+                  if(title!=null) Text(title ?? '',
                     style: AppStyle.DEFAULT_16.copyWith(
                         fontWeight: FontWeight.w500),),
                   AppValue.vSpaceSmall,

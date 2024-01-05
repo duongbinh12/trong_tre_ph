@@ -120,7 +120,7 @@ class _ChonHocPhiState extends State<ChonHocPhi>with AutomaticKeepAliveClientMix
                 children: [
                   DRowText(
                     textL: 'Học phí',
-                    money: controller.hocPhi.value! * controller.soLuongBe.value,
+                    money:controller.hocPhi.value!+ ((controller.hocPhi.value!/2) * (controller.soLuongBe.value-1)),
                   ),
                   SizedBox(
                     height: 16.sp,
@@ -129,7 +129,7 @@ class _ChonHocPhiState extends State<ChonHocPhi>with AutomaticKeepAliveClientMix
                     textL: 'Phụ cấp',
                     money: (controller.tienAnTrua.value +
                             controller.tienThemGio.value) *
-                        controller.soLuongBe.value *
+                        // controller.soLuongBe.value *
                         controller
                             .listBuoiHoc.value![controller.indexBuoi].so_buoi!,
                   ),
@@ -139,10 +139,10 @@ class _ChonHocPhiState extends State<ChonHocPhi>with AutomaticKeepAliveClientMix
                   DRowText(
                     textL: 'Tổng',
                     money:
-                        (controller.hocPhi.value! * controller.soLuongBe.value) +
+                        (controller.hocPhi.value!+ ((controller.hocPhi.value!/2) * (controller.soLuongBe.value-1))) +
                             (controller.tienAnTrua.value +
                                     controller.tienThemGio.value) *
-                                controller.soLuongBe.value *
+                                // controller.soLuongBe.value *
                                 controller.listBuoiHoc
                                     .value![controller.indexBuoi].so_buoi!,
                     styleR: AppStyle.DEFAULT_20_BOLD

@@ -40,6 +40,8 @@ class Endpoint {
   static const vnpay = '/services/create-payment';
   static const dongThuan = '/parent-api/dong-thuan';
   static const tuChoi = '/parent-api/tu-choi';
+  static const timGiaoVien = '/parent-api/dang-tim-giao-vien';
+  static const huyDon = '/parent-api/huy-don';
 
   static const home = '/parent-api/home';
   static const tinTuc = '/parent-api/tin-tuc';

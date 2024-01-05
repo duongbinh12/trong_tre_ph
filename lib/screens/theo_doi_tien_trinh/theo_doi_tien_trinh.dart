@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:trong_tre/screens/theo_doi_tien_trinh/controllers/theo_doi_tien_trinh_controller.dart';
+import 'package:trong_tre/screens/theo_doi_tien_trinh/dang_tim_giao_vien.dart';
 import 'package:trong_tre/screens/theo_doi_tien_trinh/no_find_teacher.dart';
 import 'package:trong_tre/screens/theo_doi_tien_trinh/servey.dart';
 import 'package:trong_tre/screens/theo_doi_tien_trinh/trong_khoa_hoc.dart';
@@ -82,7 +83,7 @@ class _TheoDoiTienTrinhState extends State<TheoDoiTienTrinh> {
                     SizedBox(
                       height: 23.sp,
                     ),
-                    Expanded(child: (controller.indexTab.value==2&&isHuy==true)?NoFindTeacher():controller.indexTab.value==2?Servey(id: id??-1,):controller.indexTab.value==3?TrongKhoaHoc(id: id??-1,): TrongKhoaHoc(id: id??-1,)),
+                    Expanded(child: (controller.indexTab.value==2&&isHuy==true)?NoFindTeacher():controller.indexTab.value==2?Servey(id: id??-1,):controller.indexTab.value==3?TrongKhoaHoc(id: id??-1,): DangTimGiaoVien(id: id??-1)),
                   ],
                 ),
               ))
