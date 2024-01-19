@@ -97,30 +97,33 @@ class _DetailServiceState extends State<DetailService> {
                                 SizedBox(
                                   height: 10.sp,
                                 ),
-                                Row(
-                                  children: List.generate(
-                                      controller.detailService.value!.quyenLoi!
-                                          .length,
-                                      (index) => Container(
-                                            margin:
-                                                EdgeInsets.only(right: 10.w),
-                                            child: _itemQuyenLoi(
-                                                Assets.imagesQuyenLoi1,
-                                                controller
-                                                        .detailService
-                                                        .value!
-                                                        .quyenLoi![index]
-                                                        .name ??
-                                                    '',
-                                                controller
-                                                    .detailService
-                                                    .value!
-                                                    .quyenLoi![index]
-                                                    .link ??
-                                                    '',
-                                                Color(0xffFF9383),
-                                                Color(0xffFC4D32)),
-                                          )),
+                                SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Row(
+                                    children: List.generate(
+                                        controller.detailService.value!.quyenLoi!
+                                            .length,
+                                        (index) => Container(
+                                              margin:
+                                                  EdgeInsets.only(right: 10.w),
+                                              child: _itemQuyenLoi(
+                                                  Assets.imagesQuyenLoi1,
+                                                  controller
+                                                          .detailService
+                                                          .value!
+                                                          .quyenLoi![index]
+                                                          .name ??
+                                                      '',
+                                                  controller
+                                                      .detailService
+                                                      .value!
+                                                      .quyenLoi![index]
+                                                      .link ??
+                                                      '',
+                                                  Color(0xffFF9383),
+                                                  Color(0xffFC4D32)),
+                                            )),
+                                  ),
                                 ),
                                 SizedBox(
                                   height: 45.sp,

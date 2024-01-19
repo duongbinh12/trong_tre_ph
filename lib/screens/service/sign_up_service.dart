@@ -35,7 +35,7 @@ class SignUpService extends StatefulWidget {
 class _SignUpServiceState extends State<SignUpService>  with AutomaticKeepAliveClientMixin {
   int indexThu = 0;
   List<String> thu = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'];
-  DateTime _thoiGianPick = DateTime.now().add(Duration(days: 2));
+  DateTime _thoiGianPick = DateTime.now();
   int dichVuId = Get.arguments;
 
   ServiceController _serviceController = Get.find<ServiceController>();
