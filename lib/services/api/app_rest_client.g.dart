@@ -792,6 +792,7 @@ class _AppRestClient implements AppRestClient {
     int limit,
     int sort,
     int trinhDo,
+    int khungGioId,
   ) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
@@ -800,6 +801,7 @@ class _AppRestClient implements AppRestClient {
       r'limit': limit,
       r'sort': sort,
       r'trinh_do': trinhDo,
+      r'khung_gio_id': khungGioId,
     };
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
@@ -864,9 +866,9 @@ class _AppRestClient implements AppRestClient {
   }
 
   @override
-  Future<ChonHocPhiResponse> getChonHocPhi() async {
+  Future<ChonHocPhiResponse> getChonHocPhi(int caId) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'chon_ca_id': caId};
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
     final _result = await _dio

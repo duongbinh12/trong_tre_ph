@@ -47,6 +47,8 @@ class ServiceController extends BaseController {
   int idAnTrua = -1;
   int idThemGio = -1;
 
+  bool xuatHoaDon=false;
+
   getDetailService({required int id}) {
     callApi<ChiTietDichVuResponse>(
         api: commonRepository.getChiTietDichVu(id),
@@ -94,16 +96,27 @@ class ServiceController extends BaseController {
         });
   }
 
-  getChonHocPhi(int dichVuId) {
-    callApi<ChonHocPhiResponse>(
-        api: commonRepository.getChonHocPhi(),
-        onSuccess: (result) {
+  getChonHocPhi(int dichVuId,{Function? onSuccess}) async{
+    await callApi<ChonHocPhiResponse>(
+        api: commonRepository.getChonHocPhi(listCa.value![indexCa].id!),
+        onSuccess: (result) async{
           listLoaiGiaoVien.value = result.data!.loaiGiaoVien;
-          listAnTrua.value = result.data!.anTrua;
+
           listThemGio.value = result.data!.themGio;
-          idAnTrua=result.data!.anTrua![0].id!;
+          if(result.data!.anTrua!=null)
+          {
+            listAnTrua.value = result.data!.anTrua;
+            idAnTrua=result.data!.anTrua![0].id!;
+          }
+          else{
+            listAnTrua.value=null;
+          }
+          listAnTrua.refresh();
           idThemGio=result.data!.themGio![0].id!;
-          getSoBuoiHoc(dichVuId: dichVuId, page: 1, sort: 0, trinhDo: result.data!.loaiGiaoVien![0].id!);
+          await getSoBuoiHoc(dichVuId: dichVuId, page: 1, sort: 0, trinhDo: result.data!.loaiGiaoVien![0].id!);
+          if(onSuccess!=null){
+            onSuccess();
+          }
         },
         onError: (e) {
           print("error getChonHocPhi ${e}");
@@ -115,9 +128,9 @@ class ServiceController extends BaseController {
     required int page,
     required int sort,
     required int trinhDo
-  }) {
-    callApi<SoBuoiHocResponse>(
-        api: commonRepository.getSoBuoiHoc(dichVuId, page, 10, sort,trinhDo),
+  }) async{
+    await callApi<SoBuoiHocResponse>(
+        api: commonRepository.getSoBuoiHoc(dichVuId, page, 10, sort,trinhDo,idKhungGioCa),
         onSuccess: (result) {
           if (page == 1) {
             listBuoiHoc.value = result.data;
@@ -170,6 +183,7 @@ class ServiceController extends BaseController {
               content:
                   'Yêu cầu xuất hợp đồng và hoá đơn dịch vụ của bạn đang được xử lý, xin vui lòng kiểm tra email sau 24h không kể thứ 7, chủ nhật và các ngày nghỉ Lễ, Tết.',
               numberButton: 0);
+          xuatHoaDon=true;
         },
         onError: (e) {
           print("error addHoaDon ${e}");

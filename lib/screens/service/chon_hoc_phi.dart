@@ -43,10 +43,15 @@ class _ChonHocPhiState extends State<ChonHocPhi>with AutomaticKeepAliveClientMix
 
   @override
   void initState() {
-    Future.delayed(Duration(seconds: 0), () {
-      _serviceController.getChonHocPhi(dichVuId);
-    });
+    // Future.delayed(Duration(seconds: 0), () {
+    //   _serviceController.getChonHocPhi(dichVuId);
+    // });
     super.initState();
+  }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
   }
 
   @override
@@ -65,9 +70,6 @@ class _ChonHocPhiState extends State<ChonHocPhi>with AutomaticKeepAliveClientMix
               height: 20.sp,
             ),
             _anTrua(),
-            SizedBox(
-              height: 20.sp,
-            ),
             _themGio(),
             SizedBox(
               height: 20.sp,
@@ -115,6 +117,8 @@ class _ChonHocPhiState extends State<ChonHocPhi>with AutomaticKeepAliveClientMix
             ),
             GetX<ServiceController>(builder: (controller) {
               if(controller.listBuoiHoc.value!=null && controller.listBuoiHoc.value!.isNotEmpty) {
+                print("an trua ${controller.tienAnTrua.value} ${controller.tienThemGio.value} ${controller
+                    .listBuoiHoc.value![controller.indexBuoi].so_buoi!}");
                 return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -260,49 +264,60 @@ class _ChonHocPhiState extends State<ChonHocPhi>with AutomaticKeepAliveClientMix
   }
 
   Widget _anTrua() {
-    return Container(
-      decoration: BoxDecoration(
-          color: AppColors.white, borderRadius: BorderRadius.circular(10.sp)),
-      padding: EdgeInsets.symmetric(horizontal: 18.sp, vertical: 13.sp),
-      child: GetX<ServiceController>(builder: (controller) {
+    return GetX<ServiceController>(
+      builder: (controller) {
         if (controller.listAnTrua.value != null) {
-          List<String> arrAnTrua = [];
-          for (int i = 0; i < controller.listAnTrua.value!.length; i++) {
-            arrAnTrua.add(
-                "${controller.listAnTrua.value![i].tieu_De}${controller.listAnTrua.value![i].ghi_chu != "" ? " (${controller.listAnTrua.value![i].ghi_chu})" : ""}");
-          }
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _title(
-                  icon: Assets.iconsApple,
-                  title: 'Ăn trưa (với cả ca ngày)'.tr),
-              SizedBox(
-                height: 20.sp,
-              ),
-              DRadioButton(
-                data: arrAnTrua,
-                onChanged: (int index) {
-                  _serviceController.idAnTrua =
-                      controller.listAnTrua.value![index].id!;
-                  if (controller.listAnTrua.value![index].tong_tien != "0") {
-                    _serviceController.changeTienAnTrua((int.parse(controller
-                                .listAnTrua.value![index].tong_tien!) *
-                            (_serviceController
-                                .listBuoiHoc.value![indexBuoi].so_buoi!))
-                        .toDouble());
-                  } else {
-                    _serviceController.changeTienAnTrua(0);
-                  }
-                },
-                isVertical: true,
-              )
-            ],
+          return Container(
+            decoration: BoxDecoration(
+                color: AppColors.white,
+                borderRadius: BorderRadius.circular(10.sp)),
+            padding: EdgeInsets.symmetric(horizontal: 18.sp, vertical: 13.sp),
+            margin: EdgeInsets.only(bottom: 20.h),
+            child: GetX<ServiceController>(builder: (controller) {
+              if (controller.listAnTrua.value != null) {
+                List<String> arrAnTrua = [];
+                for (int i = 0; i < controller.listAnTrua.value!.length; i++) {
+                  arrAnTrua.add(
+                      "${controller.listAnTrua.value![i].tieu_De}${controller
+                          .listAnTrua.value![i].ghi_chu != "" ? " (${controller
+                          .listAnTrua.value![i].ghi_chu})" : ""}");
+                }
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _title(
+                        icon: Assets.iconsApple,
+                        title: 'Ăn trưa (với cả ca ngày)'.tr),
+                    SizedBox(
+                      height: 20.sp,
+                    ),
+                    DRadioButton(
+                      data: arrAnTrua,
+                      onChanged: (int index) {
+                        _serviceController.idAnTrua =
+                        controller.listAnTrua.value![index].id!;
+                        if (controller.listAnTrua.value![index].tong_tien !=
+                            "0") {
+                          _serviceController.changeTienAnTrua(
+                              (int.parse(controller
+                                  .listAnTrua.value![index].tong_tien!))
+                                  .toDouble());
+                        } else {
+                          _serviceController.changeTienAnTrua(0);
+                        }
+                      },
+                      isVertical: true,
+                    )
+                  ],
+                );
+              } else {
+                return SizedBox();
+              }
+            }),
           );
-        } else {
-          return SizedBox();
         }
-      }),
+        else return SizedBox();
+      }
     );
   }
 

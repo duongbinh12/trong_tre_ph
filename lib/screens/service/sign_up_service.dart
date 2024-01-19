@@ -95,46 +95,54 @@ class _SignUpServiceState extends State<SignUpService>  with AutomaticKeepAliveC
   }
 
   Widget _thongtinDichVu() {
-    return Container(
-      decoration: BoxDecoration(
-          color: AppColors.white, borderRadius: BorderRadius.circular(10.sp)),
-      padding: EdgeInsets.symmetric(horizontal: 15.sp, vertical: 13.sp),
-      child: Column(
-        children: [
-          _title(icon: Assets.iconsIcFile, title: 'Thông tin dịch vụ'),
-          SizedBox(
-            height: 26.sp,
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: AppText(
-                  'Bảo mẫu Pro',
-                  style:
-                      AppStyle.DEFAULT_16.copyWith(fontWeight: FontWeight.w600),
+    return GetX<ServiceController>(
+      builder: (controller) {
+        if (controller.detailService.value != null) {
+          return Container(
+            decoration: BoxDecoration(
+                color: AppColors.white,
+                borderRadius: BorderRadius.circular(10.sp)),
+            padding: EdgeInsets.symmetric(horizontal: 15.sp, vertical: 13.sp),
+            child: Column(
+              children: [
+                _title(icon: Assets.iconsIcFile, title: 'Thông tin dịch vụ'),
+                SizedBox(
+                  height: 26.sp,
                 ),
-              ),
-              Expanded(child: GetX<ServiceController>(builder: (controller) {
-                if (controller.detailService.value != null) {
-                  return DButton(
-                      text: 'Chi tiết dịch vụ',
-                      padH: 7.sp,
-                      textStyle: AppStyle.DEFAULT_14.copyWith(
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.white,
-                          height: 1.3),
-                      right: SvgPicture.asset(Assets.iconsUpload),
-                      onClick: () {
-                        onClickChiTietDichVu(
-                            controller.detailService.value!.link ?? '');
-                      });
-                } else
-                  return SizedBox();
-              }))
-            ],
-          )
-        ],
-      ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: AppText(
+                        controller.detailService.value!.ten_dich_vu??'',
+                        style:
+                        AppStyle.DEFAULT_16.copyWith(
+                            fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                    Expanded(
+                        child: DButton(
+                            text: 'Chi tiết dịch vụ',
+                            padH: 7.sp,
+                            textStyle: AppStyle.DEFAULT_14.copyWith(
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.white,
+                                height: 1.3),
+                            right: SvgPicture.asset(Assets.iconsUpload),
+                            onClick: () {
+                              onClickChiTietDichVu(
+                                  controller.detailService.value!.link ??
+                                      '');
+                            }))
+                  ],
+                )
+              ],
+            ),
+          );
+        }
+        else{
+          return SizedBox();
+        }
+      }
     );
   }
 
@@ -280,15 +288,30 @@ class _SignUpServiceState extends State<SignUpService>  with AutomaticKeepAliveC
     );
   }
 
-  onClickNext() {
+  onClickNext() async{
     if (_serviceController.diaDiem != "" &&
         _serviceController.arrThu.isNotEmpty) {
-      _serviceController.nextTab();
-      widget.pageController.nextPage(duration: Duration(milliseconds: 300), curve: Curves.ease);
+      if(_serviceController.idKhungGioCa!=-1){
+        await _serviceController.getChonHocPhi(dichVuId,onSuccess: (){
+          _serviceController.nextTab();
+          widget.pageController.nextPage(duration: Duration(milliseconds: 300), curve: Curves.ease);
+        });
+
+
+      }
+      else{
+        NotificationDialog.createSimpleDialog(
+            context: context, titleButton1: "OK",
+            content: "Dịch vụ này chưa cung cấp khung giờ ca dạy, hãy quay lại sau nhé!",
+            type: 2,
+            numberButton: 1);
+      }
+
     } else {
       NotificationDialog.createSimpleDialog(
           context: context, titleButton1: "OK",
           content: "Hãy nhập đầy đủ địa điểm/thời gian",
+          type: 2,
           numberButton: 1);
     }
   }
