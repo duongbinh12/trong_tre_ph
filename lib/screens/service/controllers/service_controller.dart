@@ -156,7 +156,7 @@ class ServiceController extends BaseController {
     callApi<BaseResponse>(
         api: commonRepository.uploadImage(don_dich_vu_id, file),
         onSuccess: (result) {
-          AppNavigator.navigateHoanTatDangKy(int.parse(don_dich_vu_id));
+          AppNavigator.navigateHoanTatDangKy();
         },
         onError: (e) {
           print("error soBuoiHoc ${e}");

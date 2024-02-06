@@ -46,7 +46,7 @@ class _SignUpServiceState extends State<SignUpService>  with AutomaticKeepAliveC
   @override
   void initState() {
     _serviceController.thoiGianBatDau =
-        AppValue.DATE_FORMAT.format(DateTime.now().add(Duration(days: 2)));
+        AppValue.DATE_FORMAT.format(DateTime.now());
     super.initState();
   }
 
@@ -239,7 +239,8 @@ class _SignUpServiceState extends State<SignUpService>  with AutomaticKeepAliveC
           ),
           SizedBox(
             height: 10.sp,
-          )
+          ),
+          AppText('(Để được phục vụ tốt nhất, quý phụ huynh nên chọn thời gian bắt đầu dịch vụ sau 72h từ khí đặt dịch vụ)',style: AppStyle.DEFAULT_16.copyWith(fontStyle: FontStyle.italic),)
         ],
       ),
     );

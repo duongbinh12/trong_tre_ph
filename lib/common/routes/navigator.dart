@@ -21,7 +21,7 @@ class AppNavigator {
   static navigateSignUpService(int id) async => await Get.toNamed(Routes.signUpService,arguments: id);
   static navigateThongTinHoaDon(int id) async => await Get.toNamed(Routes.thongTinHoaDon,arguments: id);
   static navigatechuyenKhoan(int id) async => await Get.toNamed(Routes.chuyenKhoan,arguments: id);
-  static navigateHoanTatDangKy(int id) async => await Get.toNamed(Routes.hoanTatDangKy,arguments: id);
+  static navigateHoanTatDangKy() async => await Get.toNamed(Routes.hoanTatDangKy);
   static navigateThongTinGiaoVien(int id) async => await Get.toNamed(Routes.thongTinGiaoVien,arguments: id);
   static navigateChiTietChuongTrinh(int caId) async => await Get.toNamed(Routes.chiTietChuongTrinh,arguments: caId);
   static navigateNhanXetBuoiHoc(int id) async => await Get.toNamed(Routes.nhanXetBuoiHoc,arguments: id);

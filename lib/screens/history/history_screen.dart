@@ -283,7 +283,9 @@ class _HistoryScreenState extends State<HistoryScreen> {
           AppNavigator.navigateTheoDoiTienTrinh(2,id: data.id,isHuy: true);
         }
         else{
-          onClickItem(data);
+          if(data.trang_thai!.id==47)
+            AppNavigator.navigateTheoDoiTienTrinh(3,id: data.id);
+          else AppNavigator.navigateTheoDoiTienTrinh(4,id: data.id);
         }
       },
       child: Container(

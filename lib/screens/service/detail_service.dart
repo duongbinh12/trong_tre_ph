@@ -743,6 +743,7 @@ class _DetailServiceState extends State<DetailService> {
   onClickDangKy() {
     if (_loginController.token != null) {
       AppNavigator.navigateSignUpService(id);
+      // AppNavigator.navigateHoanTatDangKy();
     } else {
       NotificationDialog.createSimpleDialog(
           context: context,
