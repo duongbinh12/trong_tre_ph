@@ -86,7 +86,7 @@ class WidgetNetworkImage extends StatelessWidget {
       child: GestureDetector(
         onTap: onTap,
         child: ClipRRect(
-          borderRadius: borderRadiusCustom == null ? BorderRadius.circular(borderRadius ?? 100) : borderRadiusCustom,
+          borderRadius: borderRadiusCustom == null ? BorderRadius.circular(borderRadius ?? 100) : borderRadiusCustom!,
           child: Image.network(
             image,
             height: height,
@@ -135,7 +135,7 @@ class WidgetNetworkCacheImage extends StatelessWidget {
       child: GestureDetector(
         onTap: onTap,
         child: ClipRRect(
-          borderRadius: borderRadiusCustom == null ? BorderRadius.circular(borderRadius ?? 100) : borderRadiusCustom,
+          borderRadius: borderRadiusCustom == null ? BorderRadius.circular(borderRadius ?? 100) : borderRadiusCustom!,
           child: CachedNetworkImage(
             imageUrl: image,
             fit: fit,
