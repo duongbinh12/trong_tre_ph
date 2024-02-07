@@ -54,7 +54,9 @@ class _ChuyenKhoanState extends State<ChuyenKhoan> {
         ),
         child: Column(
       children: [
-        DHeaderShadow(title: 'Chuyển khoản'.tr),
+        DHeaderShadow(title: 'Chuyển khoản'.tr,onBack: (){
+          AppNavigator.navigateHome();
+        },),
         SizedBox(height: 20.sp,),
         Expanded(child: SingleChildScrollView(
           child: GetX<ServiceController>(

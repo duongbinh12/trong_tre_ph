@@ -158,7 +158,8 @@ abstract class AppRestClient {
       @Query('page') int page,
       @Query('limit') int limit,
       @Query('sort') int sort,
-      @Query('trinh_do') int trinhDo
+      @Query('trinh_do') int trinhDo,
+      @Query('khung_gio_id') int khungGioId,
       );
 
   @GET(Endpoint.thongBao)
@@ -171,7 +172,9 @@ abstract class AppRestClient {
       );
 
   @GET(Endpoint.formChonHocPhi)
-  Future<ChonHocPhiResponse> getChonHocPhi();
+  Future<ChonHocPhiResponse> getChonHocPhi(
+      @Query('chon_ca_id') int caId,
+      );
 
   @POST(Endpoint.addHoaDon)
   Future<BaseResponse> addHoaDon(

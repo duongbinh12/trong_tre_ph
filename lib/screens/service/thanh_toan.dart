@@ -12,18 +12,20 @@ import 'package:trong_tre/screens/service/controllers/service_controller.dart';
 import 'package:trong_tre/widgets/DButton.dart';
 import 'package:trong_tre/widgets/DRowText.dart';
 import 'package:trong_tre/widgets/app_text.dart';
+import 'package:trong_tre/widgets/widget_dialog.dart';
 import 'package:trong_tre/widgets/widget_handle.dart';
 
 class ThanhToan extends StatefulWidget {
   const ThanhToan({super.key, required this.pageController});
+
   final PageController pageController;
 
   @override
   State<ThanhToan> createState() => _ThanhToanState();
 }
 
-class _ThanhToanState extends State<ThanhToan> with AutomaticKeepAliveClientMixin{
-
+class _ThanhToanState extends State<ThanhToan>
+    with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
   List phuongThuc = [
@@ -54,10 +56,12 @@ class _ThanhToanState extends State<ThanhToan> with AutomaticKeepAliveClientMixi
 
   @override
   void initState() {
-    goiHoc =(double.parse(_serviceController
-        .listBuoiHoc.value![_serviceController.indexBuoi].thanh_tien!))+ (double.parse(_serviceController
-            .listBuoiHoc.value![_serviceController.indexBuoi].thanh_tien!)/2) *
-        (_serviceController.soLuongBe.value-1);
+    goiHoc = (double.parse(_serviceController
+            .listBuoiHoc.value![_serviceController.indexBuoi].thanh_tien!)) +
+        (double.parse(_serviceController.listBuoiHoc
+                    .value![_serviceController.indexBuoi].thanh_tien!) /
+                2) *
+            (_serviceController.soLuongBe.value - 1);
     phuCap = (_serviceController.tienAnTrua.value +
             _serviceController.tienThemGio.value) *
         // _serviceController.soLuongBe.value *
@@ -69,7 +73,7 @@ class _ThanhToanState extends State<ThanhToan> with AutomaticKeepAliveClientMixi
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SingleChildScrollView(
       child: Column(
         children: [
           ...List.generate(
@@ -108,7 +112,7 @@ class _ThanhToanState extends State<ThanhToan> with AutomaticKeepAliveClientMixi
             height: 20.sp,
           ),
           InkWell(
-            onTap: () {
+            onTap: () async {
               if (valueInHoaDon == 1) {
                 AppNavigator.navigateThongTinHoaDon(Get.arguments);
               }
@@ -141,22 +145,24 @@ class _ThanhToanState extends State<ThanhToan> with AutomaticKeepAliveClientMixi
                       ],
                     ),
                   ),
-                  Container(
-                    width: 25.sp,
-                    height: 25.sp,
-                    decoration: BoxDecoration(),
-                    child: Radio(
-                      value: valueInHoaDon,
-                      activeColor: AppColors.primary,
-                      onChanged: (int? value) {
-                        setState(() {
-                          valueInHoaDon = valueInHoaDon == 0 ? 1 : 0;
-                        });
-                        // if(widget.onChanged!=null) {
-                        //   widget.onChanged!(index);
-                        // }
-                      },
-                      groupValue: 0,
+                  IgnorePointer(
+                    child: Container(
+                      width: 25.sp,
+                      height: 25.sp,
+                      decoration: BoxDecoration(),
+                      child: Radio(
+                        value: valueInHoaDon,
+                        activeColor: AppColors.primary,
+                        onChanged: (int? value) {
+                          setState(() {
+                            valueInHoaDon = valueInHoaDon == 0 ? 1 : 0;
+                          });
+                          // if(widget.onChanged!=null) {
+                          //   widget.onChanged!(index);
+                          // }
+                        },
+                        groupValue: 0,
+                      ),
                     ),
                   ),
                 ],
@@ -240,12 +246,28 @@ class _ThanhToanState extends State<ThanhToan> with AutomaticKeepAliveClientMixi
 
   onClickThanhToan() {
     if (checkDongY) {
-      _serviceController.taoDon(
-          dich_vu_id: Get.arguments,
-          hocPhi: goiHoc.toString(),
-          phuCap: phuCap.toString(),
-          tongTien: tongTien.toString(),
-          hinh_thuc_thanh_toan_id: (groupValue==0?23:groupValue==1?24:25).toString());
+      if ((valueInHoaDon == 0 && _serviceController.xuatHoaDon == true) ||
+          valueInHoaDon == 1) {
+        _serviceController.taoDon(
+            dich_vu_id: Get.arguments,
+            hocPhi: goiHoc.toString(),
+            phuCap: phuCap.toString(),
+            tongTien: tongTien.toString(),
+            hinh_thuc_thanh_toan_id: (groupValue == 0
+                    ? 23
+                    : groupValue == 1
+                        ? 24
+                        : 25)
+                .toString());
+      } else {
+        NotificationDialog.createSimpleDialog(
+            context: context,
+            titleButton1: "OK",
+            type: 2,
+            content: "Bạn chưa điền thông tin hợp đồng, hóa đơn dịch vụ!",
+            numberButton: 1);
+      }
+
       // AppNavigator.navigatechuyenKhoan(Get.arguments);
     }
   }

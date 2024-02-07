@@ -130,9 +130,9 @@ class _DCalendarState extends State<DCalendar> {
                   _focusedDay = focusedDay;
                 });
               },
-              currentDay: DateTime.now().add(Duration(days: 2)),
+              currentDay: DateTime.now(),
               onDaySelected: (selectedDay, focusedDay) {
-                if (!isSameDay(_selectedDay, selectedDay) && selectedDay.day>=DateTime.now().day+2) {
+                if (!isSameDay(_selectedDay, selectedDay) && selectedDay.day>=DateTime.now().day) {
                   setState(() {
                     _selectedDay = selectedDay;
                     _focusedDay = focusedDay;
@@ -167,7 +167,7 @@ class _DCalendarState extends State<DCalendar> {
                     decoration: BoxDecoration(
                         border: Border.all(
                             width: 1.sp,
-                            color: (day == _selectedDay&& day.day>=DateTime.now().day+2)
+                            color: (day == _selectedDay&& day.day>=DateTime.now().day)
                                 ? AppColors.blue
                                 : AppColors.grayE5),
                         borderRadius: BorderRadius.circular(5.sp)),
@@ -182,7 +182,7 @@ class _DCalendarState extends State<DCalendar> {
                         textAlign: TextAlign.center,
                         style: AppStyle.DEFAULT_16.copyWith(
                             fontWeight: FontWeight.w600,
-                            color:(day.day<DateTime.now().day+2)?AppColors.textBlack.withOpacity(0.5): day.weekday == 6
+                            color:(day.day<DateTime.now().day)?AppColors.textBlack.withOpacity(0.5): day.weekday == 6
                                 ? AppColors.blue
                                 : day.weekday == 7
                                 ? AppColors.primary
@@ -279,7 +279,7 @@ class _DCalendarState extends State<DCalendar> {
                 ),
                 Expanded(
                     child:
-                    DButton(text: 'Chọn ngày bắt đầu', onClick: onClickChon)),
+                    DButton(text: 'Chọn ngày bắt đầu',padV: 0, onClick: onClickChon)),
               ],
             ),
             SizedBox(height: MediaQuery
@@ -294,17 +294,17 @@ class _DCalendarState extends State<DCalendar> {
 
   onClickChon() {
     if (_selectedDay!=null) {
-      if(_selectedDay!.difference(DateTime.now()).inDays>=1){
+      // if(_selectedDay!.difference(DateTime.now()).inDays>=1){
         Get.back();
           widget.onClickPick(_selectedDay);
-      }
-      else{
-        NotificationDialog.createSimpleDialog(context: context,
-            titleButton1: 'OK',
-            title: "Thông báo",
-            content: "Ngày bắt đầu sớm nhất của dịch vụ là sau hôm nay 2 ngày!",
-            numberButton: 1);
-      }
+      // }
+      // else{
+      //   NotificationDialog.createSimpleDialog(context: context,
+      //       titleButton1: 'OK',
+      //       title: "Thông báo",
+      //       content: "Ngày bắt đầu sớm nhất của dịch vụ là sau hôm nay 2 ngày!",
+      //       numberButton: 1);
+      // }
     }
     else {
       NotificationDialog.createSimpleDialog(context: context,

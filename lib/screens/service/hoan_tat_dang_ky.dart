@@ -25,7 +25,7 @@ class HoanTatDangKy extends StatefulWidget {
 class _HoanTatDangKyState extends State<HoanTatDangKy> {
   final GlobalKey<ScaffoldState> ScaffoldKey = GlobalKey();
 
-  int id=Get.arguments;
+  // int id=Get.arguments;
 
   HistoryController _historyController=Get.find<HistoryController>();
 
@@ -48,7 +48,7 @@ class _HoanTatDangKyState extends State<HoanTatDangKy> {
         Positioned.fill(child: Column(
           children: [
             SizedBox(height: MediaQuery.of(context).viewPadding.top+20.sp,),
-            DHeader(title: 'Hoàn tất đăng ký'.tr,colorTitle: AppColors.white,showMenu: true,keyMenu: ScaffoldKey),
+            DHeader(title: 'Hoàn tất đăng ký'.tr,colorTitle: AppColors.white,noBack: true,showMenu: true,keyMenu: ScaffoldKey),
             SizedBox(height: 5.sp,),
             Expanded(child: Container(
                 width: Get.width,
@@ -70,7 +70,7 @@ class _HoanTatDangKyState extends State<HoanTatDangKy> {
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 20.sp),
                       child: AppText(
-                        'Chúc mừng bạn đã đăng ký\n thành công dịch vụ Bảo Mẫu Pro',
+                        'Chúc mừng bạn đã đăng ký\n thành công dịch vụ',
                         textAlign: TextAlign.center,
                         style: AppStyle.DEFAULT_18_BOLD,
                       ),
@@ -105,10 +105,7 @@ class _HoanTatDangKyState extends State<HoanTatDangKy> {
 
   onClickTheoDoi() {
     // _historyController.getThongTinGiaoVien(id: id.toString());
-    Get.back();
-    Get.back();
-    Get.back();
-    Get.back();
+    AppNavigator.navigateHome();
   }
 
   onClickghiChu() {
