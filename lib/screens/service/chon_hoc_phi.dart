@@ -452,7 +452,7 @@ class _ChonHocPhiState extends State<ChonHocPhi>with AutomaticKeepAliveClientMix
     setState(() {
       indexTeacher = index;
     });
-    _serviceController.giaoVien = index == 0 ? 15 : 16;
+    _serviceController.giaoVien = id;
     _serviceController.getSoBuoiHoc(
         dichVuId: dichVuId, page: 1, sort: 0, trinhDo: id);
   }

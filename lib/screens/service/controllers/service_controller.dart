@@ -35,7 +35,7 @@ class ServiceController extends BaseController {
   Rx<int> soLuongBe = Rx(1);
   String diaDiem = "";
   String ghiChu = "";
-  List<int> arrThu = [2,3,4,5,6];
+  List<int> arrThu = [2, 3, 4, 5, 6];
   String thoiGianBatDau = "";
   int giaoVien = 15;
   int indexThemGio = 0;
@@ -47,7 +47,7 @@ class ServiceController extends BaseController {
   int idAnTrua = -1;
   int idThemGio = -1;
 
-  bool xuatHoaDon=false;
+  bool xuatHoaDon = false;
 
   getDetailService({required int id}) {
     callApi<ChiTietDichVuResponse>(
@@ -88,7 +88,7 @@ class ServiceController extends BaseController {
         api: commonRepository.getKhungGio(dich_vu_id, type),
         onSuccess: (result) {
           listKhungGio.value = result.data;
-          idKhungGioCa=result.data![0].id!;
+          idKhungGioCa = result.data![0].id!;
           listKhungGio.refresh();
         },
         onError: (e) {
@@ -96,25 +96,27 @@ class ServiceController extends BaseController {
         });
   }
 
-  getChonHocPhi(int dichVuId,{Function? onSuccess}) async{
+  getChonHocPhi(int dichVuId, {Function? onSuccess}) async {
     await callApi<ChonHocPhiResponse>(
         api: commonRepository.getChonHocPhi(listCa.value![indexCa].id!),
-        onSuccess: (result) async{
+        onSuccess: (result) async {
           listLoaiGiaoVien.value = result.data!.loaiGiaoVien;
-
+          giaoVien = result.data!.loaiGiaoVien?[0].id ?? -1;
           listThemGio.value = result.data!.themGio;
-          if(result.data!.anTrua!=null)
-          {
+          if (result.data!.anTrua != null) {
             listAnTrua.value = result.data!.anTrua;
-            idAnTrua=result.data!.anTrua![0].id!;
-          }
-          else{
-            listAnTrua.value=null;
+            idAnTrua = result.data!.anTrua![0].id!;
+          } else {
+            listAnTrua.value = null;
           }
           listAnTrua.refresh();
-          idThemGio=result.data!.themGio![0].id!;
-          await getSoBuoiHoc(dichVuId: dichVuId, page: 1, sort: 0, trinhDo: result.data!.loaiGiaoVien![0].id!);
-          if(onSuccess!=null){
+          idThemGio = result.data!.themGio![0].id!;
+          await getSoBuoiHoc(
+              dichVuId: dichVuId,
+              page: 1,
+              sort: 0,
+              trinhDo: result.data!.loaiGiaoVien![0].id!);
+          if (onSuccess != null) {
             onSuccess();
           }
         },
@@ -123,21 +125,20 @@ class ServiceController extends BaseController {
         });
   }
 
-  getSoBuoiHoc({
-    required int dichVuId,
-    required int page,
-    required int sort,
-    required int trinhDo
-  }) async{
+  getSoBuoiHoc(
+      {required int dichVuId,
+      required int page,
+      required int sort,
+      required int trinhDo}) async {
     await callApi<SoBuoiHocResponse>(
-        api: commonRepository.getSoBuoiHoc(dichVuId, page, 10, sort,trinhDo,idKhungGioCa),
+        api: commonRepository.getSoBuoiHoc(
+            dichVuId, page, 10, sort, trinhDo, idKhungGioCa),
         onSuccess: (result) {
           if (page == 1) {
             listBuoiHoc.value = result.data;
-            if(result.data!.isNotEmpty)
-            {
+            if (result.data!.isNotEmpty) {
               hocPhi.value = double.parse(result.data![0].thanh_tien!);
-              idGoiHocPhi=result.data![0].id!;
+              idGoiHocPhi = result.data![0].id!;
             }
           } else {
             listBuoiHoc.value = [...listBuoiHoc.value!, ...result.data!];
@@ -183,20 +184,20 @@ class ServiceController extends BaseController {
               content:
                   'Yêu cầu xuất hợp đồng và hoá đơn dịch vụ của bạn đang được xử lý, xin vui lòng kiểm tra email sau 24h không kể thứ 7, chủ nhật và các ngày nghỉ Lễ, Tết.',
               numberButton: 0);
-          xuatHoaDon=true;
+          xuatHoaDon = true;
         },
         onError: (e) {
           print("error addHoaDon ${e}");
         });
   }
 
-  taoDon(
-      {required int dich_vu_id,
-      required String hocPhi,
-      required String phuCap,
-      required String tongTien,
-      required String hinh_thuc_thanh_toan_id,
-      }) {
+  taoDon({
+    required int dich_vu_id,
+    required String hocPhi,
+    required String phuCap,
+    required String tongTien,
+    required String hinh_thuc_thanh_toan_id,
+  }) {
     callApi<TaoDonResponse>(
         api: commonRepository.taoDon(
             dich_vu_id.toString(),
@@ -215,10 +216,9 @@ class ServiceController extends BaseController {
             idAnTrua.toString(),
             idThemGio.toString()),
         onSuccess: (result) {
-          if(hinh_thuc_thanh_toan_id=="23"){
+          if (hinh_thuc_thanh_toan_id == "23") {
             vnpay(don_dich_vu_id: result.data!.id!);
-          }
-          else if(hinh_thuc_thanh_toan_id=="25") {
+          } else if (hinh_thuc_thanh_toan_id == "25") {
             AppNavigator.navigatechuyenKhoan(result.data!.id!);
           }
         },
@@ -232,11 +232,11 @@ class ServiceController extends BaseController {
   }) {
     callApi<PolicyResponse>(
         api: commonRepository.vnpay(don_dich_vu_id),
-        onSuccess: (result) async{
+        onSuccess: (result) async {
           // if (!await launchUrl(Uri.parse(result.data??''))) {
           // throw Exception('Could not launch vnpay');
           // }
-          AppNavigator.navigateVnpay(result.data??'');
+          AppNavigator.navigateVnpay(result.data ?? '');
         },
         onError: (e) {
           print("error vnpay ${e}");
@@ -253,7 +253,7 @@ class ServiceController extends BaseController {
 
   chooseBuoi(int index) {
     indexBuoi = index;
-    idGoiHocPhi=listBuoiHoc.value![index].id!;
+    idGoiHocPhi = listBuoiHoc.value![index].id!;
     hocPhi.value = double.parse(listBuoiHoc.value![index].thanh_tien!);
   }
 

@@ -113,6 +113,7 @@ class _MainSignUpServiceState extends State<MainSignUpService>{
                   Expanded(
                       child: PageView(
                         controller: _pageController,
+                        physics: NeverScrollableScrollPhysics(),
                         children: [
                             SignUpService(pageController: _pageController,),
                             ChonHocPhi(pageController: _pageController,),
