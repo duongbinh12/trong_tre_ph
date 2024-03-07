@@ -48,7 +48,7 @@ class _NewsState extends State<News> {
                     borderRadius: BorderRadius.vertical(top: Radius.circular(30.sp))
                   ),
                   padding: EdgeInsets.only(top: 30.sp),
-                  child: TinTuc(noTitle: true,noScroll: false,isFull: true,)))
+                  child: SingleChildScrollView(child: TinTuc(noTitle: true,noScroll: true,isFull: true,))))
             ],
           ))
         ],
