@@ -36,7 +36,7 @@ class ChuongTrinhHocData {
   int? id;
   String? tieu_de;
   List<ItemChuongTrinhHoc>? buoiHoc;
-  GiaoCuData? giaoCu;
+  List<GiaoCuData>? giaoCu;
 
   ChuongTrinhHocData(this.id, this.tieu_de, this.buoiHoc,this.giaoCu);
 
