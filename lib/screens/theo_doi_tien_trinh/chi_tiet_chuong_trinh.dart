@@ -82,14 +82,14 @@ class _ChiTietChuongTrinhState extends State<ChiTietChuongTrinh> {
 
                           List.generate(controller.chuongTrinhHocList.value!.length, (index) => Column(
                             children: [
-                              Row(
-                                children: [
-                                  AppText(
-                                    controller.chuongTrinhHocList.value![index].ten_chuong_trinh??'',
-                                    style: AppStyle.DEFAULT_18_BOLD,
-                                  ),
-                                  AppText(controller.chuongTrinhHocList.value![index].name??'',style: AppStyle.DEFAULT_18_BOLD.copyWith(color: AppColors.primary),)
-                                ],
+                              RichText(
+                                text: TextSpan(
+                                  text: controller.chuongTrinhHocList.value![index].ten_chuong_trinh??'',
+                                  style: AppStyle.DEFAULT_18_BOLD,
+                                  children: <TextSpan>[
+                                    TextSpan(text: controller.chuongTrinhHocList.value![index].name??'', style: AppStyle.DEFAULT_18_BOLD.copyWith(color: AppColors.primary))
+                                  ],
+                                ),
                               ),
                               ...List.generate(controller.chuongTrinhHocList.value![index].goiHoc!.length, (index1) => ItemChuongTrinh(data: controller.chuongTrinhHocList.value![index].goiHoc![index1],))
                             ],
@@ -196,47 +196,50 @@ class _ItemChuongTrinhState extends State<ItemChuongTrinh> {
           SizedBox(
             height: 15.sp,
           ),
-          Container(
-            decoration: BoxDecoration(
-                border: Border.all(width: 1,color: AppColors.grayE5),
-                borderRadius: BorderRadius.circular(10.sp)
-            ),
-            margin: EdgeInsets.only(left: 15.w),
-            clipBehavior: Clip.antiAlias,
-            width: 156.w,
-            child: Column(
-              children: [
-                WidgetNetworkImage(image: widget.data.giaoCu!.image??'',width: 154.w,height: 105.h,fit: BoxFit.cover,),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 8.w,vertical: 6.h),
-                  decoration: BoxDecoration(
-                      color: AppColors.orange
-                  ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: AppText(
-                          'Gói giáo cụ',
-                          style: AppStyle.DEFAULT_12_BOLD.copyWith(color: AppColors.white),
+          if(widget.data.giaoCu!=null&&widget.data.giaoCu!.isNotEmpty) Wrap(
+
+            children: List.generate(widget.data.giaoCu!.length, (index) => Container(
+              decoration: BoxDecoration(
+                  border: Border.all(width: 1,color: AppColors.grayE5),
+                  borderRadius: BorderRadius.circular(10.sp)
+              ),
+              margin: EdgeInsets.only(left: 15.w),
+              clipBehavior: Clip.antiAlias,
+              width: 156.w,
+              child: Column(
+                children: [
+                  WidgetNetworkImage(image: widget.data.giaoCu![index].image??'',width: 154.w,height: 105.h,fit: BoxFit.contain,borderRadius: 0,),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 8.w,vertical: 6.h),
+                    decoration: BoxDecoration(
+                        color: AppColors.orange
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: AppText(
+                            'Gói giáo cụ',
+                            style: AppStyle.DEFAULT_12_BOLD.copyWith(color: AppColors.white),
+                          ),
                         ),
-                      ),
-                      SizedBox(width: 6.sp,),
-                      Expanded(child: Container(
-                        decoration: BoxDecoration(
-                            color: AppColors.white,
-                            borderRadius: BorderRadius.circular(50.sp)
-                        ),
-                        child: AppText(
-                          widget.data.giaoCu!.code??'',
-                          textAlign: TextAlign.center,
-                          style: AppStyle.DEFAULT_14.copyWith(color: AppColors.orange,fontWeight: FontWeight.w600),
-                        ),
-                      ))
-                    ],
-                  ),
-                )
-              ],
-            ),
+                        SizedBox(width: 6.sp,),
+                        Expanded(child: Container(
+                          decoration: BoxDecoration(
+                              color: AppColors.white,
+                              borderRadius: BorderRadius.circular(50.sp)
+                          ),
+                          child: AppText(
+                            widget.data.giaoCu![index].code??'',
+                            textAlign: TextAlign.center,
+                            style: AppStyle.DEFAULT_14.copyWith(color: AppColors.orange,fontWeight: FontWeight.w600),
+                          ),
+                        ))
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            )),
           ),
           SizedBox(
             height: 15.sp,

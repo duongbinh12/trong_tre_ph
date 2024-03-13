@@ -150,40 +150,40 @@ class _LoginPhoneState extends State<LoginPhone> {
                       ),
                       Row(
                         children: [
-                          Expanded(
-                              child: DButton(
-                                  text: '',
-                                  left: WidgetContainerImage(
-                                    image: Assets.iconsFacebook,
-                                    width: 25.sp,
-                                    height: 25.sp,
-                                    fit: BoxFit.contain,
-                                  ),
-                                  borderRadius: 8.sp,
-                                  background: AppColors.white,
-                                  textColor: AppColors.textBlack,
-                                  borderColor: AppColors.grayE5,
-                                  onClick: onClickFb)),
-                          SizedBox(
-                            width: 10.sp,
-                          ),
-                          Expanded(
-                              child: DButton(
-                                  text: '',
-                                  left: WidgetContainerImage(
-                                    image: Assets.iconsGoogle,
-                                    width: 25.sp,
-                                    height: 25.sp,
-                                    fit: BoxFit.contain,
-                                  ),
-                                  borderRadius: 8.sp,
-                                  background: AppColors.white,
-                                  textColor: AppColors.textBlack,
-                                  borderColor: AppColors.grayE5,
-                                  onClick: onClickFb)),
-                          SizedBox(
-                            width: 10.sp,
-                          ),
+                          // Expanded(
+                          //     child: DButton(
+                          //         text: '',
+                          //         left: WidgetContainerImage(
+                          //           image: Assets.iconsFacebook,
+                          //           width: 25.sp,
+                          //           height: 25.sp,
+                          //           fit: BoxFit.contain,
+                          //         ),
+                          //         borderRadius: 8.sp,
+                          //         background: AppColors.white,
+                          //         textColor: AppColors.textBlack,
+                          //         borderColor: AppColors.grayE5,
+                          //         onClick: onClickFb)),
+                          // SizedBox(
+                          //   width: 10.sp,
+                          // ),
+                          // Expanded(
+                          //     child: DButton(
+                          //         text: '',
+                          //         left: WidgetContainerImage(
+                          //           image: Assets.iconsGoogle,
+                          //           width: 25.sp,
+                          //           height: 25.sp,
+                          //           fit: BoxFit.contain,
+                          //         ),
+                          //         borderRadius: 8.sp,
+                          //         background: AppColors.white,
+                          //         textColor: AppColors.textBlack,
+                          //         borderColor: AppColors.grayE5,
+                          //         onClick: onClickFb)),
+                          // SizedBox(
+                          //   width: 10.sp,
+                          // ),
                           Expanded(
                               child: DButton(
                                   text: '',

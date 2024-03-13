@@ -40,9 +40,9 @@ ChuongTrinhHocData _$ChuongTrinhHocDataFromJson(Map<String, dynamic> json) =>
       (json['buoiHoc'] as List<dynamic>?)
           ?.map((e) => ItemChuongTrinhHoc.fromJson(e as Map<String, dynamic>))
           .toList(),
-      json['giaoCu'] == null
-          ? null
-          : GiaoCuData.fromJson(json['giaoCu'] as Map<String, dynamic>),
+      (json['giaoCu'] as List<dynamic>?)
+          ?.map((e) => GiaoCuData.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$ChuongTrinhHocDataToJson(ChuongTrinhHocData instance) =>
