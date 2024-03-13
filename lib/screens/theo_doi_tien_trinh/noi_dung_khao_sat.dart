@@ -49,7 +49,7 @@ class _NoiDungKhaoSatState extends State<NoiDungKhaoSat> {
               showMenu: true,
             ),
             Expanded(child: InAppWebView(
-              initialUrlRequest: URLRequest(url: Uri.parse(url)),
+              initialUrlRequest: URLRequest(url: WebUri.uri(Uri.parse(url))),
               onWebViewCreated: (controller) {
                 webViewController = controller;
               },

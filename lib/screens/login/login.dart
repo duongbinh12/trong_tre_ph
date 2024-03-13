@@ -80,32 +80,32 @@ class _LoginState extends State<Login> {
                         fit: BoxFit.contain,
                       ),
                       onClick: onClickEmail),
-                  SizedBox(height: 15.sp,),
-                  DButton(
-                      text: 'Tiếp tục với Facebook'.tr,
-                      background: AppColors.white,
-                      textColor: AppColors.textBlack,
-                      borderColor: AppColors.grayE5,
-                      left: WidgetContainerImage(
-                        image: Assets.iconsFacebook,
-                        width: 25.sp,
-                        height: 25.sp,
-                        fit: BoxFit.contain,
-                      ),
-                      onClick: onClickFb),
-                  SizedBox(height: 15.sp,),
-                  DButton(
-                      text: 'Tiếp tục với Google'.tr,
-                      background: AppColors.white,
-                      textColor: AppColors.textBlack,
-                      borderColor: AppColors.grayE5,
-                      left: WidgetContainerImage(
-                        image: Assets.iconsGoogle,
-                        width: 25.sp,
-                        height: 25.sp,
-                        fit: BoxFit.contain,
-                      ),
-                      onClick: onClickGg),
+                  // SizedBox(height: 15.sp,),
+                  // DButton(
+                  //     text: 'Tiếp tục với Facebook'.tr,
+                  //     background: AppColors.white,
+                  //     textColor: AppColors.textBlack,
+                  //     borderColor: AppColors.grayE5,
+                  //     left: WidgetContainerImage(
+                  //       image: Assets.iconsFacebook,
+                  //       width: 25.sp,
+                  //       height: 25.sp,
+                  //       fit: BoxFit.contain,
+                  //     ),
+                  //     onClick: onClickFb),
+                  // SizedBox(height: 15.sp,),
+                  // DButton(
+                  //     text: 'Tiếp tục với Google'.tr,
+                  //     background: AppColors.white,
+                  //     textColor: AppColors.textBlack,
+                  //     borderColor: AppColors.grayE5,
+                  //     left: WidgetContainerImage(
+                  //       image: Assets.iconsGoogle,
+                  //       width: 25.sp,
+                  //       height: 25.sp,
+                  //       fit: BoxFit.contain,
+                  //     ),
+                  //     onClick: onClickGg),
                   SizedBox(height: 15.sp,),
                   InkWell(
                     onTap: (){
