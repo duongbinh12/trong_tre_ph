@@ -19,7 +19,7 @@ class AppNavigator {
   static navigateNews() async => await Get.toNamed(Routes.news);
   static navigateService(int id) async => await Get.toNamed(Routes.service,arguments: id);
   static navigateSignUpService(int id) async => await Get.toNamed(Routes.signUpService,arguments: id);
-  static navigateThongTinHoaDon(int id) async => await Get.toNamed(Routes.thongTinHoaDon,arguments: id);
+  static navigateThongTinHoaDon(int id,Function callBack) async => await Get.toNamed(Routes.thongTinHoaDon,arguments: [id,callBack]);
   static navigatechuyenKhoan(int id) async => await Get.toNamed(Routes.chuyenKhoan,arguments: id);
   static navigateHoanTatDangKy() async => await Get.toNamed(Routes.hoanTatDangKy);
   static navigateThongTinGiaoVien(int id) async => await Get.toNamed(Routes.thongTinGiaoVien,arguments: id);

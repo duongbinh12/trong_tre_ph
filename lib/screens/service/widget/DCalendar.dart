@@ -13,9 +13,10 @@ import '../../../res/colors.dart';
 import '../../../widgets/app_text.dart';
 
 class DCalendar extends StatefulWidget {
-  const DCalendar({super.key, required this.onClickPick});
+  const DCalendar({super.key, required this.onClickPick, required this.selectedTime});
 
   final Function onClickPick;
+  final DateTime selectedTime;
 
   @override
   State<DCalendar> createState() => _DCalendarState();
@@ -28,6 +29,13 @@ class _DCalendarState extends State<DCalendar> {
   DateTime? _tempDay;
 
   late PageController _pageController;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _selectedDay=widget.selectedTime;
+  }
 
   @override
   Widget build(BuildContext context) {

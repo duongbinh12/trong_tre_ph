@@ -304,7 +304,7 @@ class _NhanXetBuoiHocState extends State<NhanXetBuoiHoc> {
                                     style: AppStyle.DEFAULT_14,
                                     children: <TextSpan>[
                                       TextSpan(
-                                          text: '0123456789',
+                                          text: controller.chiTietNX.value!.ma_don_hang??'',
                                           style: TextStyle(
                                               fontWeight: FontWeight.w600))
                                     ],

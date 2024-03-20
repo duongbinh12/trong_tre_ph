@@ -10,7 +10,9 @@ FindTeacherData _$FindTeacherDataFromJson(Map<String, dynamic> json) =>
     FindTeacherData(
       json['id'] as int?,
       json['ma_don_hang'] as String?,
-      json['trang_thai'] as String?,
+      json['trang_thai'] == null
+          ? null
+          : TrangThaiData.fromJson(json['trang_thai'] as Map<String, dynamic>),
       json['dichVu'] as String?,
       json['soBuoiHoanThanh'] as String?,
       json['tong_tien'] as String?,
@@ -29,7 +31,6 @@ Map<String, dynamic> _$FindTeacherDataToJson(FindTeacherData instance) =>
     <String, dynamic>{
       'id': instance.id,
       'ma_don_hang': instance.ma_don_hang,
-      'trang_thai': instance.trang_thai,
       'dichVu': instance.dichVu,
       'soBuoiHoanThanh': instance.soBuoiHoanThanh,
       'tong_tien': instance.tong_tien,
@@ -40,6 +41,7 @@ Map<String, dynamic> _$FindTeacherDataToJson(FindTeacherData instance) =>
       'dia_chi': instance.dia_chi,
       'so_gio': instance.so_gio,
       'leaderKD': instance.leaderKD,
+      'trang_thai': instance.trang_thai,
     };
 
 FindTeacherResponse _$FindTeacherResponseFromJson(Map<String, dynamic> json) =>

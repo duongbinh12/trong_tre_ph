@@ -197,20 +197,21 @@ class _ChonHocPhiState extends State<ChonHocPhi>with AutomaticKeepAliveClientMix
               Wrap(
                 direction: Axis.horizontal,
                 spacing: 10.sp,
+                runSpacing: 10.sp,
                 children: List.generate(
                     controller.listLoaiGiaoVien.value!.length,
                     (index) => Container(
                         width: (Get.width -
-                                20.sp -
-                                20.sp -
-                                15.sp -
-                                15.sp -
-                                10.sp) /
+                                20.w -
+                                20.w -
+                                15.w -
+                                15.w-15.w ) /
                             2,
                         child: DButton(
-                            text: controller
-                                    .listLoaiGiaoVien.value![index].name ??
+                            text: "${controller
+                                .listLoaiGiaoVien.value![index].name}" ??
                                 '',
+                            padV: 5.w,
                             textStyle: AppStyle.DEFAULT_14.copyWith(
                                 fontWeight: FontWeight.w500,
                                 color: indexTeacher == index

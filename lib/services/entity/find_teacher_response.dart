@@ -1,6 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:trong_tre/services/entity/base_response.dart';
 
+import 'history_order_response.dart';
 import 'thong_tin_giao_vien_response.dart';
 
 part 'find_teacher_response.g.dart';
@@ -8,10 +9,10 @@ part 'find_teacher_response.g.dart';
 @JsonSerializable()
 class FindTeacherData {
   int? id;
-  String? ma_don_hang,trang_thai,dichVu,soBuoiHoanThanh,tong_tien,trang_thai_thanh_toan,lich_hoc,thoi_gian,chonCa,dia_chi;
+  String? ma_don_hang,dichVu,soBuoiHoanThanh,tong_tien,trang_thai_thanh_toan,lich_hoc,thoi_gian,chonCa,dia_chi;
   int? so_gio;
   GiaoVien? leaderKD;
-
+  TrangThaiData? trang_thai;
 
   FindTeacherData(
       this.id,

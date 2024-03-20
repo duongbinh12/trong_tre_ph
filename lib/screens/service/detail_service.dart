@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:trong_tre/common/routes/navigator.dart';
 import 'package:trong_tre/generated/assets.dart';
 import 'package:trong_tre/res/app_styles.dart';
+import 'package:trong_tre/res/app_values.dart';
 import 'package:trong_tre/res/colors.dart';
 import 'package:trong_tre/screens/service/controllers/service_controller.dart';
 import 'package:trong_tre/services/entity/chi_tiet_dich_vu_response.dart';
@@ -43,7 +44,7 @@ class _DetailServiceState extends State<DetailService> {
 
   @override
   void initState() {
-    Future.delayed(Duration(seconds: 0), () {
+    Future.delayed(const Duration(seconds: 0), () {
       _serviceController.getDetailService(id: id);
     });
     super.initState();
@@ -120,8 +121,8 @@ class _DetailServiceState extends State<DetailService> {
                                                       .quyenLoi![index]
                                                       .link ??
                                                       '',
-                                                  Color(0xffFF9383),
-                                                  Color(0xffFC4D32)),
+                                                  const Color(0xffFF9383),
+                                                  const Color(0xffFC4D32)),
                                             )),
                                   ),
                                 ),
@@ -133,7 +134,7 @@ class _DetailServiceState extends State<DetailService> {
                                       color: AppColors.white,
                                       boxShadow: [
                                         BoxShadow(
-                                            offset: Offset(0, 0),
+                                            offset: const Offset(0, 0),
                                             blurRadius: 10,
                                             spreadRadius: 0,
                                             color: AppColors.blue2
@@ -210,7 +211,7 @@ class _DetailServiceState extends State<DetailService> {
                                       color: AppColors.white,
                                       boxShadow: [
                                         BoxShadow(
-                                            offset: Offset(0, 0),
+                                            offset: const Offset(0, 0),
                                             blurRadius: 10,
                                             spreadRadius: 0,
                                             color: AppColors.blue2
@@ -338,7 +339,7 @@ class _DetailServiceState extends State<DetailService> {
                                       color: AppColors.white,
                                       boxShadow: [
                                         BoxShadow(
-                                            offset: Offset(0, 0),
+                                            offset: const Offset(0, 0),
                                             blurRadius: 10,
                                             spreadRadius: 0,
                                             color: AppColors.blue2
@@ -399,7 +400,7 @@ class _DetailServiceState extends State<DetailService> {
                                       SizedBox(
                                         height: 20.sp,
                                       ),
-                                      Container(
+                                      SizedBox(
                                         width: (Get.width - 20.sp - 20.sp) / 2,
                                         child: DButton(
                                             text: 'Chi tiết hợp đồng',
@@ -433,8 +434,9 @@ class _DetailServiceState extends State<DetailService> {
                           )
                         ],
                       );
-                    } else
-                      return SizedBox();
+                    } else {
+                      return const SizedBox();
+                    }
                   }),
                 ),
               ),
@@ -448,7 +450,7 @@ class _DetailServiceState extends State<DetailService> {
                     color: AppColors.white,
                     boxShadow: [
                       BoxShadow(
-                          offset: Offset(0, 0),
+                          offset: const Offset(0, 0),
                           blurRadius: 10,
                           spreadRadius: 0,
                           color: AppColors.blue2.withOpacity(0.15))
@@ -464,23 +466,33 @@ class _DetailServiceState extends State<DetailService> {
                   children: [
                     Expanded(
                       flex: 2,
-                      child: RichText(
-                        text: TextSpan(
-                          text: 'Chỉ từ ',
-                          style: AppStyle.DEFAULT_16
-                              .copyWith(fontWeight: FontWeight.w500),
-                          children: <TextSpan>[
-                            TextSpan(
-                                text: '350,000 ',
-                                style: AppStyle.DEFAULT_18_BOLD
-                                    .copyWith(color: AppColors.primary)),
-                            TextSpan(
-                                text: 'đ',
-                                style: AppStyle.DEFAULT_18_BOLD.copyWith(
-                                    color: AppColors.primary,
-                                    decoration: TextDecoration.underline)),
-                          ],
-                        ),
+                      child: GetX<ServiceController>(
+                        builder: (controller) {
+                          if(controller.detailService.value!=null) {
+                            return RichText(
+                            text: TextSpan(
+                              text: 'Chỉ từ ',
+                              style: AppStyle.DEFAULT_16
+                                  .copyWith(fontWeight: FontWeight.w500),
+                              children: <TextSpan>[
+                                TextSpan(
+                                    text: '${AppValue.format_money(controller
+                                        .detailService
+                                        .value!.so_tien!.toDouble())} ',
+                                    style: AppStyle.DEFAULT_18_BOLD
+                                        .copyWith(color: AppColors.primary)),
+                                TextSpan(
+                                    text: 'đ',
+                                    style: AppStyle.DEFAULT_18_BOLD.copyWith(
+                                        color: AppColors.primary,
+                                        decoration: TextDecoration.underline)),
+                              ],
+                            ),
+                          );
+                          } else {
+                            return const SizedBox();
+                          }
+                        }
                       ),
                     ),
                     Expanded(
@@ -601,7 +613,7 @@ class _DetailServiceState extends State<DetailService> {
                     colors: [color1, color2]),
                 boxShadow: [
                   BoxShadow(
-                      offset: Offset(0, 0),
+                      offset: const Offset(0, 0),
                       blurRadius: 10,
                       spreadRadius: 0,
                       color: AppColors.blue2.withOpacity(0.15))
@@ -723,7 +735,7 @@ class _DetailServiceState extends State<DetailService> {
               ),
               Expanded(
                 child: SingleChildScrollView(
-                  child: AppText(hop_dong),
+                  child: HtmlWidget(hop_dong,textStyle: AppStyle.DEFAULT_14,),
                 ),
               ),
               SizedBox(

@@ -80,6 +80,7 @@ class DButton extends StatelessWidget {
                       child: AppText(
                         text,
                         maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                         textAlign:textAlign?? TextAlign.center,
                         style: textStyle ??
                             AppStyle.DEFAULT_16.copyWith(
@@ -97,6 +98,7 @@ class DButton extends StatelessWidget {
                   text,
                   maxLines: 1,
                   textAlign:textAlign?? TextAlign.center,
+                  overflow: TextOverflow.ellipsis,
                   style: textStyle ??
                       AppStyle.DEFAULT_16.copyWith(
                           fontWeight: FontWeight.w600,

@@ -24,19 +24,20 @@ class TheoDoiTienTrinh extends StatefulWidget {
 class _TheoDoiTienTrinhState extends State<TheoDoiTienTrinh> {
   final GlobalKey<ScaffoldState> ScaffoldKey = GlobalKey();
 
-  TheoDoiTienTrinhController _theoDoiTienTrinhController=Get.find<TheoDoiTienTrinhController>();
+  TheoDoiTienTrinhController _theoDoiTienTrinhController =
+      Get.find<TheoDoiTienTrinhController>();
 
-  int indexTab=1;
-  bool? isHuy=Get.arguments[1];
-  int? id=Get.arguments[3];
+  int indexTab = 1;
+  bool? isHuy = Get.arguments[1];
+  int? id = Get.arguments[3];
 
   @override
   void initState() {
-    if(Get.arguments[0]!=null) {
-      _theoDoiTienTrinhController.indexTab.value=Get.arguments[0];
+    if (Get.arguments[0] != null) {
+      _theoDoiTienTrinhController.indexTab.value = Get.arguments[0];
     }
-    if(isHuy==true&&id!=null){
-      Future.delayed(Duration(seconds: 0),(){
+    if (isHuy == true && id != null) {
+      Future.delayed(Duration(seconds: 0), () {
         _theoDoiTienTrinhController.getDonHuy(id: id!);
       });
     }
@@ -53,44 +54,56 @@ class _TheoDoiTienTrinhState extends State<TheoDoiTienTrinh> {
         width: Get.width * 0.85,
         child: Menu(),
       ),
-      child: GetX<TheoDoiTienTrinhController>(
-        builder: (controller) {
-          return Column(
-            children: [
-              DHeaderShadow(
-                title:controller.indexTab.value==2? 'Khảo sát'.tr:'Theo dõi tiến trình'.tr,
-                keyMenu: ScaffoldKey,
-                showMenu: true,
+      child: GetX<TheoDoiTienTrinhController>(builder: (controller) {
+        return Column(
+          children: [
+            DHeaderShadow(
+              title: controller.indexTab.value == 2
+                  ? 'Khảo sát'.tr
+                  : 'Theo dõi tiến trình'.tr,
+              keyMenu: ScaffoldKey,
+              showMenu: true,
+            ),
+            Expanded(
+                child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 20.sp),
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 30.sp,
+                  ),
+                  DProgress(progress: [
+                    Assets.iconsStudent,
+                    Assets.iconsReload,
+                    Assets.iconsDangKyDichVu3,
+                    Assets.iconsDangKyDichVu3,
+                  ], title: [
+                    "Đang tìm giáo viên",
+                    isHuy == true ? "Không tìm được giáo viên" : "Khảo sát",
+                    "Đang trong khóa học",
+                    "Hoàn tất"
+                  ], indexS: controller.indexTab.value),
+                  SizedBox(
+                    height: 23.sp,
+                  ),
+                  Expanded(
+                      child: (controller.indexTab.value == 2 && isHuy == true)
+                          ? NoFindTeacher()
+                          : controller.indexTab.value == 2
+                              ? Servey(
+                                  id: id ?? -1,
+                                )
+                              : controller.indexTab.value == 3||controller.indexTab.value == 4
+                                  ? TrongKhoaHoc(
+                                      id: id ?? -1,
+                                    )
+                                  : DangTimGiaoVien(id: id ?? -1)),
+                ],
               ),
-              Expanded(child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 20.sp),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 30.sp,
-                    ),
-                    DProgress(progress: [
-                      Assets.iconsStudent,
-                      Assets.iconsReload,
-                      Assets.iconsDangKyDichVu3,
-                      Assets.iconsDangKyDichVu3,
-                    ], title: [
-                      "Đang tìm giáo viên",
-                      isHuy==true?"Không tìm được giáo viên": "Khảo sát",
-                      "Đang trong khóa học",
-                      "Hoàn tất"
-                    ], indexS: controller.indexTab.value),
-                    SizedBox(
-                      height: 23.sp,
-                    ),
-                    Expanded(child: (controller.indexTab.value==2&&isHuy==true)?NoFindTeacher():controller.indexTab.value==2?Servey(id: id??-1,):controller.indexTab.value==3?TrongKhoaHoc(id: id??-1,): DangTimGiaoVien(id: id??-1)),
-                  ],
-                ),
-              ))
-            ],
-          );
-        }
-      ),
+            ))
+          ],
+        );
+      }),
     );
   }
 }
