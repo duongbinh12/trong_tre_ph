@@ -50,7 +50,7 @@ class _VnpayScreenState extends State<VnpayScreen> {
             children: [
               SizedBox(height: MediaQuery.of(context).viewPadding.top,),
               Expanded(child: InAppWebView(
-                initialUrlRequest: URLRequest(url: Uri.parse(url)),
+                initialUrlRequest: URLRequest(url: WebUri.uri(Uri.parse(url))),
                 onWebViewCreated: (controller) {
                   webViewController = controller;
                 },
