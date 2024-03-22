@@ -23,15 +23,15 @@ class XacNhanLichHoc extends StatefulWidget {
   State<XacNhanLichHoc> createState() => _XacNhanLichHocState();
 }
 
-class _XacNhanLichHocState extends State<XacNhanLichHoc> with AutomaticKeepAliveClientMixin{
+class _XacNhanLichHocState extends State<XacNhanLichHoc>{
   ServiceController _serviceController=Get.find<ServiceController>();
   double goiHoc=0;
   double phuCap=0;
   double tongTien=0;
   String thoiGian="";
 
-  @override
-  bool get wantKeepAlive => true;
+  // @override
+  // bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -52,6 +52,7 @@ class _XacNhanLichHocState extends State<XacNhanLichHoc> with AutomaticKeepAlive
 
   @override
   Widget build(BuildContext context) {
+    print("djbqwdqwd");
     return SingleChildScrollView(
       child: Column(
         children: [

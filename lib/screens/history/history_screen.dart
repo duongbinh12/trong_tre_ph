@@ -41,7 +41,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
 
   @override
   void initState() {
-    Future.delayed(Duration(seconds: 0), () {
+    Future.delayed(const Duration(seconds: 0), () {
       if (_loginController.token != null) {
         _historyController.getHistory(page: 1, tuKhoa: "", sort: 1);
       }
@@ -217,7 +217,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                       );
                                     }
                                   } else {
-                                    return SizedBox();
+                                    return const SizedBox();
                                   }
                                 }),
                               )
@@ -246,7 +246,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 color: AppColors.primary)),
-                                        TextSpan(
+                                        const TextSpan(
                                             text: ' để sử dụng tính năng này!'),
                                       ],
                                     ),
@@ -268,7 +268,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
             ? AppColors.orange2
         : data.trang_thai!.id == 48
         ? AppColors.green
-    :data.trang_thai!.id==49?Color(0xff29A0EB)
+    :data.trang_thai!.id==49?const Color(0xff29A0EB)
+    :data.trang_thai!.id==45?const Color.fromRGBO(255,183,97,1)
             : AppColors.primary;
     // Color colorItem=AppColors.orange;
     return InkWell(
@@ -295,7 +296,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
             color: AppColors.grayF2,
             boxShadow: [
               BoxShadow(
-                  offset: Offset(0, 0),
+                  offset: const Offset(0, 0),
                   spreadRadius: 0,
                   blurRadius: 10,
                   color: AppColors.blue2.withOpacity(0.15))
@@ -347,7 +348,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                 TextSpan(
                                     text: data.ma_don_hang??'',
                                     style:
-                                        TextStyle(fontWeight: FontWeight.w600)),
+                                        const TextStyle(fontWeight: FontWeight.w600)),
                               ],
                             ),
                           ),
@@ -435,7 +436,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                               style: AppStyle.DEFAULT_14_BOLD
                                   .copyWith(height: 1.2,fontSize: 13.sp),
                               children: <TextSpan>[
-                                TextSpan(
+                                const TextSpan(
                                     text: ' buổi',
                                     style:
                                         TextStyle(fontWeight: FontWeight.w500)),

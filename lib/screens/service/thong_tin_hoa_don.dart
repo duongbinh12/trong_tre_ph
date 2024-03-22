@@ -31,7 +31,8 @@ class _ThongTinHoaDonState extends State<ThongTinHoaDon> {
 
   ServiceController _serviceController = Get.find<ServiceController>();
 
-  int id = Get.arguments;
+  int id = Get.arguments[0];
+  Function callBack = Get.arguments[1];
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +47,26 @@ class _ThongTinHoaDonState extends State<ThongTinHoaDon> {
           children: [
             DHeaderShadow(
                 title: 'Thông tin hóa đơn'.tr,
+                onBack: (){
+                  if (_tenController.text != "" &&
+                      _diaChiController.text != "" &&
+                      _diaChiController.text != "" &&
+                      _emailController.text != ""){
+                    Get.back();
+                  }else{
+                    Get.back();
+
+                    NotificationDialog.createSimpleDialog(
+                        context: context,
+                        titleButton1: 'OK',
+                        onTap1: (){
+                          callBack(1);
+                          Get.back();
+                        },
+                        content: 'Hãy điền đủ thông tin trước khi yêu cầu!',
+                        numberButton: 1);
+                  }
+                },
                 showMenu: true,
                 keyMenu: ScaffoldKey),
             SizedBox(

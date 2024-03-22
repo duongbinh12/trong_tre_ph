@@ -50,7 +50,7 @@ class _DangTimGiaoVienState extends State<DangTimGiaoVien> {
             SizedBox(
               height: 56.h,
             ),
-            DButton(
+            if(controller.timGiaoVienData.value!.trang_thai!.id!=48) DButton(
                 text: 'Hủy đơn'.tr,
                 background: AppColors.grayE5,
                 textColor: AppColors.textBlack,
@@ -172,6 +172,7 @@ class _DangTimGiaoVienState extends State<DangTimGiaoVien> {
                     AppStyle.DEFAULT_14.copyWith(fontWeight: FontWeight.w500),
               )),
           _itemThongTin(
+
               icon: Assets.iconsEditCalendar,
               left: 'Thời gian'.tr,
               right: AppText(

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:photo_view/photo_view.dart';
 import 'package:trong_tre/res/app_values.dart';
 import 'package:trong_tre/screens/theo_doi_tien_trinh/controllers/theo_doi_tien_trinh_controller.dart';
 import 'package:trong_tre/widgets/DButton.dart';
@@ -193,7 +194,9 @@ class _DetailTeacherState extends State<DetailTeacher> {
                               ),
                             ],
                           ),
-                          SizedBox(height: 15.h,),
+                          SizedBox(
+                            height: 15.h,
+                          ),
                           Expanded(
                               child: PageView(
                             physics: NeverScrollableScrollPhysics(),
@@ -229,7 +232,12 @@ class _DetailTeacherState extends State<DetailTeacher> {
             return InkWell(
               onTap: onClickItemHistory,
               child: Container(
-                margin: EdgeInsets.only(bottom:index==controller.listLichSu.value!.length-1?30.h: 15.h, left: 1.sp, right: 1.sp),
+                margin: EdgeInsets.only(
+                    bottom: index == controller.listLichSu.value!.length - 1
+                        ? 30.h
+                        : 15.h,
+                    left: 1.sp,
+                    right: 1.sp),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15.sp),
                     color: AppColors.grayF2,
@@ -286,7 +294,11 @@ class _DetailTeacherState extends State<DetailTeacher> {
                                           .copyWith(height: 1.3),
                                       children: <TextSpan>[
                                         TextSpan(
-                                            text: controller.listLichSu.value![index].ma_don_hang??'',
+                                            text: controller
+                                                    .listLichSu
+                                                    .value![index]
+                                                    .ma_don_hang ??
+                                                '',
                                             style: TextStyle(
                                                 fontWeight: FontWeight.w600)),
                                       ],
@@ -306,7 +318,9 @@ class _DetailTeacherState extends State<DetailTeacher> {
                             Flexible(
                               flex: 2,
                               child: DButton(
-                                  text: controller.listLichSu.value![index].trang_thai??'',
+                                  text: controller.listLichSu.value![index]
+                                          .trang_thai ??
+                                      '',
                                   padH: 6.sp,
                                   padV: 0.sp,
                                   background: AppColors.green.withOpacity(0.2),
@@ -358,7 +372,9 @@ class _DetailTeacherState extends State<DetailTeacher> {
                               Expanded(
                                   flex: 2,
                                   child: AppText(
-                                    controller.listLichSu.value![index].dichVu??'',
+                                    controller
+                                            .listLichSu.value![index].dichVu ??
+                                        '',
                                     style: AppStyle.DEFAULT_14
                                         .copyWith(fontWeight: FontWeight.w500),
                                   )),
@@ -400,7 +416,9 @@ class _DetailTeacherState extends State<DetailTeacher> {
                               Expanded(
                                   flex: 2,
                                   child: AppText(
-                                    controller.listLichSu.value![index].noi_dung_danh_gia??'',
+                                    controller.listLichSu.value![index]
+                                            .noi_dung_danh_gia ??
+                                        '',
                                     style: AppStyle.DEFAULT_14.copyWith(
                                         fontWeight: FontWeight.w500,
                                         height: 1.2),
@@ -423,10 +441,9 @@ class _DetailTeacherState extends State<DetailTeacher> {
   }
 
   Widget _daoTao() {
-    return GetX<TheoDoiTienTrinhController>(
-      builder: (controller) {
-        if(controller.listDaoTao.value!=null) {
-          return ListView.builder(
+    return GetX<TheoDoiTienTrinhController>(builder: (controller) {
+      if (controller.listDaoTao.value != null) {
+        return ListView.builder(
           itemCount: controller.listDaoTao.value!.length,
           padding: EdgeInsets.only(top: 15.sp),
           controller: _daoTaoController,
@@ -477,7 +494,8 @@ class _DetailTeacherState extends State<DetailTeacher> {
                             ),
                             Expanded(
                               child: AppText(
-                                controller.listDaoTao.value![index].hocPhan??'',
+                                controller.listDaoTao.value![index].hocPhan ??
+                                    '',
                                 style: AppStyle.DEFAULT_16_BOLD,
                               ),
                             ),
@@ -493,8 +511,8 @@ class _DetailTeacherState extends State<DetailTeacher> {
                             bottomLeft: Radius.circular(15.sp),
                             bottomRight: Radius.circular(15.sp),
                           )),
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 15.sp, vertical: 12.sp),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 15.sp, vertical: 12.sp),
                       child: Column(
                         children: [
                           Row(
@@ -522,7 +540,9 @@ class _DetailTeacherState extends State<DetailTeacher> {
                               Expanded(
                                   flex: 2,
                                   child: AppText(
-                                    controller.listDaoTao.value![index].created??'',
+                                    controller
+                                            .listDaoTao.value![index].created ??
+                                        '',
                                     style: AppStyle.DEFAULT_14
                                         .copyWith(fontWeight: FontWeight.w500),
                                   )),
@@ -586,13 +606,19 @@ class _DetailTeacherState extends State<DetailTeacher> {
                                                   width: 3.sp,
                                                 ),
                                                 AppText(
-                                                  controller.listDaoTao.value![index].trang_thai!.name??'',
+                                                  controller
+                                                          .listDaoTao
+                                                          .value![index]
+                                                          .trang_thai!
+                                                          .name ??
+                                                      '',
                                                   style: AppStyle.DEFAULT_14
                                                       .copyWith(
                                                           height: 1.3,
                                                           fontWeight:
                                                               FontWeight.w500,
-                                                          color: AppColors.white),
+                                                          color:
+                                                              AppColors.white),
                                                 ),
                                               ],
                                             ),
@@ -612,12 +638,10 @@ class _DetailTeacherState extends State<DetailTeacher> {
             );
           },
         );
-        }
-        else {
-          return SizedBox();
-        }
+      } else {
+        return SizedBox();
       }
-    );
+    });
   }
 
   Widget _teacher() {
@@ -703,8 +727,9 @@ class _DetailTeacherState extends State<DetailTeacher> {
               )
             ],
           );
-        } else
+        } else {
           return SizedBox();
+        }
       }),
     );
   }
@@ -725,6 +750,14 @@ class _DetailTeacherState extends State<DetailTeacher> {
       padding: EdgeInsets.symmetric(horizontal: 15.sp, vertical: 15.sp),
       child: GetX<TheoDoiTienTrinhController>(builder: (controller) {
         if (controller.chiTietGv.value != null) {
+          List chungChi = [];
+          if (controller.chiTietGv.value!.chung_chi != null &&
+              controller.chiTietGv.value!.chung_chi!.isNotEmpty)
+            for (int i = 0;
+                i < controller.chiTietGv.value!.chung_chi!.length;
+                i++) {
+              chungChi.add('Chứng chỉ ${i + 1}');
+            }
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -747,12 +780,58 @@ class _DetailTeacherState extends State<DetailTeacher> {
               SizedBox(
                 height: 10.sp,
               ),
-              _itemGioiThieu(
-                  'Bằng cấp', controller.chiTietGv.value!.bang_cap ?? ''),
+              _itemGioiThieu('Bằng cấp',
+                  "${controller.chiTietGv.value!.bang_cap!.trinh_do ?? ''}${controller.chiTietGv.value!.bang_cap!.trinh_do != null && controller.chiTietGv.value!.bang_cap!.trinh_do != "" ? ',' : ''} ${controller.chiTietGv.value!.bang_cap!.chuyen_nganh ?? ''}${controller.chiTietGv.value!.bang_cap!.chuyen_nganh != null && controller.chiTietGv.value!.bang_cap!.chuyen_nganh != "" ? ',' : ''} ${controller.chiTietGv.value!.bang_cap!.truong_dao_tao ?? ''}"),
               SizedBox(
                 height: 10.sp,
               ),
-              _itemGioiThieu('Chứng chỉ/\nChứng nhận', ''),
+              _itemGioiThieu('Chứng chỉ/\nChứng nhận', chungChi.join('\n'),listLink:controller.chiTietGv.value!.chung_chi??[] ,onClickLink: (String link){
+                double paddingTop = MediaQuery.of(context).viewPadding.top;
+                showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  constraints: BoxConstraints(minHeight: Get.height, minWidth: Get.width),
+                  backgroundColor: AppColors.black,
+                  barrierColor: AppColors.black,
+                  builder: (BuildContext context) {
+                    return Stack(
+                      children: [
+                        PhotoView(
+                          imageProvider: NetworkImage(link),
+                          minScale: PhotoViewComputedScale.contained * 1,
+                          maxScale: PhotoViewComputedScale.contained * 3,
+                          loadingBuilder: (context, event) =>
+                              Center(child: CircularProgressIndicator()),
+                        ),
+                        Positioned(
+                          top: paddingTop + 20.sp,
+                          left: 20.sp,
+                          child: InkWell(
+                            onTap: () {
+                              Get.back();
+                            },
+                            child: Container(
+                              width: 35.sp,
+                              height: 35.sp,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10.sp)),
+                              padding: EdgeInsets.all(8.sp),
+                              child: SvgPicture.asset(
+                                Assets.iconsBack,
+                                // width: 30.sp,
+                                // height: 30.sp,
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+                  isLink: true),
             ],
           );
         } else {
@@ -762,7 +841,8 @@ class _DetailTeacherState extends State<DetailTeacher> {
     );
   }
 
-  Widget _itemGioiThieu(String title, String content) {
+  Widget _itemGioiThieu(String title, String content,
+      {bool isLink = false,List<String>? listLink, Function? onClickLink}) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -771,12 +851,32 @@ class _DetailTeacherState extends State<DetailTeacher> {
           title,
           style: AppStyle.DEFAULT_14,
         )),
-        Expanded(
+        if(isLink==false) Expanded(
             flex: 2,
             child: AppText(
               content,
-              style: AppStyle.DEFAULT_14.copyWith(fontWeight: FontWeight.w500),
-            )),
+              style: AppStyle.DEFAULT_14.copyWith(
+                  fontWeight: FontWeight.w500,
+                  decoration:isLink ? TextDecoration.underline:null,
+                  color: isLink ? AppColors.blue : null),
+            ))
+        else Expanded(flex: 2,child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: List.generate(listLink!.length, (index) => InkWell(
+            onTap: (){
+              if(onClickLink!=null){
+                onClickLink(listLink[index]);
+              }
+            },
+            child: AppText(
+              content,
+              style: AppStyle.DEFAULT_14.copyWith(
+                  fontWeight: FontWeight.w500,
+                  decoration:TextDecoration.underline,
+                  color:AppColors.blue),
+            ),
+          )),
+        ))
       ],
     );
   }

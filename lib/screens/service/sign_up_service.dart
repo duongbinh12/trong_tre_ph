@@ -140,7 +140,7 @@ class _SignUpServiceState extends State<SignUpService>  with AutomaticKeepAliveC
           );
         }
         else{
-          return SizedBox();
+          return const SizedBox();
         }
       }
     );
@@ -277,6 +277,7 @@ class _SignUpServiceState extends State<SignUpService>  with AutomaticKeepAliveC
       backgroundColor: Colors.transparent,
       builder: (context) {
         return DCalendar(
+          selectedTime: _thoiGianPick,
           onClickPick: (DateTime selectDay) {
             setState(() {
               _thoiGianPick = selectDay;
@@ -290,12 +291,14 @@ class _SignUpServiceState extends State<SignUpService>  with AutomaticKeepAliveC
   }
 
   onClickNext() async{
+    FocusScope.of(context).unfocus();
     if (_serviceController.diaDiem != "" &&
         _serviceController.arrThu.isNotEmpty) {
       if(_serviceController.idKhungGioCa!=-1){
         await _serviceController.getChonHocPhi(dichVuId,onSuccess: (){
+
           _serviceController.nextTab();
-          widget.pageController.nextPage(duration: Duration(milliseconds: 300), curve: Curves.ease);
+          widget.pageController.nextPage(duration: const Duration(milliseconds: 300), curve: Curves.ease);
         });
 
 

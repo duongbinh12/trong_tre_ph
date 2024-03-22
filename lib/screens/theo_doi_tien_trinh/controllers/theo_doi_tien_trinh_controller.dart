@@ -32,7 +32,7 @@ class TheoDoiTienTrinhController extends BaseController {
         api: commonRepository.dongThuan(id),
         onSuccess: (result) {
           _historyController.getHistory(page: 1, tuKhoa: '', sort: 1);
-          nextTab();
+          AppNavigator.navigateHome();
         },
         onError: (e) {
           print("error dongThuan ${e}");

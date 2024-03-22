@@ -3,6 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
 import 'package:trong_tre/common/routes/navigator.dart';
 import 'package:trong_tre/generated/assets.dart';
@@ -114,7 +115,11 @@ class _ThanhToanState extends State<ThanhToan>
           InkWell(
             onTap: () async {
               if (valueInHoaDon == 1) {
-                AppNavigator.navigateThongTinHoaDon(Get.arguments);
+                AppNavigator.navigateThongTinHoaDon(Get.arguments,(int value){
+                  setState(() {
+                    valueInHoaDon=value;
+                  });
+                });
               }
               setState(() {
                 valueInHoaDon = valueInHoaDon == 0 ? 1 : 0;
@@ -312,13 +317,7 @@ class _ThanhToanState extends State<ThanhToan>
                 ),
                 Expanded(
                   child: SingleChildScrollView(
-                    child: AppText(
-                        """Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                    
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                    """),
+                    child: HtmlWidget(_serviceController.detailService.value!.hop_dong_dich_vu??''),
                   ),
                 ),
                 SizedBox(
@@ -394,7 +393,10 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
                     borderColor: checkBox == false
                         ? AppColors.grayE5
                         : AppColors.primary,
-                    onClick: onClickThanhToan),
+                    onClick: (){
+                      Get.back();
+                      onClickThanhToan();
+                    }),
                 SizedBox(
                   height: 30.sp + MediaQuery.of(context).viewPadding.bottom,
                 )

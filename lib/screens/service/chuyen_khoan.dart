@@ -175,7 +175,7 @@ class _ChuyenKhoanState extends State<ChuyenKhoan> {
                       ),
                     ),
                     SizedBox(height: 25.sp,),
-                    _title(icon: Assets.iconsNote, title: 'Ghi chú'.tr,isRequired: true),
+                    _title(icon: Assets.iconsNote, title: 'Ghi chú'.tr,isRequired: false),
                     SizedBox(height: 10.sp,),
                     AppText(
                       '(Phụ huynh sau khi thanh toán thành công sẽ gửi ảnh chụp màn hình chuyển khoản để chúng tôi xác nhận thông tin)',
@@ -267,14 +267,14 @@ class _ChuyenKhoanState extends State<ChuyenKhoan> {
   }
 
   onClickBack() {
-    Get.back();
+    AppNavigator.navigateHome();
   }
 
   onClickNext() {
     if(_imagePicker!=null) {
       _serviceController.uploadImage(don_dich_vu_id: dichVuId.toString(), file: File(_imagePicker!.path));
     } else{
-
+      AppNavigator.navigateHoanTatDangKy();
     }
   }
 
