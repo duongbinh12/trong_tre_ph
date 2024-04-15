@@ -24,6 +24,7 @@ import 'package:trong_tre/services/entity/tin_tuc_response.dart';
 import '../api/app_rest_client.dart';
 import '../entity/danh_sach_dao_tao_response.dart';
 import '../entity/find_teacher_response.dart';
+import '../entity/hoa_don_response.dart';
 import '../entity/login_response.dart';
 import 'app_common_repository.dart';
 
@@ -168,7 +169,7 @@ class CommonRepository extends AppCommonRepository {
     return client.getChonHocPhi(caId);
   }
 
-  Future<BaseResponse> addHoaDon(
+  Future<HoaDonResponse> addHoaDon(
       String ho_ten,
       String cmnd_cccd,
       String dia_chi,
@@ -203,6 +204,8 @@ class CommonRepository extends AppCommonRepository {
     String ghi_chu,
     String an_trua_id,
     String them_gio_id,
+    String gio_bat_dau,
+    String hoa_don_id,
   ) async {
     final client = AppRestClient(dio);
     return client.taoDon(
@@ -220,7 +223,10 @@ class CommonRepository extends AppCommonRepository {
         hinh_thuc_thanh_toan_id,
         ghi_chu,
         an_trua_id,
-        them_gio_id);
+        them_gio_id,
+        gio_bat_dau,
+      hoa_don_id
+    );
   }
 
   Future<BaseResponse> uploadImage(String don_dich_vu_id,File file) async {

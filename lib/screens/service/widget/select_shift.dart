@@ -26,6 +26,7 @@ class SelectShift extends StatefulWidget {
 class _SelectShiftState extends State<SelectShift> {
   int select_ca = 0;
   int select_gio = 0;
+  int? gio=7,phut=30;
 
   ServiceController _serviceController = Get.find<ServiceController>();
 
@@ -97,6 +98,46 @@ class _SelectShiftState extends State<SelectShift> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Container(
+                margin: EdgeInsets.only(left: 16.w,right: 16.w,top: 10.h),
+                child: Row(
+                  children: [
+                    Expanded(
+                        flex: 3,
+                        child: _title(title: 'Giờ bắt đầu'.tr)),
+                    Expanded(
+                        flex: 1,
+                        child: InkWell(
+                          onTap: onClickTime,
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: AppColors.orange,
+                                borderRadius: BorderRadius.circular(50.sp)),
+                            padding:
+                            EdgeInsets.symmetric(horizontal: 10.sp, vertical: 7.sp),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                    child: AppText(
+                                      '$gio:$phut',
+                                      style: AppStyle.DEFAULT_14.copyWith(
+                                          fontWeight: FontWeight.w500,
+                                          color: AppColors.white,
+                                          height: 1.2),
+                                    )),
+                                SvgPicture.asset(
+                                  Assets.iconsIcCalendar,
+                                  color: AppColors.white,
+                                  width: 12.sp,
+                                  height: 14.sp,
+                                )
+                              ],
+                            ),
+                          ),
+                        ))
+                  ],
+                ),
+              ),
               GetX<ServiceController>(builder: (controller) {
                 if (controller.listKhungGio.value != null && controller.listKhungGio.value!.isNotEmpty) {
                   List<String> dataKhung = [];
@@ -191,13 +232,13 @@ class _SelectShiftState extends State<SelectShift> {
     );
   }
 
-  Widget _title({required String icon, required String title}) {
+  Widget _title({String? icon, required String title}) {
     return Row(
       children: [
-        SvgPicture.asset(
+        if(icon!=null) SvgPicture.asset(
           icon,
         ),
-        SizedBox(
+        if(icon!=null) SizedBox(
           width: 5.sp,
         ),
         AppText(
@@ -209,4 +250,22 @@ class _SelectShiftState extends State<SelectShift> {
   }
 
   onClickNext() {}
+
+  void onClickTime() async{
+    TimeOfDay? selectedTime24Hour=await showTimePicker(
+      context: context,
+      initialTime: const TimeOfDay(hour: 7, minute: 30),
+      builder: (BuildContext context, Widget? child) {
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+          child: child!,
+        );
+      },
+    );
+    setState(() {
+      gio=selectedTime24Hour!.hour;
+      phut=selectedTime24Hour.minute;
+    });
+    _serviceController.gioBatDau="${gio!<10?"0$gio":gio}:$phut";
+  }
 }

@@ -26,6 +26,7 @@ import 'package:trong_tre/services/entity/thong_tin_khoa_hoc_response.dart';
 import 'package:trong_tre/services/entity/tin_tuc_response.dart';
 import '../entity/chuong_trinh_hoc_response.dart';
 import '../entity/find_teacher_response.dart';
+import '../entity/hoa_don_response.dart';
 import 'endpoint.dart';
 part 'app_rest_client.g.dart';
 
@@ -177,7 +178,7 @@ abstract class AppRestClient {
       );
 
   @POST(Endpoint.addHoaDon)
-  Future<BaseResponse> addHoaDon(
+  Future<HoaDonResponse> addHoaDon(
       @Part(value: "ho_ten") String ho_ten,
       @Part(value: "cmnd_cccd") String cmnd_cccd,
       @Part(value: "dia_chi") String dia_chi,
@@ -205,6 +206,8 @@ abstract class AppRestClient {
       @Part(value: "ghi_chu") String ghi_chu,
       @Part(value: "an_trua_id") String an_trua_id,
       @Part(value: "them_gio_id") String them_gio_id,
+      @Part(value: "gio_bat_dau") String gio_bat_dau,
+      @Part(value: "hoa_don_id") String hoa_don_id,
       );
 
   @GET(Endpoint.infoBanking)

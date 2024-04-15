@@ -26,7 +26,7 @@ class _AppRestClient implements AppRestClient {
     String password,
     String mobileToken,
   ) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = FormData();
@@ -69,7 +69,7 @@ class _AppRestClient implements AppRestClient {
     String password,
     String mobileToken,
   ) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = FormData();
@@ -113,7 +113,7 @@ class _AppRestClient implements AppRestClient {
     String password,
     String passwordConfirm,
   ) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = FormData();
@@ -156,10 +156,10 @@ class _AppRestClient implements AppRestClient {
 
   @override
   Future<PolicyResponse> getPolicy() async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    const Map<String, dynamic>? _data = null;
     final _result = await _dio
         .fetch<Map<String, dynamic>>(_setStreamType<PolicyResponse>(Options(
       method: 'GET',
@@ -183,10 +183,10 @@ class _AppRestClient implements AppRestClient {
 
   @override
   Future<HomeResponse> getHome() async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    const Map<String, dynamic>? _data = null;
     final _result = await _dio
         .fetch<Map<String, dynamic>>(_setStreamType<HomeResponse>(Options(
       method: 'GET',
@@ -216,7 +216,7 @@ class _AppRestClient implements AppRestClient {
     String tuKhoa,
     int sort,
   ) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'type': type,
       r'page': page,
@@ -225,7 +225,7 @@ class _AppRestClient implements AppRestClient {
       r'sort': sort,
     };
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    const Map<String, dynamic>? _data = null;
     final _result = await _dio
         .fetch<Map<String, dynamic>>(_setStreamType<TinTucResponse>(Options(
       method: 'GET',
@@ -249,10 +249,10 @@ class _AppRestClient implements AppRestClient {
 
   @override
   Future<ChiTietDichVuResponse> getChiTietDichVu(int id) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'id': id};
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    const Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<ChiTietDichVuResponse>(Options(
       method: 'GET',
@@ -276,10 +276,10 @@ class _AppRestClient implements AppRestClient {
 
   @override
   Future<GetCaResponse> getCa() async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    const Map<String, dynamic>? _data = null;
     final _result = await _dio
         .fetch<Map<String, dynamic>>(_setStreamType<GetCaResponse>(Options(
       method: 'GET',
@@ -306,13 +306,13 @@ class _AppRestClient implements AppRestClient {
     int dich_vu_id,
     int type,
   ) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'dich_vu_id': dich_vu_id,
       r'type': type,
     };
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    const Map<String, dynamic>? _data = null;
     final _result = await _dio
         .fetch<Map<String, dynamic>>(_setStreamType<KhungGioResponse>(Options(
       method: 'GET',
@@ -336,7 +336,7 @@ class _AppRestClient implements AppRestClient {
 
   @override
   Future<BaseResponse> getOtpPhone(String dienThoai) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = FormData();
@@ -367,7 +367,7 @@ class _AppRestClient implements AppRestClient {
 
   @override
   Future<BaseResponse> getOtpEmail(String email) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = FormData();
@@ -401,7 +401,7 @@ class _AppRestClient implements AppRestClient {
     String phone,
     String code,
   ) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = FormData();
@@ -439,7 +439,7 @@ class _AppRestClient implements AppRestClient {
     String email,
     String code,
   ) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = FormData();
@@ -477,7 +477,7 @@ class _AppRestClient implements AppRestClient {
     String password,
     String rePass,
   ) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = FormData();
@@ -512,10 +512,10 @@ class _AppRestClient implements AppRestClient {
 
   @override
   Future<LienHeResponse> getLienHe() async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    const Map<String, dynamic>? _data = null;
     final _result = await _dio
         .fetch<Map<String, dynamic>>(_setStreamType<LienHeResponse>(Options(
       method: 'GET',
@@ -539,10 +539,10 @@ class _AppRestClient implements AppRestClient {
 
   @override
   Future<HeSinhThaiResponse> getHeSinhThai() async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    const Map<String, dynamic>? _data = null;
     final _result = await _dio
         .fetch<Map<String, dynamic>>(_setStreamType<HeSinhThaiResponse>(Options(
       method: 'GET',
@@ -566,10 +566,10 @@ class _AppRestClient implements AppRestClient {
 
   @override
   Future<GioiThieuResponse> getGioiThieu() async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    const Map<String, dynamic>? _data = null;
     final _result = await _dio
         .fetch<Map<String, dynamic>>(_setStreamType<GioiThieuResponse>(Options(
       method: 'GET',
@@ -593,10 +593,10 @@ class _AppRestClient implements AppRestClient {
 
   @override
   Future<LoginResponse> getMyInfo() async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    const Map<String, dynamic>? _data = null;
     final _result = await _dio
         .fetch<Map<String, dynamic>>(_setStreamType<LoginResponse>(Options(
       method: 'GET',
@@ -620,10 +620,10 @@ class _AppRestClient implements AppRestClient {
 
   @override
   Future<BaseResponse> logOut() async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    const Map<String, dynamic>? _data = null;
     final _result = await _dio
         .fetch<Map<String, dynamic>>(_setStreamType<BaseResponse>(Options(
       method: 'GET',
@@ -650,7 +650,7 @@ class _AppRestClient implements AppRestClient {
     String hoten,
     String dia_chi,
   ) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = FormData();
@@ -685,7 +685,7 @@ class _AppRestClient implements AppRestClient {
 
   @override
   Future<BaseResponse> editAvatar(File anhNguoiDung) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = FormData();
@@ -719,7 +719,7 @@ class _AppRestClient implements AppRestClient {
 
   @override
   Future<BaseResponse> khieuNai(String noiDung) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = FormData();
@@ -755,7 +755,7 @@ class _AppRestClient implements AppRestClient {
     String tuKhoa,
     int sort,
   ) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'page': page,
       r'limit': limit,
@@ -763,7 +763,7 @@ class _AppRestClient implements AppRestClient {
       r'sort': sort,
     };
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    const Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<HistoryOrderResponse>(Options(
       method: 'GET',
@@ -794,7 +794,7 @@ class _AppRestClient implements AppRestClient {
     int trinhDo,
     int khungGioId,
   ) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'dich_vu_id': dichVuId,
       r'page': page,
@@ -804,7 +804,7 @@ class _AppRestClient implements AppRestClient {
       r'khung_gio_id': khungGioId,
     };
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    const Map<String, dynamic>? _data = null;
     final _result = await _dio
         .fetch<Map<String, dynamic>>(_setStreamType<SoBuoiHocResponse>(Options(
       method: 'GET',
@@ -834,7 +834,7 @@ class _AppRestClient implements AppRestClient {
     int sort,
     String tuKhoa,
   ) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'type': type,
       r'page': page,
@@ -843,7 +843,7 @@ class _AppRestClient implements AppRestClient {
       r'tuKhoa': tuKhoa,
     };
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    const Map<String, dynamic>? _data = null;
     final _result = await _dio
         .fetch<Map<String, dynamic>>(_setStreamType<ThongBaoResponse>(Options(
       method: 'GET',
@@ -867,10 +867,10 @@ class _AppRestClient implements AppRestClient {
 
   @override
   Future<ChonHocPhiResponse> getChonHocPhi(int caId) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'chon_ca_id': caId};
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    const Map<String, dynamic>? _data = null;
     final _result = await _dio
         .fetch<Map<String, dynamic>>(_setStreamType<ChonHocPhiResponse>(Options(
       method: 'GET',
@@ -893,7 +893,7 @@ class _AppRestClient implements AppRestClient {
   }
 
   @override
-  Future<BaseResponse> addHoaDon(
+  Future<HoaDonResponse> addHoaDon(
     String ho_ten,
     String cmnd_cccd,
     String dia_chi,
@@ -903,7 +903,7 @@ class _AppRestClient implements AppRestClient {
     String nam_sinh_cua_con,
     String don_dich_vu_id,
   ) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = FormData();
@@ -940,7 +940,7 @@ class _AppRestClient implements AppRestClient {
       don_dich_vu_id,
     ));
     final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<BaseResponse>(Options(
+        .fetch<Map<String, dynamic>>(_setStreamType<HoaDonResponse>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -956,7 +956,7 @@ class _AppRestClient implements AppRestClient {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = BaseResponse.fromJson(_result.data!);
+    final value = HoaDonResponse.fromJson(_result.data!);
     return value;
   }
 
@@ -977,8 +977,10 @@ class _AppRestClient implements AppRestClient {
     String ghi_chu,
     String an_trua_id,
     String them_gio_id,
+    String gio_bat_dau,
+    String hoa_don_id,
   ) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = FormData();
@@ -1042,6 +1044,14 @@ class _AppRestClient implements AppRestClient {
       'them_gio_id',
       them_gio_id,
     ));
+    _data.fields.add(MapEntry(
+      'gio_bat_dau',
+      gio_bat_dau,
+    ));
+    _data.fields.add(MapEntry(
+      'hoa_don_id',
+      hoa_don_id,
+    ));
     final _result = await _dio
         .fetch<Map<String, dynamic>>(_setStreamType<TaoDonResponse>(Options(
       method: 'POST',
@@ -1065,10 +1075,10 @@ class _AppRestClient implements AppRestClient {
 
   @override
   Future<BankingResponse> getInfoBanking(String dichVuId) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'don_dich_vu_id': dichVuId};
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    const Map<String, dynamic>? _data = null;
     final _result = await _dio
         .fetch<Map<String, dynamic>>(_setStreamType<BankingResponse>(Options(
       method: 'GET',
@@ -1095,7 +1105,7 @@ class _AppRestClient implements AppRestClient {
     String don_dich_vu_id,
     File file,
   ) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = FormData();
@@ -1133,10 +1143,10 @@ class _AppRestClient implements AppRestClient {
 
   @override
   Future<ThongTinGiaoVienResponse> getThongTinGiaoVien(String id) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'id': id};
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    const Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<ThongTinGiaoVienResponse>(Options(
       method: 'GET',
@@ -1160,10 +1170,10 @@ class _AppRestClient implements AppRestClient {
 
   @override
   Future<ChiTietGiaoVienResponse> chiTietGiaoVien(String id) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'giao_vien_id': id};
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    const Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<ChiTietGiaoVienResponse>(Options(
       method: 'GET',
@@ -1192,7 +1202,7 @@ class _AppRestClient implements AppRestClient {
     String limit,
     String sort,
   ) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'giao_vien_id': id,
       r'page': page,
@@ -1200,7 +1210,7 @@ class _AppRestClient implements AppRestClient {
       r'sort': sort,
     };
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    const Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<LichSuCaDayResponse>(Options(
       method: 'GET',
@@ -1224,7 +1234,7 @@ class _AppRestClient implements AppRestClient {
 
   @override
   Future<BaseResponse> checkPass(String password) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = FormData();
@@ -1258,13 +1268,13 @@ class _AppRestClient implements AppRestClient {
     int id,
     int buoi,
   ) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'id': id,
       r'buoi': buoi,
     };
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    const Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<ThongTinKhoaHocResponse>(Options(
       method: 'GET',
@@ -1288,10 +1298,10 @@ class _AppRestClient implements AppRestClient {
 
   @override
   Future<ChuongTrinhHocResponse> getChuongTrinhHoc(int ca_day_id) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'ca_day_id': ca_day_id};
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    const Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<ChuongTrinhHocResponse>(Options(
       method: 'GET',
@@ -1315,10 +1325,10 @@ class _AppRestClient implements AppRestClient {
 
   @override
   Future<DonHuyResponse> getDonHuy(int id) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'id': id};
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    const Map<String, dynamic>? _data = null;
     final _result = await _dio
         .fetch<Map<String, dynamic>>(_setStreamType<DonHuyResponse>(Options(
       method: 'GET',
@@ -1342,10 +1352,10 @@ class _AppRestClient implements AppRestClient {
 
   @override
   Future<ChiTietNXResponse> getChiTietNX(int id) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'ca_day_id': id};
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    const Map<String, dynamic>? _data = null;
     final _result = await _dio
         .fetch<Map<String, dynamic>>(_setStreamType<ChiTietNXResponse>(Options(
       method: 'GET',
@@ -1373,7 +1383,7 @@ class _AppRestClient implements AppRestClient {
     double danhGia,
     String noiDung,
   ) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = FormData();
@@ -1416,7 +1426,7 @@ class _AppRestClient implements AppRestClient {
     double danhGia,
     String nhanXet,
   ) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = FormData();
@@ -1460,7 +1470,7 @@ class _AppRestClient implements AppRestClient {
     String limit,
     String sort,
   ) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'giao_vien_id': id,
       r'page': page,
@@ -1468,7 +1478,7 @@ class _AppRestClient implements AppRestClient {
       r'sort': sort,
     };
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    const Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<DanhSachDaoTaoResponse>(Options(
       method: 'GET',
@@ -1492,7 +1502,7 @@ class _AppRestClient implements AppRestClient {
 
   @override
   Future<PolicyResponse> vnpay(int id) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = FormData();
@@ -1523,7 +1533,7 @@ class _AppRestClient implements AppRestClient {
 
   @override
   Future<BaseResponse> dongThuan(int id) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = FormData();
@@ -1554,7 +1564,7 @@ class _AppRestClient implements AppRestClient {
 
   @override
   Future<BaseResponse> tuChoi(int id) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = FormData();
@@ -1585,10 +1595,10 @@ class _AppRestClient implements AppRestClient {
 
   @override
   Future<FindTeacherResponse> timGiaoVien(int id) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'id': id};
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    const Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<FindTeacherResponse>(Options(
       method: 'GET',
@@ -1615,7 +1625,7 @@ class _AppRestClient implements AppRestClient {
     int id,
     String li_do_huy,
   ) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = FormData();

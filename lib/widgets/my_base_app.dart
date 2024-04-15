@@ -34,6 +34,9 @@ class _MyBaseAppState extends State<MyBaseApp> {
             getPages: widget.onConfig().getPages,
             initialBinding: widget.onConfig().initialBinding,
             home: widget.onConfig().home,
+            theme: ThemeData(
+            useMaterial3: false,
+          ),
             localizationsDelegates: const [
               GlobalMaterialLocalizations.delegate,
               GlobalWidgetsLocalizations.delegate,

@@ -165,7 +165,7 @@ class _XacNhanLichHocState extends State<XacNhanLichHoc>{
           _itemThongTin(
               icon: Assets.iconsIcTime,
               title: 'Ca'.tr,
-              content: '${_serviceController.listCa.value![_serviceController.indexCa].name} (${_serviceController.listKhungGio.value![_serviceController.indexGio].khung_gio})'),
+              content: '${_serviceController.listCa.value![_serviceController.indexCa].name} (${_serviceController.listKhungGio.value![_serviceController.indexGio].khung_gio} - Từ ${_serviceController.gioBatDau})'),
           SizedBox(height: 25.sp,)
         ],
       ),

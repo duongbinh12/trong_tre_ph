@@ -33,6 +33,12 @@ class _NoiDungKhaoSatState extends State<NoiDungKhaoSat> {
       ));
 
   @override
+  void initState() {
+    print("qwdbbqwd ${url}");
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return AppBasePage(
         keyScaffold: ScaffoldKey,

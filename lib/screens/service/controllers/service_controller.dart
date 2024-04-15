@@ -14,6 +14,7 @@ import 'package:trong_tre/services/entity/tao_don_response.dart';
 import 'package:trong_tre/services/repo/common_repository.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../services/entity/hoa_don_response.dart';
 import '../../../widgets/widget_dialog.dart';
 
 class ServiceController extends BaseController {
@@ -46,6 +47,8 @@ class ServiceController extends BaseController {
   int idGoiHocPhi = -1;
   int idAnTrua = -1;
   int idThemGio = -1;
+  String gioBatDau="07:30";
+  String hoaDonId="";
 
   bool xuatHoaDon = false;
 
@@ -173,7 +176,7 @@ class ServiceController extends BaseController {
       required String ho_ten_con,
       required String nam_sinh_cua_con,
       required String don_dich_vu_id}) {
-    callApi<BaseResponse>(
+    callApi<HoaDonResponse>(
         api: commonRepository.addHoaDon(ho_ten, cmnd_cccd, dia_chi, ma_so_thue,
             email, ho_ten_con, nam_sinh_cua_con, don_dich_vu_id),
         onSuccess: (result) {
@@ -185,6 +188,7 @@ class ServiceController extends BaseController {
                   'Yêu cầu xuất hợp đồng và hoá đơn dịch vụ của bạn đang được xử lý, xin vui lòng kiểm tra email sau 24h không kể thứ 7, chủ nhật và các ngày nghỉ Lễ, Tết.',
               numberButton: 0);
           xuatHoaDon = true;
+          hoaDonId=result.data.toString();
         },
         onError: (e) {
           print("error addHoaDon ${e}");
@@ -214,7 +218,10 @@ class ServiceController extends BaseController {
             hinh_thuc_thanh_toan_id,
             ghiChu,
             idAnTrua.toString(),
-            idThemGio.toString()),
+            idThemGio.toString(),
+            gioBatDau,
+            hoaDonId
+        ),
         onSuccess: (result) {
           if (hinh_thuc_thanh_toan_id == "23") {
             vnpay(don_dich_vu_id: result.data!.id!);
