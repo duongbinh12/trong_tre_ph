@@ -17,11 +17,13 @@ ItemDanhGia _$ItemDanhGiaFromJson(Map<String, dynamic> json) => ItemDanhGia(
       (json['cac_buoi'] as List<dynamic>?)
           ?.map((e) => ItemCacBuoi.fromJson(e as Map<String, dynamic>))
           .toList(),
+      json['type'] as int?,
     );
 
 Map<String, dynamic> _$ItemDanhGiaToJson(ItemDanhGia instance) =>
     <String, dynamic>{
       'id': instance.id,
+      'type': instance.type,
       'tieu_de': instance.tieu_de,
       'muc_do_da_cho': instance.muc_do_da_cho,
       'noi_dung_nhan_xet': instance.noi_dung_nhan_xet,
