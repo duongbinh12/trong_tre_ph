@@ -112,7 +112,23 @@ class _ItemDanhGiaFormState extends State<ItemDanhGiaForm> {
                             ? Container(
                                 margin: EdgeInsets.only(bottom: 20.sp),
                                 child:
-                                    DRadioButton(data: widget.data.muc_do!,select: widget.data.muc_do_da_cho??'', isReadonly: true,))
+                                widget.data.type==1?
+                                DCheckBox(data: widget.data.muc_do!,
+                                  selected:widget.data.muc_do_da_cho??'',
+                                  onChanged: (bool value,int index1){
+                                    if(value==true){
+                                      print("qjwndqw ${widget.data.muc_do![index1]}");
+                                      if(widget.data.muc_do_da_cho!=null)
+                                      {
+                                        widget.data.muc_do_da_cho =widget.data.muc_do_da_cho!+','+widget.data.muc_do![index1];
+                                      }
+                                      else{
+                                        widget.data.muc_do_da_cho =widget.data.muc_do![index1];
+                                      }
+                                    }
+                                  },
+                                )
+                                    :DRadioButton(data: widget.data.muc_do!,select: widget.data.muc_do_da_cho??'', isReadonly: true,))
                             : SizedBox(),
                 widget.data.nhan_xet == true
                     ? DInput(

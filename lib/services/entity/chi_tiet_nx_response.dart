@@ -8,7 +8,7 @@ part 'chi_tiet_nx_response.g.dart';
 
 @JsonSerializable()
 class ItemDanhGia {
-  int? id;
+  int? id,type;
   String? tieu_de,muc_do_da_cho,noi_dung_nhan_xet;
   List<String>? muc_do,goi_y;
   bool? nhan_xet;
@@ -16,7 +16,7 @@ class ItemDanhGia {
 
 
   ItemDanhGia(this.id, this.tieu_de, this.muc_do_da_cho, this.noi_dung_nhan_xet,
-      this.muc_do, this.goi_y, this.nhan_xet, this.cac_buoi);
+      this.muc_do, this.goi_y, this.nhan_xet, this.cac_buoi,this.type);
 
   factory ItemDanhGia.fromJson(Map<String, dynamic> json) =>
       _$ItemDanhGiaFromJson(json);

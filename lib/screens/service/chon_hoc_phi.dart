@@ -16,6 +16,7 @@ import 'package:trong_tre/widgets/DInput.dart';
 import 'package:trong_tre/widgets/DRowText.dart';
 import 'package:trong_tre/widgets/app_base_page.dart';
 import 'package:trong_tre/widgets/widget_dialog.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../res/app_styles.dart';
 import '../../res/colors.dart';
@@ -460,7 +461,11 @@ class _ChonHocPhiState extends State<ChonHocPhi>with AutomaticKeepAliveClientMix
 
   onClickChon() {}
 
-  onClickFormGhiChu() {}
+  onClickFormGhiChu() async{
+    if (!await launchUrl(Uri.parse("https://docs.google.com/forms/d/e/1FAIpQLSdsE7k5tIaXZsMVUxENc72qGjUuiXcJKvjFdjvzv4MZLors2A/viewform"))) {
+    throw Exception('Could not launch');
+    }
+  }
 
   onCLickNext() {
     if (_noteController.text != "") {
