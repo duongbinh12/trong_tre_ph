@@ -42,6 +42,7 @@ class Endpoint {
   static const tuChoi = '/parent-api/tu-choi';
   static const timGiaoVien = '/parent-api/dang-tim-giao-vien';
   static const huyDon = '/parent-api/huy-don';
+  static const xemKhaoSat = '/parent-api/get-phieu-khao-sat';
 
   static const home = '/parent-api/home';
   static const tinTuc = '/parent-api/tin-tuc';

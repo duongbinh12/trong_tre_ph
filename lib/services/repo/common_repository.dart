@@ -26,6 +26,7 @@ import '../entity/danh_sach_dao_tao_response.dart';
 import '../entity/find_teacher_response.dart';
 import '../entity/hoa_don_response.dart';
 import '../entity/login_response.dart';
+import '../entity/xem_khao_sat_response.dart';
 import 'app_common_repository.dart';
 
 class CommonRepository extends AppCommonRepository {
@@ -312,5 +313,10 @@ class CommonRepository extends AppCommonRepository {
   Future<BaseResponse> huyDon(int id,String li_do_huy) async {
     final client = AppRestClient(dio);
     return client.huyDon(id, li_do_huy);
+  }
+
+  Future<XemKhaoSatResponse> xemKhaoSat(int id) async {
+    final client = AppRestClient(dio);
+    return client.xemKhaoSat(id);
   }
 }

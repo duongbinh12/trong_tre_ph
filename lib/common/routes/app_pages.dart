@@ -29,6 +29,7 @@ import 'package:trong_tre/screens/theo_doi_tien_trinh/nhan_xet_buoi_hoc.dart';
 import 'package:trong_tre/screens/theo_doi_tien_trinh/nhan_xet_thanh_cong.dart';
 import 'package:trong_tre/screens/theo_doi_tien_trinh/noi_dung_khao_sat.dart';
 import 'package:trong_tre/screens/theo_doi_tien_trinh/theo_doi_tien_trinh.dart';
+import 'package:trong_tre/screens/theo_doi_tien_trinh/xem_khao_sat.dart';
 import '../../bindings/tien_trinh_binding.dart';
 import '../../screens/menu/gioi_thieu_app.dart';
 import '../../screens/theo_doi_tien_trinh/servey.dart';
@@ -74,6 +75,7 @@ class AppPages extends CommonPages {
         GetPage(name: Routes.lienHe, page: () => const LienHe()),
         GetPage(name: Routes.noiDungKhaoSat, page: () => const NoiDungKhaoSat()),
         GetPage(name: Routes.vnpay, page: () => const VnpayScreen()),
+        GetPage(name: Routes.xemKhaoSat, page: () => const XemKhaoSat()),
         GetPage(name: Routes.theoDoiTienTrinh, page: () => const TheoDoiTienTrinh(),binding: TienTrinhBinding()),
      ];
   }

@@ -32,4 +32,5 @@ abstract class Routes {
   static const lienHe = '/lienHe';
   static const noiDungKhaoSat = '/noiDungKhaoSat';
   static const vnpay = '/vnpay';
+  static const xemKhaoSat = '/xemKhaoSat';
 }
