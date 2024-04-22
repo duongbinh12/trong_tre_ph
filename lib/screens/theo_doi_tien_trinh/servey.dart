@@ -288,7 +288,7 @@ class _ServeyState extends State<Servey> {
   }
 
   onClickKhaoSat() {
-    AppNavigator.navigateNoiDungKhaoSat(data.noi_dung_khao_sat ?? '');
+    AppNavigator.navigateXemKhaoSat(widget.id);
   }
 
   onClickDongThuan() {

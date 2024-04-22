@@ -27,6 +27,7 @@ import 'package:trong_tre/services/entity/tin_tuc_response.dart';
 import '../entity/chuong_trinh_hoc_response.dart';
 import '../entity/find_teacher_response.dart';
 import '../entity/hoa_don_response.dart';
+import '../entity/xem_khao_sat_response.dart';
 import 'endpoint.dart';
 part 'app_rest_client.g.dart';
 
@@ -311,5 +312,10 @@ abstract class AppRestClient {
   Future<BaseResponse> huyDon(
       @Part(value: "id") int id,
       @Part(value: "li_do_huy") String li_do_huy,
+      );
+
+  @GET(Endpoint.xemKhaoSat)
+  Future<XemKhaoSatResponse> xemKhaoSat(
+      @Query('don_dich_vu_id') int don_dich_vu_id
       );
 }

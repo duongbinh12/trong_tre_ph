@@ -35,5 +35,7 @@ class AppNavigator {
   static navigateNoiDungKhaoSat (String url) async => await Get.toNamed(Routes.noiDungKhaoSat,arguments: url);
   static navigateVnpay (String url) async => await Get.toNamed(Routes.vnpay,arguments: url);
   static navigateTheoDoiTienTrinh(int index,{bool isHuy=false,ThongTinGiaoVienData? data,int? id}) async => await Get.toNamed(Routes.theoDoiTienTrinh,arguments: [index,isHuy,data,id]);
+  static navigateXemKhaoSat (int id) async => await Get.toNamed(Routes.xemKhaoSat,arguments: id);
+
 
 }

@@ -13,6 +13,8 @@ import 'package:trong_tre/services/entity/thong_tin_khoa_hoc_response.dart';
 import 'package:trong_tre/services/repo/common_repository.dart';
 import 'package:trong_tre/widgets/widget_dialog.dart';
 
+import '../../../services/entity/xem_khao_sat_response.dart';
+
 class TheoDoiTienTrinhController extends BaseController {
   CommonRepository commonRepository = Get.find<CommonRepository>();
   HistoryController _historyController = Get.find<HistoryController>();
@@ -26,6 +28,7 @@ class TheoDoiTienTrinhController extends BaseController {
   Rx<List<GoiHocData>?> chuongTrinhHocList = Rxn(null);
   Rx<int> maxList = Rx(1);
   Rx<int> maxDaoTao = Rx(1);
+  Rx<String?> linkKhaoSat = Rxn(null);
 
   dongThuan({required int id, Function? onSuccess}) {
     callApi<BaseResponse>(
@@ -61,6 +64,17 @@ class TheoDoiTienTrinhController extends BaseController {
         },
         onError: (e) {
           print("error chiTietGiaoVien ${e}");
+        });
+  }
+
+  xemKhaoSat({required int id}) async {
+    await callApi<XemKhaoSatResponse>(
+        api: commonRepository.xemKhaoSat(id),
+        onSuccess: (res) {
+          linkKhaoSat.value=res.data;
+        },
+        onError: (e) {
+          print("error xemKhaoSat ${e}");
         });
   }
 
