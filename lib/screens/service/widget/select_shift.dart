@@ -266,6 +266,6 @@ class _SelectShiftState extends State<SelectShift> {
       gio=selectedTime24Hour!.hour;
       phut=selectedTime24Hour.minute;
     });
-    _serviceController.gioBatDau="${gio!<10?"0$gio":gio}:$phut";
+    _serviceController.gioBatDau="${gio!<10?"0$gio":gio}:${phut!<10?"0$phut":phut}";
   }
 }

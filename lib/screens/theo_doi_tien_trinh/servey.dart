@@ -288,7 +288,7 @@ class _ServeyState extends State<Servey> {
   }
 
   onClickKhaoSat() {
-    AppNavigator.navigateXemKhaoSat(widget.id);
+    AppNavigator.navigateNoiDungKhaoSat("https://trongtre.top/site/get-khao-sat?don_dich_vu_id=${widget.id}");
   }
 
   onClickDongThuan() {

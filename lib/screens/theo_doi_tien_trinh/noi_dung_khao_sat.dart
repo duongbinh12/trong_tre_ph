@@ -83,7 +83,7 @@ class _NoiDungKhaoSatState extends State<NoiDungKhaoSat> {
 
                   return NavigationActionPolicy.CANCEL;
                 }
-                loading++;
+                // loading++;
                 return NavigationActionPolicy.ALLOW;
               },
               onLoadStop: (controller, url) async {

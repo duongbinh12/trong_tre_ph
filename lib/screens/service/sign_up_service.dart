@@ -295,11 +295,41 @@ class _SignUpServiceState extends State<SignUpService>  with AutomaticKeepAliveC
     if (_serviceController.diaDiem != "" &&
         _serviceController.arrThu.isNotEmpty) {
       if(_serviceController.idKhungGioCa!=-1){
-        await _serviceController.getChonHocPhi(dichVuId,onSuccess: (){
+        if(dichVuId==32){
+          if((_serviceController.indexCa==0||_serviceController.indexCa==1)&&_serviceController.gioBatDau!="07:00"&&_serviceController.gioBatDau!="07:30"&&_serviceController.gioBatDau!="08:00"){
+            NotificationDialog.createSimpleDialog(
+                context: context, titleButton1: "OK",
+                content: "Giờ bắt đầu ca sáng từ 7h,7h30,8h. Ca chiều là 13h, 13h30, 14h và ca tối là 17h, 17h30, 18h.",
+                type: 2,
+                numberButton: 1);
+          }else if(_serviceController.indexCa==2&&_serviceController.gioBatDau!="13:00"&&_serviceController.gioBatDau!="13:30"&&_serviceController.gioBatDau!="14:00"){
+            NotificationDialog.createSimpleDialog(
+                context: context, titleButton1: "OK",
+                content: "Giờ bắt đầu ca sáng từ 7h,7h30,8h. Ca chiều là 13h, 13h30, 14h và ca tối là 17h, 17h30, 18h.",
+                type: 2,
+                numberButton: 1);
+          }else if(_serviceController.indexCa==3&&_serviceController.gioBatDau!="17:00"&&_serviceController.gioBatDau!="17:30"&&_serviceController.gioBatDau!="18:00"){
+            NotificationDialog.createSimpleDialog(
+                context: context, titleButton1: "OK",
+                content: "Giờ bắt đầu ca sáng từ 7h,7h30,8h. Ca chiều là 13h, 13h30, 14h và ca tối là 17h, 17h30, 18h.",
+                type: 2,
+                numberButton: 1);
+          }else{
+            await _serviceController.getChonHocPhi(dichVuId,onSuccess: (){
 
-          _serviceController.nextTab();
-          widget.pageController.nextPage(duration: const Duration(milliseconds: 300), curve: Curves.ease);
-        });
+              _serviceController.nextTab();
+              widget.pageController.nextPage(duration: const Duration(milliseconds: 300), curve: Curves.ease);
+            });
+          }
+
+        }else{
+          await _serviceController.getChonHocPhi(dichVuId,onSuccess: (){
+
+            _serviceController.nextTab();
+            widget.pageController.nextPage(duration: const Duration(milliseconds: 300), curve: Curves.ease);
+          });
+        }
+
 
 
       }
