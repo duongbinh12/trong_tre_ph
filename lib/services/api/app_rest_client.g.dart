@@ -866,9 +866,9 @@ class _AppRestClient implements AppRestClient {
   }
 
   @override
-  Future<ChonHocPhiResponse> getChonHocPhi(int caId) async {
+  Future<ChonHocPhiResponse> getChonHocPhi(int caId, int dichVuId) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'chon_ca_id': caId};
+    final queryParameters = <String, dynamic>{r'chon_ca_id': caId,r'dich_vu_id': dichVuId};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _result = await _dio

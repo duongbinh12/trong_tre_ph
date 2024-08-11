@@ -176,6 +176,7 @@ abstract class AppRestClient {
   @GET(Endpoint.formChonHocPhi)
   Future<ChonHocPhiResponse> getChonHocPhi(
       @Query('chon_ca_id') int caId,
+      @Query('dich_vu_id') int dich_vu_id,
       );
 
   @POST(Endpoint.addHoaDon)

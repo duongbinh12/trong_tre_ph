@@ -97,9 +97,9 @@ class CommonRepository extends AppCommonRepository {
     return client.checkOtpPhone(phone, code);
   }
 
-  Future<LoginResponse> checkOtpEmail(String phone, String code) async {
+  Future<LoginResponse> checkOtpEmail(String email, String code) async {
     final client = AppRestClient(dio);
-    return client.checkOtpPhone(phone, code);
+    return client.checkOtpEmail(email, code);
   }
 
   Future<BaseResponse> newPass(String password, String rePass) async {
@@ -165,9 +165,9 @@ class CommonRepository extends AppCommonRepository {
     return client.getThongBao(type, page, limit, sort, tuKhoa);
   }
 
-  Future<ChonHocPhiResponse> getChonHocPhi(int caId) async {
+  Future<ChonHocPhiResponse> getChonHocPhi(int caId, int dich_vu_id) async {
     final client = AppRestClient(dio);
-    return client.getChonHocPhi(caId);
+    return client.getChonHocPhi(caId,dich_vu_id);
   }
 
   Future<HoaDonResponse> addHoaDon(

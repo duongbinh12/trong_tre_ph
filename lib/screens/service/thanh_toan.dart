@@ -26,7 +26,7 @@ class ThanhToan extends StatefulWidget {
 }
 
 class _ThanhToanState extends State<ThanhToan>
-    with AutomaticKeepAliveClientMixin {
+    {
   @override
   bool get wantKeepAlive => true;
   List phuongThuc = [
@@ -50,7 +50,7 @@ class _ThanhToanState extends State<ThanhToan>
   int groupValue = 0;
   int valueInHoaDon = 1;
   bool checkDongY = false;
-  ServiceController _serviceController = Get.find<ServiceController>();
+  final ServiceController _serviceController = Get.find<ServiceController>();
   double goiHoc = 0;
   double phuCap = 0;
   double tongTien = 0;

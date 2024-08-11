@@ -179,6 +179,12 @@ class _SettingScreenState extends State<SettingScreen> {
                           SizedBox(
                             height: 10.sp,
                           ),
+                          _loginController.token != null?
+                          _item(Assets.iconsDangXuat, 'Xóa tài khoản',
+                              onClick: onClickDelete, right: SizedBox()): SizedBox(),
+                          SizedBox(
+                            height: 10.sp,
+                          ),
                           _loginController.token != null
                               ? _item(Assets.iconsDangXuat, 'Đăng xuất',
                                   onClick: onClickDangXuat, right: SizedBox())
@@ -198,6 +204,21 @@ class _SettingScreenState extends State<SettingScreen> {
             ))
           ],
         ));
+  }
+  onClickDelete() {
+    NotificationDialog.createSimpleDialog(
+        context: context,
+        titleButton1: "OK",
+        type: 2,
+        content: "Xóa tài khoản sẽ mất khoảng 2-7 ngày để được hệ thống xem xét. Bạn chắc chắn muốn xóa tài khoản?",
+        titleButton2: "Hủy",
+        onTap1: (){
+          _settingController.logOut((){
+            _loginController.token=null;
+            AppNavigator.navigateLogin();
+          });
+        },
+        numberButton: 2);
   }
 
   Widget _info() {

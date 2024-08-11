@@ -102,8 +102,8 @@ class _DetailServiceState extends State<DetailService> {
                                   scrollDirection: Axis.horizontal,
                                   child: Row(
                                     children: List.generate(
-                                        controller.detailService.value!.quyenLoi!
-                                            .length,
+                                        controller.detailService.value!
+                                            .quyenLoi!.length,
                                         (index) => Container(
                                               margin:
                                                   EdgeInsets.only(right: 10.w),
@@ -116,10 +116,10 @@ class _DetailServiceState extends State<DetailService> {
                                                           .name ??
                                                       '',
                                                   controller
-                                                      .detailService
-                                                      .value!
-                                                      .quyenLoi![index]
-                                                      .link ??
+                                                          .detailService
+                                                          .value!
+                                                          .quyenLoi![index]
+                                                          .link ??
                                                       '',
                                                   const Color(0xffFF9383),
                                                   const Color(0xffFC4D32)),
@@ -189,10 +189,9 @@ class _DetailServiceState extends State<DetailService> {
                                       Container(
                                         margin: EdgeInsets.symmetric(
                                             horizontal: 13.sp),
-                                        child:
-                                        HtmlWidget(
+                                        child: HtmlWidget(
                                           controller.detailService.value!
-                                              .gia_tri ??
+                                                  .gia_tri ??
                                               '',
                                           textStyle: AppStyle.DEFAULT_14,
                                         ),
@@ -317,10 +316,9 @@ class _DetailServiceState extends State<DetailService> {
                                       Container(
                                         margin: EdgeInsets.symmetric(
                                             horizontal: 13.sp),
-                                        child:
-                                        HtmlWidget(
+                                        child: HtmlWidget(
                                           controller.detailService.value!
-                                              .cam_ket ??
+                                                  .cam_ket ??
                                               '',
                                           textStyle: AppStyle.DEFAULT_14,
                                         ),
@@ -466,19 +464,17 @@ class _DetailServiceState extends State<DetailService> {
                   children: [
                     Expanded(
                       flex: 2,
-                      child: GetX<ServiceController>(
-                        builder: (controller) {
-                          if(controller.detailService.value!=null) {
-                            return RichText(
+                      child: GetX<ServiceController>(builder: (controller) {
+                        if (controller.detailService.value != null) {
+                          return RichText(
                             text: TextSpan(
                               text: 'Chỉ từ ',
                               style: AppStyle.DEFAULT_16
                                   .copyWith(fontWeight: FontWeight.w500),
                               children: <TextSpan>[
                                 TextSpan(
-                                    text: '${AppValue.format_money(controller
-                                        .detailService
-                                        .value!.so_tien!.toDouble())} ',
+                                    text:
+                                        '${AppValue.format_money(controller.detailService.value!.so_tien!.toDouble())} ',
                                     style: AppStyle.DEFAULT_18_BOLD
                                         .copyWith(color: AppColors.primary)),
                                 TextSpan(
@@ -489,11 +485,10 @@ class _DetailServiceState extends State<DetailService> {
                               ],
                             ),
                           );
-                          } else {
-                            return const SizedBox();
-                          }
+                        } else {
+                          return const SizedBox();
                         }
-                      ),
+                      }),
                     ),
                     Expanded(
                         flex: 1,
@@ -594,11 +589,12 @@ class _DetailServiceState extends State<DetailService> {
     );
   }
 
-  Widget _itemQuyenLoi(String image, String text,String link, Color color1, Color color2) {
+  Widget _itemQuyenLoi(
+      String image, String text, String link, Color color1, Color color2) {
     return InkWell(
-      onTap: ()async{
+      onTap: () async {
         if (!await launchUrl(Uri.parse(link))) {
-        throw Exception('Could not launch Quyền lợi');
+          throw Exception('Could not launch Quyền lợi');
         }
       },
       child: Stack(
@@ -735,7 +731,10 @@ class _DetailServiceState extends State<DetailService> {
               ),
               Expanded(
                 child: SingleChildScrollView(
-                  child: HtmlWidget(hop_dong,textStyle: AppStyle.DEFAULT_14,),
+                  child: HtmlWidget(
+                    hop_dong,
+                    textStyle: AppStyle.DEFAULT_14,
+                  ),
                 ),
               ),
               SizedBox(
@@ -763,7 +762,7 @@ class _DetailServiceState extends State<DetailService> {
           titleButton2: "Hủy",
           type: 2,
           content: "Hãy đăng nhập để đăng ký dịch vụ!",
-          onTap1: (){
+          onTap1: () {
             AppNavigator.navigateLogin();
           },
           numberButton: 2);

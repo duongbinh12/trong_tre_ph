@@ -24,7 +24,7 @@ class XacNhanLichHoc extends StatefulWidget {
 }
 
 class _XacNhanLichHocState extends State<XacNhanLichHoc>{
-  ServiceController _serviceController=Get.find<ServiceController>();
+  final ServiceController _serviceController=Get.find<ServiceController>();
   double goiHoc=0;
   double phuCap=0;
   double tongTien=0;

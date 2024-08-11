@@ -6,7 +6,7 @@ part 'login_response.g.dart';
 @JsonSerializable()
 class LoginData {
   int? id;
-  String? anh_nguoi_dung,auth_key,hoten,vai_tro,dien_thoai,dia_chi,email,tai_nguyen,dieu_khoan,tai_lieu,facebook,youtube,web;
+  String? anh_nguoi_dung,auth_key,hoten,vai_tro,dien_thoai,dia_chi,email,tai_nguyen,dieu_khoan,chinh_sach_dieu_khoan,chinh_sach_bao_mat,quy_che_hoan_huy,tai_lieu,facebook,youtube,web;
 
 
   LoginData(
@@ -20,6 +20,9 @@ class LoginData {
       this.email,
       this.tai_nguyen,
       this.dieu_khoan,
+      this.chinh_sach_dieu_khoan,
+      this.chinh_sach_bao_mat,
+      this.quy_che_hoan_huy,
       this.tai_lieu,
       this.facebook,
       this.youtube,

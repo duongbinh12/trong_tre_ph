@@ -101,7 +101,7 @@ class ServiceController extends BaseController {
 
   getChonHocPhi(int dichVuId, {Function? onSuccess}) async {
     await callApi<ChonHocPhiResponse>(
-        api: commonRepository.getChonHocPhi(listCa.value![indexCa].id!),
+        api: commonRepository.getChonHocPhi(listCa.value![indexCa].id!,dichVuId),
         onSuccess: (result) async {
           listLoaiGiaoVien.value = result.data!.loaiGiaoVien;
           giaoVien = result.data!.loaiGiaoVien?[0].id ?? -1;

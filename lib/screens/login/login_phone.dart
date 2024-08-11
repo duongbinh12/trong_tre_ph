@@ -263,7 +263,7 @@ class _LoginPhoneState extends State<LoginPhone> {
       NotificationDialog.createSimpleDialog(
           context: context,
           titleButton1: "OK",
-          content: "Hãy nhập số điện thoại!",
+          content: "Hãy nhập số điện thoại/email!",
           type: 2,
           numberButton: 1);
     }

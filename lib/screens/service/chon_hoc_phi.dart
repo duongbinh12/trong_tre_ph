@@ -191,7 +191,7 @@ class _ChonHocPhiState extends State<ChonHocPhi>with AutomaticKeepAliveClientMix
         if (controller.listLoaiGiaoVien.value != null) {
           return Column(
             children: [
-              _title(icon: Assets.iconsStudent, title: 'Chọn giáo viên'.tr),
+              _title(icon: Assets.iconsStudent, title: 'Chọn nhân sự'.tr),
               SizedBox(
                 height: 18.sp,
               ),

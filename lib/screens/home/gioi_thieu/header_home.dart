@@ -52,9 +52,21 @@ class HeaderHome extends StatelessWidget {
                   }
                 ),
                 SizedBox(width: 8.sp,),
-                AppText(
-                  'Kính chào Quý phụ huynh!',
-                  style: AppStyle.DEFAULT_16.copyWith(fontWeight: FontWeight.w500,color: AppColors.white),
+                GetX<SettingController>(
+                    builder: (controller) {
+                      if(controller.myInfo.value!=null) {
+                        return   AppText(
+                         "Kính chào ${controller.myInfo.value!.hoten}",
+                          style: AppStyle.DEFAULT_16.copyWith(fontWeight: FontWeight.w500,color: AppColors.white),
+                        );
+                      }
+                      else {
+                        return AppText(
+                          'Kính chào Quý phụ huynh!',
+                          style: AppStyle.DEFAULT_16.copyWith(fontWeight: FontWeight.w500,color: AppColors.white),
+                        );
+                      }
+                    }
                 ),
                 Spacer(),
                 InkWell(
